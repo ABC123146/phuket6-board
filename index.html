@@ -75,6 +75,9 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .b.on.black{background:linear-gradient(135deg,var(--gd),#ff9d00);border-color:var(--gd);box-shadow:0 0 10px rgba(255,204,0,.8)}
 .trk{flex:1;position:relative;height:16px;background:#0d0620;border:1px solid var(--line);clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
 .fill{height:100%;background:linear-gradient(90deg,var(--cy),var(--pu) 55%,var(--mg));box-shadow:0 0 14px rgba(168,85,247,.55);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+.fin{position:absolute;right:-10px;top:50%;transform:translateY(-56%);font-size:26px;z-index:2;display:flex;flex-direction:column;align-items:center;line-height:1;filter:drop-shadow(0 0 10px rgba(255,255,255,.3));animation:finwave 2.2s ease-in-out infinite}
+.fin span{font-size:8px;letter-spacing:.16em;color:var(--dim);font-weight:700;margin-top:2px}
+@keyframes finwave{0%,100%{transform:translateY(-56%) rotate(0)}50%{transform:translateY(-58%) rotate(6deg)}}
 .gate{position:absolute;top:-6px;bottom:-6px;width:2px}
 .gate.g180{background:var(--rd);box-shadow:0 0 8px rgba(255,51,85,.9)}
 .gate.g350{background:var(--gd);box-shadow:0 0 8px rgba(255,204,0,.9)}
@@ -287,13 +290,13 @@ if(r.cash<FLOOR){
   const w=Math.min(Math.sqrt(r.cash/FLOOR)*100,99);
   return '<div class="trk" data-c="'+c+'" data-pct="'+w+'"><div class="trail" style="width:'+w+'%"></div>'+
   '<div class="rkt'+(gold?' gold':'')+'" style="left:'+w+'%">'+RKT+'</div>'+
-  '<div class="gate g180" style="left:calc(100% - 2px)"><div class="gl" style="left:-56px">180K GOAL</div></div></div>';
+  '<div class="fin">🏁<span>180K</span></div></div>';
 }
 const w=Math.min(Math.sqrt(Math.max(r.cash-FLOOR,0)/(UPGRADE-FLOOR))*100,99);
 return '<div class="trk stage2" data-c="'+c+'" data-pct="'+w+'"><div class="trail gold" style="width:'+w+'%"></div>'+
 '<div class="rkt gold" style="left:'+w+'%">'+RKT+'</div>'+
 '<div class="gate g180 lit" style="left:2px"><div class="gl" style="left:-6px">180K ✓</div></div>'+
-'<div class="gate g350" style="left:calc(100% - 2px)"><div class="gl" style="left:-56px">350K ✈</div></div></div>';}
+'<div class="fin">🏆<span>350K ✈</span></div></div>';}
 function rowHtml(r,gold){const wk=r.last24h>0?'+'+money(r.last24h)+' today':'quiet today';
 return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,'_')+'">'+
 '<div class="rk">'+r.rank+'</div>'+
