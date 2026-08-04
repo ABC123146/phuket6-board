@@ -421,7 +421,8 @@ function render(d){
     if(q.get("crown")==="1"&&s[0]){window.__autofired=true;setTimeout(()=>coronation(s[0].name,s[0].cash),1200);}
     else if(q.get("fatality")==="1"&&s.length>2){window.__autofired=true;setTimeout(()=>fatality(s[1].name,s[2].name),1200);}
   }
-  if(new URLSearchParams(location.search).get("fatality")==="1"&&s.length>2){window.__fatalReady=[s[1].name,s[2].name];}
+  const fq=new URLSearchParams(location.search).get("fatality");
+  if(fq&&s.length>2){window.__fatalReady=fq.includes(",")?fq.toUpperCase().split(",").slice(0,2):[s[1].name,s[2].name];}
   const want=new URLSearchParams(location.search).get("p");
   if(want&&!window.__pOpened){window.__pOpened=true;openCard(want.toUpperCase());}
   $("upd").textContent="live · "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
