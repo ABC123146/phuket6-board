@@ -422,7 +422,7 @@ function render(d){
     else if(q.get("fatality")==="1"&&s.length>2){window.__autofired=true;setTimeout(()=>fatality(s[1].name,s[2].name),1200);}
   }
   const fq=new URLSearchParams(location.search).get("fatality");
-  if(fq&&s.length>2){window.__fatalReady=fq.includes(",")?fq.toUpperCase().split(",").slice(0,2):[s[1].name,s[2].name];}
+  if(fq&&s.length>2){window.__fatalReady=/[,.]/.test(fq)?fq.toUpperCase().split(/[,.]/).slice(0,2):[s[1].name,s[2].name];}
   const want=new URLSearchParams(location.search).get("p");
   if(want&&!window.__pOpened){window.__pOpened=true;openCard(want.toUpperCase());}
   $("upd").textContent="live · "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
