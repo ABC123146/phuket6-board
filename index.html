@@ -381,7 +381,7 @@ function render(d){
   }
   CARDS=d.cards||{};
   prev=d;
-  if(new URLSearchParams(location.search).get("crown")==="1"&&!window.__crowned&&s[0]){window.__crowned=true;setTimeout(()=>coronation(s[0].name,s[0].cash),800);}
+  if(new URLSearchParams(location.search).get("crown")==="1"&&s[0]){window.__crownReady=s[0];}
   const want=new URLSearchParams(location.search).get("p");
   if(want&&!window.__pOpened){window.__pOpened=true;openCard(want.toUpperCase());}
   $("upd").textContent="live · "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
@@ -461,6 +461,7 @@ function coronation(name,cash){
   setTimeout(()=>c.classList.remove("show"),9300);}
 function sndIcon(){const s=$("snd");if(s)s.textContent=muted()?'🔇':'🔊';}
 document.addEventListener('click',(e)=>{try{ac();}catch(x){}
+  if(window.__crownReady&&!window.__crowned){window.__crowned=true;const t=window.__crownReady;setTimeout(()=>coronation(t.name,t.cash),150);}
   if(e.target.id==='snd'){localStorage.p6mute=muted()?'0':'1';sndIcon();if(!muted())chaChing();e.stopPropagation();}});
 sndIcon();
 let parts=[];let fxOn=false;
