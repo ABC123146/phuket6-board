@@ -431,7 +431,7 @@ function openCard(name){
    '<div class="stat"><div class="sv">'+(c.booked??0)+'</div><div class="sk">BOOKED</div></div>'+
    '<div class="stat"><div class="sv">'+(c.shows??0)+(c.showRate!=null?' <span style="font-size:16px;color:var(--dim)">('+c.showRate+'%)</span>':'')+'</div><div class="sk">SHOWED</div></div>'+
    '<div class="stat"><div class="sv">'+(c.closes??0)+(c.closeRate!=null?' <span style="font-size:16px;color:var(--dim)">('+c.closeRate+'%)</span>':'')+'</div><div class="sk">CLOSED</div></div>'+
-   '<div class="stat"><div class="sv">'+(c.finPipe??0)+'<span style="font-size:16px;color:var(--dim)">/'+(c.finApps??0)+'</span></div><div class="sk">FIN PIPELINE</div></div>'+
+   '<div class="stat"><div class="sv">'+(c.finPipe??0)+'</div><div class="sk">FIN PIPELINE</div></div>'+
    '</div>'+
    (need180>0?'<div class="pace">Needs <b>$'+need180.toLocaleString()+'</b> more to qualify: that is <b>$'+pace.toLocaleString()+'</b> per week from here. '+(c.rank&&c.rank<=5?'Holding a seat but the pass is not unlocked.':'No 180, no seat.')+'</div>'
     :(need350>0?'<div class="pace">QUALIFIED. <b>$'+need350.toLocaleString()+'</b> more unlocks BUSINESS CLASS.</div>'
