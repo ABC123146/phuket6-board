@@ -264,15 +264,15 @@ const RKT='<img src="rocket.png" alt="">';
 function track(r,gold){
 const c=r.closer.replace(/\\W/g,'_');
 if(r.cash<FLOOR){
-  const w=Math.min(r.cash/FLOOR*100,99);
+  const w=Math.min(Math.sqrt(r.cash/FLOOR)*100,99);
   return '<div class="trk" data-c="'+c+'" data-pct="'+w+'"><div class="trail" style="width:'+w+'%"></div>'+
   '<div class="rkt'+(gold?' gold':'')+'" style="left:'+w+'%">'+RKT+'</div>'+
   '<div class="gate g180" style="left:calc(100% - 2px)"><div class="gl" style="left:-56px">180K GOAL</div></div></div>';
 }
-const w=Math.min(r.cash/UPGRADE*100,99);
+const w=Math.min(Math.sqrt(Math.max(r.cash-FLOOR,0)/(UPGRADE-FLOOR))*100,99);
 return '<div class="trk stage2" data-c="'+c+'" data-pct="'+w+'"><div class="trail gold" style="width:'+w+'%"></div>'+
 '<div class="rkt gold" style="left:'+w+'%">'+RKT+'</div>'+
-'<div class="gate g180 lit" style="left:'+(FLOOR/UPGRADE*100)+'%"><div class="gl">180K ✓</div></div>'+
+'<div class="gate g180 lit" style="left:2px"><div class="gl" style="left:-6px">180K ✓</div></div>'+
 '<div class="gate g350" style="left:calc(100% - 2px)"><div class="gl" style="left:-56px">350K ✈</div></div></div>';}
 function rowHtml(r,gold){const wk=r.last24h>0?'+'+money(r.last24h)+' today':'quiet today';
 return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,'_')+'">'+
