@@ -416,6 +416,11 @@ function render(d){
   CARDS=d.cards||{};
   prev=d;
   if(new URLSearchParams(location.search).get("crown")==="1"&&s[0]){window.__crownReady=s[0];}
+  const q=new URLSearchParams(location.search);
+  if(q.get("auto")==="1"&&!window.__autofired){
+    if(q.get("crown")==="1"&&s[0]){window.__autofired=true;setTimeout(()=>coronation(s[0].name,s[0].cash),1200);}
+    else if(q.get("fatality")==="1"&&s.length>2){window.__autofired=true;setTimeout(()=>fatality(s[1].name,s[2].name),1200);}
+  }
   if(new URLSearchParams(location.search).get("fatality")==="1"&&s.length>2){window.__fatalReady=[s[1].name,s[2].name];}
   const want=new URLSearchParams(location.search).get("p");
   if(want&&!window.__pOpened){window.__pOpened=true;openCard(want.toUpperCase());}
