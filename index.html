@@ -44,7 +44,9 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .av>*{transform:rotate(-45deg)}
 .av{font-family:'Russo One',sans-serif;font-size:28px;color:var(--gd)}
 .champ h2{font-family:'Russo One',sans-serif;font-size:48px;line-height:1;text-transform:uppercase;text-shadow:0 0 22px rgba(255,204,0,.35)}
-.champ .cash{font-family:'Teko',sans-serif;font-weight:700;font-size:72px;line-height:.9;color:var(--gd);margin-left:auto;text-align:right;text-shadow:0 0 26px rgba(255,204,0,.5)}
+.champ .cash{font-family:'Teko',sans-serif;font-weight:700;font-size:72px;line-height:.9;color:var(--gd);text-align:right;text-shadow:0 0 26px rgba(255,204,0,.5)}
+.vr{height:104px;margin-left:auto;margin-right:18px;transform:rotate(-4deg);filter:drop-shadow(0 8px 20px rgba(0,0,0,.55));animation:vrpulse 3s ease-in-out infinite}
+@keyframes vrpulse{0%,100%{transform:rotate(-4deg) scale(1)}50%{transform:rotate(-3deg) scale(1.04)}}
 .av.king{transform:none;border:none;background:none;box-shadow:none;border-radius:0;width:112px;height:112px;margin:0}
 .av.king img{width:100%;height:100%;object-fit:contain;transform:none;filter:drop-shadow(0 0 18px rgba(255,204,0,.55));animation:kingfloat 3s ease-in-out infinite}
 @keyframes kingfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
@@ -291,6 +293,7 @@ function render(d){
   $("champ").innerHTML='<div class="champ"><div class="beltrow">'+
     '<div class="av king"><img src="king.png" alt=""></div>'+
     '<div><h2>'+c.name+'</h2><div class="sub">'+c.deals+' deals · '+(c.showRate!=null?'shows '+c.showRate+'% · ':'')+(c.closeRate!=null?'closes '+c.closeRate+'% · ':'')+'+'+money(c.last7)+' this week</div>'+badges(c)+'</div>'+
+    '<img class="vr" src="vr.png" alt="">'+
     '<div class="cash">'+money(c.cash)+'<div class="sub" style="text-align:right">'+(c.business?'✈ BUSINESS CLASS LOCKED':(c.qualified?'QUALIFIED':money(FLOOR-c.cash)+' to qualify'))+'</div></div>'+
     '</div>'+track(c,true)+'</div>';}
   else{$("champ").innerHTML='<div class="champ"><h2>THE BELT IS VACANT</h2><div class="sub">Nobody has landed a dollar yet.</div></div>';}
