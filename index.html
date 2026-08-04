@@ -159,6 +159,12 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 #fx{position:fixed;inset:0;pointer-events:none;z-index:150}
 #fatal{position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(40,0,0,.92),rgba(5,0,0,.97));z-index:290;display:none;align-items:center;justify-content:center;text-align:center}
 #fatal.on{display:flex}
+#fatal .fvid{display:none;position:absolute;inset:0;background:#000}
+#fatal.p2 .fvid{display:block}
+#fatal .fvid iframe{width:100%;height:100%;border:0}
+#fatal .fwrap{position:relative;z-index:2}
+#fatal.p2 .fwrap{position:absolute;bottom:6%;left:0;right:0}
+#fatal.p2 .fvs{background:rgba(5,0,0,.72);display:inline-block;padding:10px 30px;border:1px solid rgba(255,40,40,.5)}
 #fatal .finish{display:none;font-family:'Russo One',sans-serif;font-size:92px;color:#ffdd55;text-transform:uppercase;text-shadow:0 0 40px rgba(255,120,0,.8),3px 3px 0 #7a0000}
 #fatal.p1 .finish{display:block;animation:fflick .18s infinite}
 @keyframes fflick{0%,100%{opacity:1}50%{opacity:.55}}
@@ -278,7 +284,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
   </div>
   <div class="foot">Net cash collected USD, refunds deducted · window 1 Aug to 1 Dec 2026 · board refreshes live · a fresh deal can take a few minutes to sync from the payment system, it is coming, relax · PHUKET 6</div>
 </div>
-<div id="fatal"><div class="fwrap">
+<div id="fatal"><div class="fvid" id="fvid"></div><div class="fwrap">
 <div class="finish">FINISH HIM!</div>
 <div class="fvs" id="fvs"></div>
 <div class="ftxt">FATALITY</div>
@@ -485,16 +491,22 @@ function noiseHit(t0,dur,g){if(muted())return;try{const a=ac();
   src.connect(gn);gn.connect(a.destination);src.start(a.currentTime+t0);}catch(e){}}
 function fatalSound(){if(muted())return;tone(55,0,2.2,'sawtooth',0.09);tone(58,0,2.2,'sawtooth',0.06);
   tone(41,1.4,1.6,'sawtooth',0.1);noiseHit(1.45,0.35,0.16);noiseHit(2.9,0.5,0.2);tone(30,2.9,1.4,'sine',0.14);}
+const FATS=(()=>{const ids=['RESQrZRjB6A','7YrmIIMupAM','dgbeXXK3GLo','lOsA4r3lnLI','7AtZ_0kq978'];
+  const out=[];for(const id of ids)for(const s of [15,55,95,135,175])out.push({id,s});return out;})();
 function fatality(killer,victim){
   const f=$("fatal");
+  const seg=FATS[Math.floor(Math.random()*FATS.length)];
   $("fvs").innerHTML=killer+' <b>VS</b> '+victim;
   $("fsub").textContent=killer+" TAKES "+victim+"'S SEAT";
   f.className="on p1";fatalSound();
-  setTimeout(()=>{f.className="on p2";noiseHit(0,0.3,0.15);},1500);
-  setTimeout(()=>{f.className="on p3";
+  setTimeout(()=>{
+    $("fvid").innerHTML='<iframe src="https://www.youtube.com/embed/'+seg.id+'?start='+seg.s+'&end='+(seg.s+15)+'&autoplay=1&mute=1&controls=0&modestbranding=1&rel=0&iv_load_policy=3" allow="autoplay" frameborder="0"></iframe>';
+    f.className="on p2";noiseHit(0,0.3,0.15);tone(49,0,2.5,'sawtooth',0.07);},1500);
+  setTimeout(()=>{$("fvid").innerHTML="";f.className="on p3";
+    noiseHit(0,0.5,0.2);tone(30,0,1.4,'sine',0.14);
     burst(260,undefined,undefined,['#ff1a1a','#8a0000','#ff5533','#ffaa00']);
-    setTimeout(()=>burst(220,undefined,undefined,['#ff1a1a','#8a0000','#ff5533']),700);},3000);
-  setTimeout(()=>{f.className="";},9500);}
+    setTimeout(()=>burst(220,undefined,undefined,['#ff1a1a','#8a0000','#ff5533']),700);},17500);
+  setTimeout(()=>{f.className="";},21500);}
 function coronation(name,cash){
   $("coroname").textContent=name;
   $("corocash").textContent=money(cash)+" COLLECTED";
