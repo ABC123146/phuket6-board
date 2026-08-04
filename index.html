@@ -154,6 +154,16 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 #banner b{color:var(--gd)}
 /* fx + sound + shot */
 #fx{position:fixed;inset:0;pointer-events:none;z-index:150}
+#coro{position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(30,18,2,.94),rgba(4,2,10,.97));z-index:280;display:none;align-items:center;justify-content:center;text-align:center}
+#coro.show{display:flex;animation:corofade 9.2s forwards}
+#coro img{height:34vh;filter:drop-shadow(0 0 60px rgba(255,204,0,.65));animation:kingfloat 3s ease-in-out infinite}
+.cwrap{animation:coroin .7s cubic-bezier(.2,.9,.3,1.2)}
+@keyframes coroin{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
+@keyframes corofade{0%{opacity:0}4%{opacity:1}92%{opacity:1}100%{opacity:0}}
+.ct{font-family:'Russo One',sans-serif;font-size:26px;letter-spacing:.5em;color:var(--gd);margin-top:26px;text-shadow:0 0 24px rgba(255,204,0,.7)}
+.cn{font-family:'Russo One',sans-serif;font-size:110px;line-height:1.05;color:#fff;text-transform:uppercase;text-shadow:0 0 60px rgba(255,204,0,.55),0 0 18px rgba(255,255,255,.4)}
+.cc{font-family:'Teko',sans-serif;font-weight:700;font-size:44px;color:var(--gd);text-shadow:0 0 20px rgba(255,204,0,.6)}
+@media(max-width:700px){.cn{font-size:52px}.ct{font-size:14px;letter-spacing:.3em}#coro img{height:24vh}}
 #next{color:var(--dim);margin-left:10px;font-size:11px;letter-spacing:.08em}
 #snd{cursor:pointer;font-size:20px;margin-left:14px;user-select:none;opacity:.85}
 #snd:hover{opacity:1}
@@ -251,6 +261,9 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
   </div>
   <div class="foot">Net cash collected USD, refunds deducted · window 1 Aug to 1 Dec 2026 · board refreshes live · a fresh deal can take a few minutes to sync from the payment system, it is coming, relax · PHUKET 6</div>
 </div>
+<div id="coro"><div class="cwrap"><img src="king.png" alt="">
+<div class="ct">A NEW KING HAS BEEN CROWNED</div>
+<div class="cn" id="coroname"></div><div class="cc" id="corocash"></div></div></div>
 <canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
 <div id="toasts"></div>
 <script>
@@ -356,7 +369,7 @@ function render(d){
       if(before<UPGRADE&&r.cash>=UPGRADE){showBanner('✈️ <b>'+r.name+'</b> UNLOCKED BUSINESS CLASS','gold');horn();burst(240);burst(240);}
       const was=pr[r.closer];
       if(was&&r.rank<was){
-        if(r.rank===1){showBanner('👑 <b>NEW KING</b> · '+r.name+' TAKES #1','gold');kingFanfare();burst(260);burst(260);}
+        if(r.rank===1){coronation(r.name,r.cash);}
         else if(r.rank<=5){const victim=s.find(x=>x.rank===r.rank+1);
           showBanner('⚔️ <b>'+r.name+'</b> OVERTAKES '+(victim?victim.name:'')+' FOR SPOT '+r.rank);horn();burst(110);}
         else{blip();}
@@ -365,6 +378,7 @@ function render(d){
   }
   CARDS=d.cards||{};
   prev=d;
+  if(new URLSearchParams(location.search).get("crown")==="1"&&!window.__crowned&&s[0]){window.__crowned=true;setTimeout(()=>coronation(s[0].name,s[0].cash),800);}
   const want=new URLSearchParams(location.search).get("p");
   if(want&&!window.__pOpened){window.__pOpened=true;openCard(want.toUpperCase());}
   $("upd").textContent="live · "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
@@ -435,6 +449,13 @@ function horn(){if(muted())return;[233,294,349].forEach(f=>tone(f,0,0.45,'sawtoo
 function bigDeal(){if(muted())return;tone(523,0,0.1,'square',0.07);tone(659,0.1,0.1,'square',0.07);tone(784,0.2,0.1,'square',0.07);tone(1046,0.3,0.4,'square',0.08);tone(2093,0.34,0.3,'triangle',0.04);}
 function kingFanfare(){if(muted())return;tone(392,0,0.28,'sawtooth',0.05);tone(523,0.22,0.28,'sawtooth',0.05);tone(659,0.44,0.3,'sawtooth',0.05);tone(784,0.66,0.95,'sawtooth',0.06);tone(1568,0.72,0.55,'triangle',0.04);tone(988,0.66,0.9,'sawtooth',0.04);}
 function blip(){if(muted())return;tone(880,0,0.08,'square',0.045);}
+function coronation(name,cash){
+  $("coroname").textContent=name;
+  $("corocash").textContent=money(cash)+" COLLECTED";
+  const c=$("coro");c.classList.add("show");
+  kingFanfare();burst(320);
+  setTimeout(()=>burst(280),900);setTimeout(()=>burst(280),1900);setTimeout(()=>burst(220),3200);
+  setTimeout(()=>c.classList.remove("show"),9300);}
 function sndIcon(){const s=$("snd");if(s)s.textContent=muted()?'🔇':'🔊';}
 document.addEventListener('click',(e)=>{try{ac();}catch(x){}
   if(e.target.id==='snd'){localStorage.p6mute=muted()?'0':'1';sndIcon();if(!muted())chaChing();e.stopPropagation();}});
