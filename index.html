@@ -255,6 +255,86 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
   .av{width:52px;height:52px;font-size:16px}
   .champ:before{font-size:9px;right:-46px;top:8px}
 }
+
+/* face tiles */
+.pfp{position:relative;flex:none;width:56px;height:56px;background:linear-gradient(135deg,#2b1b52,#130a26);border:1px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center;
+ clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+.pfp img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 30%;filter:contrast(1.06) saturate(.92)}
+.pfp span{font-family:'Russo One',sans-serif;font-size:17px;color:#6a58a8;letter-spacing:.02em}
+.pfp:after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(0,229,255,.10),transparent 45%,rgba(0,0,0,.42));pointer-events:none}
+.row.gold .pfp{border-color:rgba(255,204,0,.55);box-shadow:0 0 16px rgba(255,204,0,.2)}
+#contenders .row:nth-child(-n+2) .pfp{border-color:rgba(168,85,247,.7);box-shadow:0 0 16px rgba(168,85,247,.25)}
+#contenders .row:nth-child(n+3) .pfp{border-color:rgba(0,229,255,.55);box-shadow:0 0 16px rgba(0,229,255,.2)}
+.pfp.xs{width:26px;height:26px;clip-path:polygon(0 0,calc(100% - 5px) 0,100% 5px,100% 100%,5px 100%,0 calc(100% - 5px))}
+.pfp.xs span{font-size:9px}
+.pfp.sm{width:32px;height:32px;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))}
+.pfp.sm span{font-size:11px}
+.pfp.cardav{width:72px;height:72px;border-color:rgba(168,85,247,.7);box-shadow:0 0 18px rgba(168,85,247,.3)}
+.pfp.champav{width:112px;height:112px;border:2px solid var(--gd);box-shadow:0 0 30px rgba(255,204,0,.4);
+ clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
+.champav-wrap{position:relative;flex:none;margin-right:4px}
+.champav-wrap .crown{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:32px;filter:drop-shadow(0 0 12px rgba(255,204,0,.85));animation:kingfloat 3s ease-in-out infinite;z-index:2}
+.f{align-items:center}
+.rface{display:flex;align-items:center;gap:9px}
+.tape .tn{display:flex;align-items:center;justify-content:center;gap:8px}
+.tape .tn span{white-space:nowrap}
+.laurel td.ln{padding-top:6px;padding-bottom:6px}
+.shot{align-items:center;gap:10px}
+.shot .se{font-size:22px}
+.shot .sn{white-space:nowrap;font-size:16px}
+.shot .pfp{width:30px;height:30px}
+/* fatality kill cam */
+#fatal .kc{display:none;position:absolute;inset:0;z-index:3;pointer-events:none;font-family:'Russo One',sans-serif}
+#fatal.p2 .kc,#fatal.p3 .kc{display:block}
+#fatal .kck{position:absolute;left:4%;top:8%;display:flex;align-items:center;gap:14px;animation:kcin .5s cubic-bezier(.2,.9,.3,1.4)}
+#fatal.p3 .kck{opacity:.3}
+#fatal .kck .pfp{width:96px;height:96px;border:2px solid #ffcc00;box-shadow:0 0 26px rgba(255,204,0,.55)}
+#fatal .kcl{text-align:left}
+#fatal .kcl span{display:block;font-size:11px;letter-spacing:.22em;color:#ff5555}
+#fatal .kcl b{display:block;font-size:30px;color:#fff;text-shadow:0 0 20px rgba(255,40,40,.85);text-transform:uppercase;line-height:1.1}
+#fatal .kct{position:absolute;right:7%;top:50%;transform:translateY(-50%);text-align:center;animation:kcin .5s .3s backwards cubic-bezier(.2,.9,.3,1.4)}
+#fatal .kct .kcl{margin-top:18px;text-align:center}
+#fatal .kct .kcl b{font-size:34px}
+#fatal .ret{position:relative;width:264px;height:264px;margin:0 auto}
+#fatal .ret .pfp{width:264px;height:264px;border:0;clip-path:none;filter:contrast(1.12);box-shadow:0 0 40px rgba(0,0,0,.8)}
+#fatal .ret .pfp span{font-size:56px}
+#fatal .ret i{position:absolute;width:34px;height:34px;border:3px solid #ff2222;box-shadow:0 0 14px rgba(255,30,30,.9);z-index:4}
+#fatal .ret i.tl{top:-9px;left:-9px;border-right:0;border-bottom:0}
+#fatal .ret i.tr{top:-9px;right:-9px;border-left:0;border-bottom:0}
+#fatal .ret i.bl{bottom:-9px;left:-9px;border-right:0;border-top:0}
+#fatal .ret i.br{bottom:-9px;right:-9px;border-left:0;border-top:0}
+#fatal .ret .xh{position:absolute;inset:0;opacity:.5;z-index:3;
+ background:linear-gradient(#ff2222,#ff2222) center/1px 100% no-repeat,linear-gradient(#ff2222,#ff2222) center/100% 1px no-repeat}
+#fatal .ret .splat,#fatal .ret .crack{position:absolute;inset:-16%;opacity:0;pointer-events:none;transition:opacity .1s;z-index:5}
+#fatal .ret .splat{transform:scale(.55);mix-blend-mode:multiply}
+#fatal .ret .splat g{opacity:0;transition:opacity .18s}
+#fatal .ret .splat.s1 .s1,#fatal .ret .splat.s2 .s1,#fatal .ret .splat.s2 .s2,
+#fatal .ret .splat.s3 .s1,#fatal .ret .splat.s3 .s2,#fatal .ret .splat.s3 .s3{opacity:1}
+#fatal .ret .splat.s1,#fatal .ret .splat.s2,#fatal .ret .splat.s3{opacity:1;transform:scale(1);transition:opacity .1s,transform .22s cubic-bezier(.2,.9,.3,1.5)}
+#fatal .ret .crack.on{opacity:1}
+#fatal .ret .splat svg,#fatal .ret .crack svg{width:100%;height:100%;display:block}
+#fatal .kc.hit .ret{animation:kcshake .38s cubic-bezier(.36,.07,.19,.97)}
+#fatal .kc.hit .ret .xh{animation:kcflash .38s}
+@keyframes kcflash{0%{opacity:1;box-shadow:inset 0 0 0 999px rgba(255,0,0,.5)}100%{opacity:.5;box-shadow:none}}
+@keyframes kcshake{10%{transform:translate(-9px,4px) rotate(-3deg)}30%{transform:translate(11px,-6px) rotate(4deg)}50%{transform:translate(-7px,7px) rotate(-2deg)}70%{transform:translate(6px,-3px) rotate(2deg)}100%{transform:none}}
+@keyframes kcin{from{transform:scale(2.2);opacity:0}to{transform:none;opacity:1}}
+#fatal .kct{will-change:transform}
+#fatal .kc.dead .ret{animation:kcdrop 1.6s forwards cubic-bezier(.5,0,.9,.6)}
+#fatal .kc.dead .ret .pfp{filter:grayscale(1) brightness(.5)}
+#fatal .kc.dead .ret i{border-color:#4a4a4a;box-shadow:none}
+#fatal .kc.dead .kcl b{color:#7a7a7a;text-decoration:line-through;text-shadow:none}
+#fatal .kc.dead .kcl span{color:#ff2222}
+@keyframes kcdrop{0%{transform:none;opacity:1}70%{opacity:.9}100%{transform:translateY(110vh) rotate(210deg);opacity:.1}}
+@media(max-width:900px){
+  #fatal .ret,#fatal .ret .pfp{width:148px;height:148px}
+  #fatal .kck .pfp{width:60px;height:60px}
+  #fatal .kcl b{font-size:19px}
+  #fatal .kct .kcl b{font-size:21px}
+  #fatal .kct{right:4%}
+  .row .pfp{width:44px;height:44px}
+  .pfp.champav{width:78px;height:78px}
+  .champav-wrap .crown{font-size:24px;top:-15px}
+}
 </style></head><body>
 <div class="wrap">
   <div class="top">
@@ -291,7 +371,17 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
   <div class="lrow"><span class="lk">WILDCARD</span><span class="lv">1 SEAT · GRINDER'S PICK</span></div>
 </div></div>
 </div>
-<div id="fatal"><div class="fvid" id="fvid"></div><div class="fwrap">
+<div id="fatal"><div class="fvid" id="fvid"></div>
+<div class="kc" id="kc">
+  <div class="kck"><div id="kcKf"></div><div class="kcl"><span>KILLER</span><b id="kcKn"></b></div></div>
+  <div class="kct"><div class="ret" id="kcRet">
+    <div id="kcVf"></div><div class="xh"></div>
+    <i class="tl"></i><i class="tr"></i><i class="bl"></i><i class="br"></i>
+    <div class="splat" id="kcSplat"><svg viewBox="0 0 200 200" preserveAspectRatio="none"><defs><filter id="bl" x="-30%" y="-30%" width="160%" height="160%"><feTurbulence type="fractalNoise" baseFrequency="0.055" numOctaves="3" seed="9" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="16" xChannelSelector="R" yChannelSelector="G"/></filter></defs><g class="s1" fill="#5e0000" filter="url(#bl)"><path d="M18 44c22-6 40 6 58 14 12 5 26 4 36 12 7 6 4 16-5 17-16 2-31-6-46-11-15-5-33-5-44-16-4-4-3-14 1-16z" opacity=".82"/><path d="M96 66c9-3 17 4 15 12-2 7-11 9-16 4-5-4-5-14 1-16z" opacity=".8"/><ellipse cx="150" cy="52" rx="12" ry="7" transform="rotate(24 150 52)" opacity=".72"/><circle cx="176" cy="38" r="5" opacity=".7"/><circle cx="40" cy="26" r="4" opacity=".65"/><circle cx="128" cy="30" r="3.5" opacity=".6"/><circle cx="66" cy="70" r="3" opacity=".6"/><circle cx="22" cy="60" r="2.4" opacity=".55"/><circle cx="188" cy="66" r="2.2" opacity=".5"/><circle cx="104" cy="14" r="2.6" opacity=".5"/><circle cx="52" cy="96" r="2" opacity=".45"/><circle cx="164" cy="92" r="2.6" opacity=".5"/><circle cx="8" cy="102" r="2" opacity=".4"/></g><g class="s2" fill="#4d0000" filter="url(#bl)"><path d="M78 118c14-4 30-3 43 3 8 4 6 15-3 16-14 2-29 0-41-6-7-4-6-11 1-13z" opacity=".85"/><path d="M84 134c3 12 1 24-2 36-1 5-9 5-10 0-2-13-1-26 3-37 2-4 8-3 9 1z" opacity=".8"/><path d="M114 136c3 9 3 19 1 28-1 5-8 5-9 0-2-10-2-20 1-29 1-4 6-3 7 1z" opacity=".75"/><circle cx="60" cy="150" r="5" opacity=".6"/><circle cx="140" cy="160" r="4" opacity=".55"/></g><g class="s3" fill="#3a0000" filter="url(#bl)"><path d="M30 92c26 14 54 22 84 24 18 1 36-2 52-9 7-3 13 5 8 11-18 20-46 29-73 27-30-2-58-17-76-40-4-6 0-16 5-13z" opacity=".8"/><path d="M46 168c4 14 3 28 0 42h-12c-3-15-2-29 3-43 2-4 8-3 9 1z" opacity=".7"/><path d="M158 172c3 12 2 25 0 38h-11c-2-13-2-26 2-39 2-4 8-3 9 1z" opacity=".65"/></g></svg></div>
+    <div class="crack" id="kcCrack"><svg viewBox="0 0 200 200" preserveAspectRatio="none"><g fill="none" stroke="#000" stroke-width="3" opacity=".28"><path d="M104 8 L94 72 L108 96 L86 130 L98 194"/><path d="M94 72 L36 44"/><path d="M108 96 L182 104"/><path d="M86 130 L24 172"/><path d="M108 96 L28 120"/><path d="M86 130 L166 170"/><path d="M94 72 L156 54"/></g><g fill="none" stroke="#ffffff" stroke-width="1" opacity=".5"><path d="M104 8 L94 72 L108 96 L86 130 L98 194"/><path d="M94 72 L36 44"/><path d="M108 96 L182 104"/><path d="M86 130 L24 172"/><path d="M108 96 L28 120"/><path d="M86 130 L166 170"/><path d="M94 72 L156 54"/><path d="M156 54 L190 22"/><path d="M36 44 L8 16"/><path d="M28 120 L2 138"/><path d="M182 104 L198 88"/><path d="M94 72 L108 96 L86 130"/></g><g fill="rgba(255,255,255,.07)"><path d="M94 72 L108 96 L28 120z"/><path d="M108 96 L86 130 L166 170z"/><path d="M104 8 L94 72 L156 54z"/></g></svg></div>
+  </div><div class="kcl"><span id="kcStatus">TARGET LOCKED</span><b id="kcVn"></b></div></div>
+</div>
+<div class="fwrap">
 <div class="finish">FINISH HIM!</div>
 <div class="fvs" id="fvs"></div>
 <div class="ftxt">FATALITY</div>
@@ -330,9 +420,17 @@ return '<div class="trk stage2" data-c="'+c+'" data-pct="'+w+'"><div class="trai
 '<div class="rkt gold" style="left:'+w+'%">'+RKT+'</div>'+
 '<div class="gate g180 lit" style="left:2px"><div class="gl" style="left:-6px">180K ✓</div></div>'+
 '<div class="fin">🏆<span>350K ✈</span></div></div>';}
+function faceSlug(n){return String(n||'').toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'');}
+function initials(n){const p=String(n||'').trim().split(/\s+/);return (((p[0]||'')[0]||'')+((p[1]||'')[0]||(p[0]||'')[1]||'')).toUpperCase();}
+const FACE_API="https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6";
+const FACE_K=new URLSearchParams(location.search).get("k")||"";
+function faceUrl(slug){return FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face="+encodeURIComponent(slug);}
+function face(name,cls){const big=/champav|big/.test(cls||'');
+  return '<div class="pfp '+(cls||'')+'"><span>'+initials(name)+'</span>'+
+  '<img src="'+faceUrl(faceSlug(name)+(big?'@2x':''))+'" alt="" onerror="this.remove()"></div>';}
 function rowHtml(r,gold){const wk=r.last24h>0?'+'+money(r.last24h)+' today':'quiet today';
 return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,'_')+'">'+
-'<div class="rk">'+r.rank+'</div>'+
+'<div class="rk">'+r.rank+'</div>'+face(r.name)+
 '<div><div class="nm">'+r.name+'</div><div class="meta2">'+r.deals+' deal'+(r.deals!==1?'s':'')+(r.showRate!=null?' · shows '+r.showRate+'%':'')+(r.closeRate!=null?' · closes '+r.closeRate+'%':'')+'</div>'+badges(r)+'</div>'+
 track(r,gold)+'<div class="money">'+money(r.cash)+'</div><div class="wk '+(r.last7>0?'':'z')+'">'+wk+'</div></div>';}
 function render(d){
@@ -340,7 +438,7 @@ function render(d){
   // champion
   if(s[0]){const c=s[0];
   $("champ").innerHTML='<div class="champ"><div class="beltrow">'+
-    '<div class="av king"><img src="king.png" alt=""></div>'+
+    '<div class="champav-wrap"><div class="crown">👑</div>'+face(c.name,'champav')+'</div>'+
     '<div><h2>'+c.name+'</h2><div class="sub">'+c.deals+' deals · '+(c.showRate!=null?'shows '+c.showRate+'% · ':'')+(c.closeRate!=null?'closes '+c.closeRate+'% · ':'')+'+'+money(c.last7)+' this week</div>'+badges(c)+'</div>'+
     '<img class="vr" src="vr.png" alt="">'+
     '<div class="cash">'+money(c.cash)+'<div class="sub" style="text-align:right">'+(c.business?'✈ BUSINESS CLASS LOCKED':(c.qualified?'QUALIFIED':money(FLOOR-c.cash)+' to qualify'))+'</div></div>'+
@@ -359,7 +457,7 @@ function render(d){
   $("rest").innerHTML=s.slice(8,20).map(r=>rowHtml(r,false)).join('');
   animateTracks();
   // feed
-  $("feed").innerHTML=d.feed.map((f,i)=>'<div class="f" style="animation-delay:'+(i*40)+'ms"><span class="fn">'+f.name+'</span> closed <span class="fa">'+money(f.amount)+'</span><span class="ft">'+ago(f.ts)+'</span></div>').join('');
+  $("feed").innerHTML=d.feed.map((f,i)=>'<div class="f" style="animation-delay:'+(i*40)+'ms">'+face(f.name,'xs')+'<span class="fn">'+f.name+'</span> closed <span class="fa">'+money(f.amount)+'</span><span class="ft">'+ago(f.ts)+'</span></div>').join('');
   // big moves
   $("moves").innerHTML=(d.headlines&&d.headlines.length)
     ? d.headlines.map(h=>'<div class="mv">'+h.headline+'<span class="mt">'+ago(h.ts)+'</span></div>').join('')
@@ -367,7 +465,7 @@ function render(d){
   // tape
   if(d.tape){const t=d.tape;
   $("tape").innerHTML='<h3>TALE OF THE <span class="accent">TAPE</span></h3>'+
-   '<div class="vs"><div class="tn">'+t.a.name+'</div><div class="vsx">VS</div><div class="tn">'+t.b.name+'</div></div>'+
+   '<div class="vs"><div class="tn">'+face(t.a.name,'sm')+'<span>'+t.a.name+'</span></div>'+'<div class="vsx">VS</div>'+'<div class="tn">'+face(t.b.name,'sm')+'<span>'+t.b.name+'</span></div></div>'+
    '<table>'+
    '<tr><td>'+money(t.a.cash)+'</td><td class="mid">CASH</td><td>'+money(t.b.cash)+'</td></tr>'+
    '<tr><td>'+t.a.deals+'</td><td class="mid">DEALS</td><td>'+t.b.deals+'</td></tr>'+
@@ -378,11 +476,11 @@ function render(d){
   // full squad roster: everyone + total cash
   const roster=Object.values(d.cards||{}).sort((a,b)=>b.cash-a.cash);
   $("roster").innerHTML='<tr><th>NAME</th><th style="text-align:right">CASH COLLECTED</th></tr>'+
-    roster.map(c=>'<tr><td class="ln">'+c.name+'</td><td class="n" style="text-align:right">'+money(c.cash)+'</td></tr>').join('');
+    roster.map(c=>'<tr><td class="ln" data-n="'+c.name+'"><div class="rface">'+face(c.name,'sm')+'<span>'+c.name+'</span></div></td><td class="n" style="text-align:right">'+money(c.cash)+'</td></tr>').join('');
   // wildcard panel: commander view only (&wc=1)
   if(new URLSearchParams(location.search).get("wc")==="1"){$("wcpanel").style.display='block';
   $("laurel").innerHTML='<tr><th>NAME</th><th>BOOKED</th><th>SHOWED</th><th>CLOSED</th><th>FIN PIPE</th></tr>'+
-   d.wildcard.map(w=>'<tr><td class="ln">'+w.name+'</td>'+
+   d.wildcard.map(w=>'<tr><td class="ln" data-n="'+w.name+'"><div class="rface">'+face(w.name,'sm')+'<span>'+w.name+'</span></div></td>'+
    '<td class="n">'+(w.booked??0)+'</td>'+
    '<td class="n">'+(w.shows??0)+' <span class="pct">('+(w.showRate??0)+'%)</span></td>'+
    '<td class="n">'+(w.closes??0)+' <span class="pct">('+(w.closeRate??0)+'%)</span></td>'+
@@ -393,7 +491,7 @@ function render(d){
   if(day.length||tt.total>0){
     const top=day.length?day.reduce((a,b)=>b.amount>a.amount?b:a):null;
     $("shotp").style.display='block';
-    $("shotp").innerHTML=(top?'<div class="shot"><div class="se">💥</div><div><div class="sk2">WIN OF THE DAY</div><div class="sn">'+top.name+'</div></div><div class="sa">'+money(top.amount)+'</div></div>':'')+
+    $("shotp").innerHTML=(top?'<div class="shot">'+face(top.name,'sm')+'<div class="se">💥</div><div><div class="sk2">WIN OF THE DAY</div><div class="sn">'+top.name+'</div></div><div class="sa">'+money(top.amount)+'</div></div>':'')+
     '<div class="trow"><span>TEAM CASH TODAY · '+tt.deals+' deal'+(tt.deals!==1?'s':'')+'</span><b>'+money(tt.total)+'</b></div>';
   }else{$("shotp").style.display='none';}
   // live events: cash, gates, overtakes
@@ -430,7 +528,7 @@ function render(d){
   const q=new URLSearchParams(location.search);
   if(q.get("auto")==="1"&&!window.__autofired){
     if(q.get("crown")==="1"&&s[0]){window.__autofired=true;setTimeout(()=>coronation(s[0].name,s[0].cash),1200);}
-    else if(q.get("fatality")==="1"&&s.length>2){window.__autofired=true;setTimeout(()=>fatality(s[1].name,s[2].name),1200);}
+    else if(q.get("fatality")&&s.length>2){window.__autofired=true;const fv=q.get("fatality");const nm=/[,.]/.test(fv)?fv.toUpperCase().split(/[,.]/).slice(0,2):[s[1].name,s[2].name];setTimeout(()=>fatality(nm[0],nm[1]),1200);}
   }
   const fq=new URLSearchParams(location.search).get("fatality");
   if(fq&&s.length>2){window.__fatalReady=/[,.]/.test(fq)?fq.toUpperCase().split(/[,.]/).slice(0,2):[s[1].name,s[2].name];}
@@ -446,7 +544,7 @@ function openCard(name){
   const pace=need180>0?Math.ceil(need180/weeksLeft):0;
   const maxW=Math.max(...(c.daily?c.daily.map(w=>w.v):[1]),1);
   document.getElementById("card").innerHTML=
-   '<div class="chead">'+(c.rank===1?'<div class="cav king"><img src="king.png"></div>':'<div class="cav"><span>'+name.slice(0,2)+'</span></div>')+
+   '<div class="chead">'+face(name,'cardav')+
    '<div><div class="crank">'+(c.rank?('RANK '+c.rank+(c.rank<=5?' · SEATED':' · CHASING')):'NO CASH ON BOARD YET')+'</div><h2>'+name+'</h2></div>'+
    '<div class="x" onclick="closeCard()">✕</div></div>'+
    '<div class="cgrid">'+
@@ -473,7 +571,7 @@ document.addEventListener("click",(e)=>{
   if(e.target.id==="ov")closeCard();
   const row=e.target.closest(".row");if(row){const nm=row.querySelector(".nm");if(nm)openCard(nm.textContent);}
   const ch=e.target.closest(".champ");if(ch){const h=ch.querySelector("h2");if(h)openCard(h.textContent);}
-  const ln=e.target.closest(".ln");if(ln)openCard(ln.textContent);
+  const ln=e.target.closest(".ln");if(ln)openCard((ln.dataset.n||ln.textContent).trim().toUpperCase());
 });
 document.addEventListener("keydown",(e)=>{if(e.key==="Escape")closeCard();});
 const lastPos={};
@@ -515,10 +613,31 @@ function fatalSound(){if(muted())return;tone(55,0,2.2,'sawtooth',0.09);tone(58,0
   tone(41,1.4,1.6,'sawtooth',0.1);noiseHit(1.45,0.35,0.16);noiseHit(2.9,0.5,0.2);tone(30,2.9,1.4,'sine',0.14);}
 const FATS=(()=>{const ids=['RESQrZRjB6A','7YrmIIMupAM','dgbeXXK3GLo','lOsA4r3lnLI','7AtZ_0kq978'];
   const out=[];for(const id of ids)for(const s of [15,55,95,135,175])out.push({id,s});return out;})();
+function killCam(killer,victim){
+  const kc=$("kc");if(!kc)return;
+  window.__kcT=(window.__kcT||[]).filter(t=>{clearTimeout(t);return false;});
+  kc.className="kc";
+  $("kcKf").innerHTML=face(killer,"big");
+  $("kcVf").innerHTML=face(victim,"big");
+  $("kcKn").textContent=killer;
+  $("kcVn").textContent=victim;
+  $("kcStatus").textContent="TARGET LOCKED";
+  $("kcSplat").className="splat";$("kcCrack").className="crack";$("kcRet").style.transform="";
+  const at=(ms,fn)=>window.__kcT.push(setTimeout(fn,ms));
+  const hit=(n)=>{kc.classList.remove("hit");void kc.offsetWidth;kc.classList.add("hit");
+    if(n>=1)$("kcSplat").className="splat s"+Math.min(n,3);
+    if(n>=2)$("kcCrack").className="crack on";
+    $("kcStatus").textContent=n>=3?"ELIMINATED":(n>=2?"CRITICAL":"TAKING DAMAGE");
+    noiseHit(0,0.18,0.13);tone(70-n*8,0,0.4,'sawtooth',0.07);};
+  // video starts at 1500ms, runs to 17500ms
+  at(4200,()=>hit(0));at(8200,()=>hit(1));at(12200,()=>hit(2));
+  at(16400,()=>{hit(3);$("kcStatus").textContent="ELIMINATED";kc.classList.add("dead");});
+}
 function fatality(killer,victim){
   const f=$("fatal");
   const seg=FATS[Math.floor(Math.random()*FATS.length)];
   $("fvs").innerHTML=killer+' <b>VS</b> '+victim;
+  killCam(killer,victim);
   $("fsub").textContent=killer+" TAKES "+victim+"'S SEAT";
   f.className="on p1";vplay(SND_FIN);
   if(!muted()){tone(55,0,1.3,'sawtooth',0.06);tone(58,0,1.3,'sawtooth',0.04);}
