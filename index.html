@@ -399,6 +399,9 @@ function render(d){
       if(delta>0){toast('💰 <b>'+r.name+'</b> just collected <b>'+money(delta)+'</b>');
         if(delta>=4000){bigDeal();burst(140);}else{chaChing();burst(70);}
         const el=$("row-"+r.closer.replace(/\\W/g,'_'));if(el){el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),4000);}}
+      if(delta<0){toast('💸 <b>'+r.name+'</b> lost <b>'+money(-delta)+'</b> to a refund. Gutter ball.');
+        sadTrombone();
+        const el=$("row-"+r.closer.replace(/\W/g,'_'));if(el){el.style.boxShadow='0 0 0 2px var(--rd)';setTimeout(()=>el.style.boxShadow='',4000);}}
       if(before<FLOOR&&r.cash>=FLOOR){showBanner('🎫 <b>'+r.name+'</b> CLEARED $180K, QUALIFIED','gold');horn();burst(160);burst(160);}
       if(before<UPGRADE&&r.cash>=UPGRADE){showBanner('✈️ <b>'+r.name+'</b> UNLOCKED BUSINESS CLASS','gold');horn();burst(240);burst(240);}
       const was=pr[r.closer];
@@ -468,7 +471,7 @@ function animateTracks(){document.querySelectorAll('.trk[data-c]').forEach(t=>{
   }
   lastPos[c]=target;});}
 const bq=[];let bshow=false;
-function showBanner(html,cls){bq.push([html,cls||'']);if(!bshow)nextBanner();}
+function showBanner(html,cls){window.__lastEvent=Date.now();bq.push([html,cls||'']);if(!bshow)nextBanner();}
 function nextBanner(){if(!bq.length){bshow=false;return;}bshow=true;
   const[h,c]=bq.shift();const b=$("banner");b.innerHTML=h;b.className='show '+c;
   setTimeout(()=>{b.className='';setTimeout(nextBanner,450);},5200);}
@@ -517,6 +520,19 @@ function coronation(name,cash){
   kingFanfare();burst(320);
   setTimeout(()=>burst(280),900);setTimeout(()=>burst(280),1900);setTimeout(()=>burst(220),3200);
   setTimeout(()=>c.classList.remove("show"),9300);}
+function sadTrombone(){if(muted())return;tone(233,0,0.32,'sawtooth',0.05);tone(220,0.32,0.32,'sawtooth',0.05);tone(208,0.64,0.32,'sawtooth',0.05);tone(196,0.96,0.9,'sawtooth',0.06);}
+window.__lastEvent=Date.now();
+function spotlight(){
+  const d=prev;if(!d||!d.standings.length)return;
+  const s=d.standings,msgs=[];
+  if(d.bubble)msgs.push('🎯 THE BUBBLE: <b>'+money(d.bubble.gap)+'</b> separates '+d.bubble.chaser.name+' from the plane');
+  if(d.tape)msgs.push('⚔️ '+d.tape.a.name+' and '+d.tape.b.name+' are separated by <b>'+money(d.tape.gap)+'</b>. Somebody do something.');
+  msgs.push('👑 '+s[0].name+' holds the crown at <b>'+money(s[0].cash)+'</b>. Come take it.');
+  if(s[4])msgs.push('🪑 '+s[4].name+' holds the LAST seat with <b>'+money(s[4].cash)+'</b>');
+  const days=Math.max(Math.ceil((new Date("2026-12-01T23:59:59+04:00")-Date.now())/864e5),0);
+  msgs.push('⛈️ Quiet lane. The storm does not care. <b>'+days+' days</b> left.');
+  showBanner(msgs[Math.floor(Math.random()*msgs.length)]);}
+setInterval(()=>{if(Date.now()-window.__lastEvent>180000){window.__lastEvent=Date.now();spotlight();}},30000);
 function sndIcon(){const s=$("snd");if(s)s.textContent=muted()?'🔇':'🔊';}
 document.addEventListener('click',(e)=>{try{ac();}catch(x){}
   if(window.__crownReady&&!window.__crowned){window.__crowned=true;const t=window.__crownReady;setTimeout(()=>coronation(t.name,t.cash),150);}
@@ -535,7 +551,7 @@ function fxloop(){const cv=$("fx"),ctx=cv.getContext('2d');ctx.clearRect(0,0,cv.
   for(const q of parts){q.x+=q.vx;q.y+=q.vy;q.vy+=0.12;q.life--;
     ctx.globalAlpha=Math.min(q.life/40,1);ctx.fillStyle=q.c;ctx.fillRect(q.x,q.y,3,3);}
   ctx.globalAlpha=1;requestAnimationFrame(fxloop);}
-function toast(html){const t=document.createElement('div');t.className='toast';t.innerHTML=html;
+function toast(html){window.__lastEvent=Date.now();const t=document.createElement('div');t.className='toast';t.innerHTML=html;
 $("toasts").appendChild(t);setTimeout(()=>t.remove(),9000);}
 async function poll(){try{
   const K=new URLSearchParams(location.search).get("k")||"";const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1",{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
