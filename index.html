@@ -177,6 +177,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 #fatal .fvs{display:none;font-family:'Russo One',sans-serif;font-size:76px;color:#fff;text-transform:uppercase;text-shadow:0 0 30px rgba(255,40,40,.7)}
 #fatal .fvs b{color:#ff2222}
 #fatal.p2 .fvs{display:block;animation:fslam .35s cubic-bezier(.2,.9,.3,1.4)}
+#fatal .fvs{display:none!important}  /* banner cut, killcam HUD names both */
 @keyframes fslam{from{transform:scale(2.4);opacity:0}to{transform:none;opacity:1}}
 #fatal .ftxt{display:none;font-family:'Russo One',sans-serif;font-size:150px;line-height:1;text-transform:uppercase;background:linear-gradient(180deg,#ff4433,#8a0000 70%,#4a0000);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 0 44px rgba(255,20,20,.65));letter-spacing:.06em}
 #fatal.p3 .ftxt{display:block;animation:fslam .3s cubic-bezier(.2,.9,.3,1.5)}
@@ -653,7 +654,7 @@ function fatality(killer,victim){
     f.className="on p2";
     if(!liveAudio){noiseHit(0,0.3,0.15);tone(49,0,2.5,'sawtooth',0.07);}},1500);
   setTimeout(()=>{$("fvid").innerHTML="";f.className="on p3";
-    vplay(SND_FAT);noiseHit(0,0.4,0.12);tone(30,0,1.4,'sine',0.12);
+    noiseHit(0,0.4,0.12);tone(30,0,1.4,'sine',0.12);  // voice cut: killcam already called it
     burst(260,undefined,undefined,['#ff1a1a','#8a0000','#ff5533','#ffaa00']);
     setTimeout(()=>burst(220,undefined,undefined,['#ff1a1a','#8a0000','#ff5533']),700);},21000);
   setTimeout(()=>{f.className="";},25000);}
