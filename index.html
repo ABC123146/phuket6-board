@@ -108,6 +108,12 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .ladder .lv{font-weight:700}
 .ladder .lv.gold{color:var(--gd);text-shadow:0 0 10px rgba(255,204,0,.5)}
 .ladder .lv.red{color:var(--rd)}
+.mv{padding:9px 0;border-bottom:1px solid #1d1140;font-size:14px;line-height:1.45}
+.mv:last-child{border:none}
+.mv .mt{color:var(--dim);font-size:11px;margin-left:8px;white-space:nowrap}
+.ladderwide{margin-top:26px}
+.ladderwide .lwrap{display:flex;gap:10px 40px;flex-wrap:wrap;justify-content:space-between}
+.ladderwide .lrow{border:none;padding:4px 0;flex:1 1 260px}
 /* feed */
 .feed{max-height:460px;overflow:hidden}
 .f{display:flex;align-items:baseline;gap:9px;padding:8px 0;border-bottom:1px solid #1d1140;font-size:13px;opacity:0;animation:in .5s forwards}
@@ -265,12 +271,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
       <div class="rows" id="rest" style="margin-top:14px"></div></div>
     </div>
     <div>
-      <div class="panel ladder"><h3>PAYOUT <span class="accent">LADDER</span></h3>
-        <div class="lrow"><span class="lk">SEATS 1 TO 5</span><span class="lv gold">PHUKET · VILLA ZAI</span></div>
-        <div class="lrow"><span class="lk">$350,000+</span><span class="lv gold">✈ BUSINESS CLASS</span></div>
-        <div class="lrow"><span class="lk">$180,000</span><span class="lv red">MIN CASH · NO 180 NO SEAT</span></div>
-        <div class="lrow"><span class="lk">WILDCARD</span><span class="lv">1 SEAT · GRINDER'S PICK</span></div>
-      </div>
+      <div class="panel"><h3>BIG <span class="accent">MOVES</span> 📰</h3><div id="moves"></div></div>
       <div class="panel" id="shotp" style="display:none"></div>
       <div class="panel"><h3>LIVE <span class="accent">KILL FEED</span></h3><div class="feed" id="feed"></div></div>
       <div class="panel tape" id="tape"></div>
@@ -283,6 +284,12 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
     </div>
   </div>
   <div class="foot">Net cash collected USD, refunds deducted · window 1 Aug to 1 Dec 2026 · board refreshes live · a fresh deal can take a few minutes to sync from the payment system, it is coming, relax · PHUKET 6</div>
+<div class="panel ladder ladderwide"><h3>PAYOUT <span class="accent">LADDER</span></h3><div class="lwrap">
+  <div class="lrow"><span class="lk">SEATS 1 TO 5</span><span class="lv gold">PHUKET · VILLA ZAI</span></div>
+  <div class="lrow"><span class="lk">$350,000+</span><span class="lv gold">✈ BUSINESS CLASS</span></div>
+  <div class="lrow"><span class="lk">$180,000</span><span class="lv red">MIN CASH · NO 180 NO SEAT</span></div>
+  <div class="lrow"><span class="lk">WILDCARD</span><span class="lv">1 SEAT · GRINDER'S PICK</span></div>
+</div></div>
 </div>
 <div id="fatal"><div class="fvid" id="fvid"></div><div class="fwrap">
 <div class="finish">FINISH HIM!</div>
@@ -353,6 +360,10 @@ function render(d){
   animateTracks();
   // feed
   $("feed").innerHTML=d.feed.map((f,i)=>'<div class="f" style="animation-delay:'+(i*40)+'ms"><span class="fn">'+f.name+'</span> closed <span class="fa">'+money(f.amount)+'</span><span class="ft">'+ago(f.ts)+'</span></div>').join('');
+  // big moves
+  $("moves").innerHTML=(d.headlines&&d.headlines.length)
+    ? d.headlines.map(h=>'<div class="mv">'+h.headline+'<span class="mt">'+ago(h.ts)+'</span></div>').join('')
+    : '<div class="mv" style="color:var(--dim)">No big moves yet. Make one.</div>';
   // tape
   if(d.tape){const t=d.tape;
   $("tape").innerHTML='<h3>TALE OF THE <span class="accent">TAPE</span></h3>'+
