@@ -283,6 +283,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .shot .se{font-size:22px}
 .shot .sn{white-space:nowrap;font-size:16px}
 .shot .pfp{width:30px;height:30px}
+#kc{display:none!important}  /* superseded by the killcam page */
 /* fatality kill cam */
 #fatal .kc{display:none;position:absolute;inset:0;z-index:3;pointer-events:none;font-family:'Russo One',sans-serif}
 #fatal.p2 .kc,#fatal.p3 .kc{display:block}
@@ -637,20 +638,25 @@ function fatality(killer,victim){
   const f=$("fatal");
   const seg=FATS[Math.floor(Math.random()*FATS.length)];
   $("fvs").innerHTML=killer+' <b>VS</b> '+victim;
-  killCam(killer,victim);
+  // killCam(killer,victim);  // superseded by the killcam page
   $("fsub").textContent=killer+" TAKES "+victim+"'S SEAT";
   f.className="on p1";vplay(SND_FIN);
   if(!muted()){tone(55,0,1.3,'sawtooth',0.06);tone(58,0,1.3,'sawtooth',0.04);}
   setTimeout(()=>{
     const liveAudio=AC&&AC.state==='running'&&!muted();
-    $("fvid").innerHTML='<iframe src="https://www.youtube.com/embed/'+seg.id+'?start='+seg.s+'&end='+(seg.s+15)+'&autoplay=1&mute='+(liveAudio?0:1)+'&controls=0&modestbranding=1&rel=0&iv_load_policy=3" allow="autoplay" frameborder="0"></iframe>';
+    // The kill cam page owns the clip, the HUD, the blood and the announcer.
+    // Headshots come from the token gated face API, never the public repo.
+    const ftpl=FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face={slug}@2x";
+    $("fvid").innerHTML='<iframe src="killcam/killcam.html?victor='+encodeURIComponent(faceSlug(killer))
+      +'&victim='+encodeURIComponent(faceSlug(victim))
+      +'&faces='+encodeURIComponent(ftpl)+'&audio=audio&autoplay=1" allow="autoplay; encrypted-media" frameborder="0"></iframe>';
     f.className="on p2";
     if(!liveAudio){noiseHit(0,0.3,0.15);tone(49,0,2.5,'sawtooth',0.07);}},1500);
   setTimeout(()=>{$("fvid").innerHTML="";f.className="on p3";
     vplay(SND_FAT);noiseHit(0,0.4,0.12);tone(30,0,1.4,'sine',0.12);
     burst(260,undefined,undefined,['#ff1a1a','#8a0000','#ff5533','#ffaa00']);
-    setTimeout(()=>burst(220,undefined,undefined,['#ff1a1a','#8a0000','#ff5533']),700);},17500);
-  setTimeout(()=>{f.className="";},21500);}
+    setTimeout(()=>burst(220,undefined,undefined,['#ff1a1a','#8a0000','#ff5533']),700);},21000);
+  setTimeout(()=>{f.className="";},25000);}
 function coronation(name,cash){
   $("coroname").textContent=name;
   $("corocash").textContent=money(cash)+" COLLECTED";

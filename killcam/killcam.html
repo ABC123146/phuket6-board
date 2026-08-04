@@ -1,0 +1,719 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PHUKET 6 // KILL CAM</title>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+/* PHUKET 6 kill cam.
+   Plays one fatality out of the single source video and hangs a Mortal Kombat
+   style HUD over it: victor's face top left, victim's face top right with blood
+   running down it. Nothing is pre rendered, the clip is a timestamp range on the
+   YouTube embed, so all 63 fatalities are available at no storage cost. */
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%;background:#000;overflow:hidden;font-family:'Syne',sans-serif}
+
+#stage{position:fixed;inset:0}
+
+/* The embed is blown up well past the viewport so YouTube's own chrome sits off
+   screen entirely. modestbranding no longer suppresses any of it, so the only
+   reliable fix is to crop it: at 1.45 the title bar, the channel watermark and
+   the bottom control strip all fall outside the visible area. */
+#stage{overflow:hidden}
+#yt{position:absolute;top:50%;left:50%;width:100vw;height:56.25vw;
+    min-height:100vh;min-width:177.78vh;
+    transform:translate(-50%,-50%) scale(1.45);
+    pointer-events:none;border:0}
+#veil{position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.72) 100%)}
+
+/* ---------- HUD ---------- */
+.hud{position:absolute;top:0;left:0;right:0;padding:2.2vh 2.4vw;display:flex;
+     justify-content:space-between;align-items:flex-start;gap:2vw;
+     opacity:0;transform:translateY(-14px);transition:opacity .5s ease,transform .5s ease}
+.hud.in{opacity:1;transform:none}
+
+.fighter{display:flex;gap:1.1vw;align-items:flex-start;width:38vw;max-width:560px}
+.fighter.right{flex-direction:row-reverse;text-align:right}
+
+.portrait{position:relative;width:11vw;height:11vw;min-width:96px;min-height:96px;
+          max-width:190px;max-height:190px;flex:0 0 auto;overflow:hidden;
+          border:3px solid #ffd84d;background:#0a1c30;
+          clip-path:polygon(14% 0,100% 0,86% 100%,0 100%)}
+.fighter.right .portrait{clip-path:polygon(0 0,86% 0,100% 100%,14% 100%);border-color:#8a1418}
+.portrait img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) saturate(.95)}
+
+/* No photo yet: a black plate with a question mark, so a closer without a
+   headshot still gets a kill cam instead of blocking one. Everything else
+   (name, health bar, blood, announcer) carries on untouched. */
+.portrait.noimg{background:#000}
+.portrait.noimg img{display:none}
+.portrait.noimg:before{content:'?';position:absolute;inset:0;display:flex;
+                       align-items:center;justify-content:center;
+                       font-family:'Anton',sans-serif;font-size:5vw;
+                       color:#3a5573;line-height:1}
+
+.bars{flex:1;min-width:0;padding-top:.4vh}
+/* Classic Mortal Kombat arcade HUD: yellow blocky names, bright green bar that
+   burns down to red, sitting in a chunky stone bevel. */
+.nm{font-family:'Anton',sans-serif;font-size:clamp(20px,2.5vw,42px);
+    color:#f2c318;text-transform:uppercase;letter-spacing:.04em;line-height:1;
+    -webkit-text-stroke:2px #1a1000;paint-order:stroke fill;
+    text-shadow:0 4px 0 #000,0 0 18px rgba(0,0,0,.95)}
+.role{font-size:clamp(9px,.78vw,13px);font-weight:800;letter-spacing:.3em;margin-top:.5vh}
+.left .role{color:#9adf4a}
+.right .role{color:#ff3b30}
+
+/* Outer frame is the carved arcade housing: dark rim, light bevel, dark rim. */
+.hp{height:2.6vh;min-height:19px;margin-top:.9vh;position:relative;overflow:hidden;
+    background:linear-gradient(180deg,#3a0a08,#1d0403);
+    border:2px solid #0a0a0a;
+    box-shadow:0 0 0 2px #7d7a72, 0 0 0 4px #2a2724, 0 3px 6px rgba(0,0,0,.8),
+               inset 0 2px 4px rgba(0,0,0,.85)}
+/* Depleted portion reads as raw red underneath the green. */
+.hp:before{content:'';position:absolute;inset:0;
+           background:linear-gradient(180deg,#c0261c,#6d0f0a)}
+/* Segment ticks, the arcade bar was never a smooth gradient. */
+.hp:after{content:'';position:absolute;inset:0;pointer-events:none;
+          background:repeating-linear-gradient(90deg,rgba(0,0,0,.45) 0 2px,transparent 2px 10px),
+                     linear-gradient(180deg,rgba(255,255,255,.35),transparent 42%,rgba(0,0,0,.4))}
+.hp i{display:block;height:100%;width:100%;position:relative;z-index:1;
+      transform-origin:left center;
+      background:linear-gradient(180deg,#b6ff5a,#54d919 46%,#1f8f06);
+      box-shadow:inset -2px 0 0 rgba(0,0,0,.55);
+      transition:transform .45s cubic-bezier(.2,.8,.3,1)}
+.right .hp i{transform-origin:right center}
+
+/* ---------- blood over the loser ---------- */
+/* Driven by --gore, 0 to 1, stepped up through the clip so the damage builds
+   rather than appearing all at once. */
+/* The face has to stay recognisable underneath. Blood runs OVER it, it does not
+   paint it out, so every layer here is deliberately partial: the sheet fades out
+   before it reaches the eyes, the streaks are thin, and nothing goes fully
+   opaque even at --gore:1. */
+/* Real blood, not red lines. An SVG curtain hangs above the portrait and slides
+   down as --gore rises, so it pours from the hairline and ends up covering the
+   face. The leading edge is a row of fat tendrils with bulbous tips, which is
+   what actually reads as running blood: thin lines with dots read as scratches.
+   Opaque, glossy, and dark at the edges rather than a flat wash. */
+.gore{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+/* No transform. The shape itself is redrawn as the blood runs, so the SVG just
+   sits over the portrait 1:1 and anything that runs past the chin is clipped by
+   the portrait's overflow. */
+.gore svg{position:absolute;inset:0;width:100%;height:100%;
+          filter:drop-shadow(0 2px 3px rgba(0,0,0,.55))}
+/* Wet sheen sitting on top of the blood mass, tied to how far it has run. */
+.gore .sheen{position:absolute;inset:0;mix-blend-mode:screen;
+             opacity:calc(var(--gore) * .32);transition:opacity .9s ease;
+             background:radial-gradient(ellipse 60% 30% at 42% 14%,rgba(255,90,70,.6),transparent 70%)}
+/* Drained, but still recognisable. Going darker than this stacks with the blood
+   on top and you lose who actually died, which is the one thing the panel is for. */
+.portrait.dead img{filter:grayscale(.2) brightness(.94) contrast(1.06) saturate(.85)}
+
+/* ---------- FATALITY ---------- */
+.stamp{position:absolute;left:0;right:0;top:52%;text-align:center;
+       transform:translateY(-50%) scale(.82);opacity:0;pointer-events:none}
+.stamp.in{animation:slam .5s cubic-bezier(.15,1.4,.4,1) forwards}
+@keyframes slam{0%{opacity:0;transform:translateY(-50%) scale(1.9)}
+                60%{opacity:1;transform:translateY(-50%) scale(.94)}
+                100%{opacity:1;transform:translateY(-50%) scale(1)}}
+/* The real Mortal Kombat FATALITY lettering, not a CSS approximation. Sized off
+   viewport width so it scales with the stage, with a drop shadow to lift it off
+   whatever is happening in the frame behind it. */
+.stamp img{display:block;width:min(72vw,900px);height:auto;margin:0 auto;
+           filter:drop-shadow(0 0 30px rgba(232,53,44,.55))
+                  drop-shadow(0 6px 10px rgba(0,0,0,.9))}
+.stamp span{display:block;margin-top:1.4vh;font-family:'Anton',sans-serif;
+            font-size:clamp(18px,3.1vw,52px);color:#fff;letter-spacing:.16em;
+            text-shadow:0 3px 0 #000,0 0 22px rgba(0,0,0,.9)}
+
+#flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+#flash.hit{animation:fl .42s ease-out}
+@keyframes fl{0%{opacity:.82}100%{opacity:0}}
+
+#shake.on{animation:shk .5s ease-out}
+@keyframes shk{0%,100%{transform:translate(0,0)}
+               20%{transform:translate(-9px,5px)}55%{transform:translate(7px,-6px)}
+               80%{transform:translate(-4px,2px)}}
+
+/* Browsers refuse unmuted autoplay without prior interaction. Rather than
+   blocking the whole kill cam behind a click, the fight plays muted and this
+   chip offers sound. Small, corner, self removing. */
+#soundchip{position:absolute;right:1.6vw;bottom:1.6vw;z-index:9;display:none;
+           padding:.9vh 1.3vw;border:1px solid rgba(255,216,77,.35);border-radius:999px;
+           background:rgba(0,0,0,.55);color:#ffd84d;font-weight:800;
+           font-size:clamp(10px,1vw,14px);letter-spacing:.18em;
+           backdrop-filter:blur(4px);pointer-events:none}
+#soundchip.show{display:block;animation:pulse 2.2s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
+
+/* Failures must be visible, not silent. */
+#err{position:absolute;left:0;right:0;top:42%;text-align:center;z-index:10;
+     font-family:'Anton',sans-serif;color:#ff5f56;font-size:clamp(16px,2vw,30px);
+     letter-spacing:.1em;display:none;padding:0 4vw}
+#err.show{display:block}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div id="shake" style="position:absolute;inset:0">
+    <!-- Must be a div, not an iframe. The YouTube IFrame API replaces a
+         placeholder element and keeps its id; handed an empty <iframe> it does
+         nothing at all and never fires onReady. -->
+    <div id="yt"></div>
+    <div id="veil"></div>
+  </div>
+
+  <div class="hud" id="hud">
+    <div class="fighter left">
+      <div class="portrait"><img id="vicImg" alt=""></div>
+      <div class="bars">
+        <div class="nm" id="vicName">VICTOR</div>
+        <div class="role">WINNER</div>
+        <div class="hp"><i id="vicHp"></i></div>
+      </div>
+    </div>
+
+    <div class="fighter right">
+      <div class="portrait" id="losePort">
+        <img id="loseImg" alt="">
+        <div class="gore" id="gore" style="--gore:0">
+          <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+            <defs>
+              <!-- Real blood is dark and desaturated, nearly black in the mass
+                   and only bright where light catches the surface. Flat bright
+                   red reads as paint. -->
+              <linearGradient id="bloodFill" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0"   stop-color="#2e0002"/>
+                <stop offset=".18" stop-color="#5c0206"/>
+                <stop offset=".45" stop-color="#8a0a0d"/>
+                <stop offset=".72" stop-color="#63030a"/>
+                <stop offset="1"   stop-color="#3a0105"/>
+              </linearGradient>
+              <linearGradient id="bloodGloss" x1="0" y1="0" x2="1" y2="0">
+                <stop offset="0"   stop-color="#ff5b4a" stop-opacity="0"/>
+                <stop offset=".35" stop-color="#ff6b57" stop-opacity=".55"/>
+                <stop offset=".6"  stop-color="#ff5b4a" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <g id="bloodShape"></g>
+          </svg>
+          <div class="sheen"></div>
+        </div>
+      </div>
+      <div class="bars">
+        <div class="nm" id="loseName">VICTIM</div>
+        <div class="role">FATALITY</div>
+        <div class="hp"><i id="loseHp"></i></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="stamp" id="stamp">
+    <img src="assets/fatality.png" alt="FATALITY">
+    <span id="stampName"></span>
+  </div>
+  <div id="flash"></div>
+
+  <!-- Only appears if the browser actually refused sound. Never blocks the
+       fight, and removes itself the moment audio is on. -->
+  <div id="soundchip">🔇 TAP FOR SOUND</div>
+  <div id="err"></div>
+</div>
+
+<audio id="sfxOpen" preload="auto"></audio>
+<audio id="sfxOutro" preload="auto"></audio>
+
+<script>
+const qs = new URLSearchParams(location.search);
+const cfg = {
+  victor:  qs.get('victor')  || 'thomas',
+  victim:  qs.get('victim')  || 'ben',
+  faces:   qs.get('faces')   || '../faces',
+  audio:   qs.get('audio')   || '../fatality/audio/out',
+  clip:    qs.get('clip'),
+  autoplay: qs.get('autoplay') === '1',
+};
+
+// Slug to spoken/displayed first name. The board shows first names only, so
+// "brodie-b" and "sam-k" lose their disambiguating suffix here on purpose.
+// Spoken name and on screen label are deliberately different.
+//
+// The announcer says FIRST NAME ONLY, which is the rule: "Brodie wins", never
+// "Brodie C wins". But there are two Brodies on the roster (Cusack and Burns),
+// so if the HUD also showed bare first names both panels would just read BRODIE
+// and you could not tell who died. The label carries the disambiguation the way
+// the board already does it via config.json display_names, and the voice stays
+// clean. Two people sharing a first name therefore share one audio file.
+// `photo` exists because the board keys some people by surname while the photo
+// files are named by first name. brodie-b IS Brodie Burness and sam-k IS Sam
+// Kelly, so `burness` and `kelly` are the same two people, not extras. Missing
+// that is how they got counted twice and reported as having no headshot.
+const ROSTER = {
+  'ben':      { spoken: 'Ben',     label: 'BEN',      photo: 'ben' },
+  'chuong':   { spoken: 'Chuong',  label: 'CHUONG',   photo: 'chuong' },
+  'jack':     { spoken: 'Jack',    label: 'JACK',     photo: 'jack' },
+  'ori':      { spoken: 'Ori',     label: 'ORI',      photo: 'ori' },
+  'ricardo':  { spoken: 'Ricardo', label: 'RICARDO',  photo: 'ricardo' },
+  'thomas':   { spoken: 'Thomas',  label: 'THOMAS',   photo: 'thomas' },
+  'will':     { spoken: 'Will',    label: 'WILL',     photo: 'will' },
+
+  // Brodie Burness. Board calls him BURNESS, photo is filed as brodie-b.
+  'burness':  { spoken: 'Brodie',  label: 'BRODIE B', photo: 'brodie-b' },
+  'brodie-b': { spoken: 'Brodie',  label: 'BRODIE B', photo: 'brodie-b' },
+
+  // Sam Kelly. Board calls him KELLY, photo is filed as sam-k.
+  'kelly':    { spoken: 'Sam',     label: 'SAM K',    photo: 'sam-k' },
+  'sam-k':    { spoken: 'Sam',     label: 'SAM K',    photo: 'sam-k' },
+
+  // Genuinely still need a headshot and a voice line. They render with a
+  // placeholder and the bare FATALITY call until one is dropped into faces/.
+  'cusack':   { spoken: 'Brodie',  label: 'BRODIE C', photo: 'cusack' },  // Brodie Cusack
+  'brodie-c': { spoken: 'Brodie',  label: 'BRODIE C', photo: 'cusack' },
+  'erich':    { spoken: 'Erich',   label: 'ERICH',    photo: 'erich' },
+  'gor':      { spoken: 'Gor',     label: 'GOR',      photo: 'gor' },
+  'jemma':    { spoken: 'Jemma',   label: 'JEMMA',    photo: 'jemma' },
+};
+const cap = s => s.replace(/^./, c => c.toUpperCase());
+const who = s => ROSTER[s] || {
+  spoken: cap(s.split('-')[0]),
+  label: s.replace(/-/g, ' ').toUpperCase(),
+  photo: s,
+};
+
+const victor = who(cfg.victor), victim = who(cfg.victim);
+
+// Labels on screen (disambiguated), first name in the voice line.
+vicName.textContent  = victor.label;
+loseName.textContent = victim.label;
+stampName.textContent = `${victor.spoken.toUpperCase()} WINS`;
+
+// `faces` may be a plain directory OR a URL template containing {slug}. The live
+// board serves headshots from the token gated edge function, never from the
+// public repo, so it passes something like
+//   ?faces=https://<proj>.supabase.co/functions/v1/phuket6?k=TOKEN%26face={slug}
+const faceUrl = slug => cfg.faces.includes('{slug}')
+  ? cfg.faces.replace('{slug}', slug)
+  : `${cfg.faces}/${slug}@2x.jpg`;
+
+vicImg.src  = faceUrl(victor.photo);
+loseImg.src = faceUrl(victim.photo);
+
+// A closer without a headshot still gets a full kill cam: their panel shows a
+// black plate with a question mark and everything else runs normally. Missing
+// photos should not block the board while headshots are still being collected.
+[[vicImg, victor.photo], [loseImg, victim.photo]].forEach(([img, slug]) => {
+  img.onerror = () => {
+    img.closest('.portrait').classList.add('noimg');
+    console.warn(`killcam: no photo for "${slug}", using placeholder`);
+  };
+});
+
+sfxOpen.src  = `${cfg.audio}/FATALITY.mp3`;
+sfxOutro.src = `${cfg.audio}/outro/outro_${victor.spoken}.mp3`;
+
+// Same idea for the voice: a winner with no cloned name line still gets the
+// FATALITY call at the end rather than silence. Generate their line and this
+// stops firing.
+sfxOutro.onerror = () => {
+  console.warn(`killcam: no voice line for "${victor.spoken}", using bare FATALITY`);
+  sfxOutro.onerror = null;
+  sfxOutro.src = `${cfg.audio}/FATALITY.mp3`;
+};
+
+// ---------- blood ----------
+// Blood RUNS. It does not descend as a wall.
+//
+// The first version slid one solid shape down the portrait. That is why it
+// looked right at the start and wrong after: the end state was always a flat red
+// rectangle and the middle was a row of identical bars. The shape is now redrawn
+// every frame instead. A pooled band sits at the hairline and thickens a little,
+// and rivulets grow LONGER down the face at their own rates and their own start
+// times. The face never gets buried, which is the whole point of it.
+const SVG_NS = 'http://www.w3.org/2000/svg';
+const svgEl = (tag, attrs) => {
+  const n = document.createElementNS(SVG_NS, tag);
+  for (const k in attrs) n.setAttribute(k, attrs[k]);
+  return n;
+};
+
+// Seeded off the victim so one closer's blood looks the same every time.
+let bseed = [...cfg.victim].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7);
+const brnd = () => ((bseed = (bseed * 1664525 + 1013904223) >>> 0) / 4294967296);
+
+const TENDRILS = [];
+for (let x = 97; x > 2; x -= 2.6 + brnd() * 4.4) {
+  TENDRILS.push({
+    x,
+    w:     1.0 + brnd() * 2.3,       // half width where it leaves the band
+    taper: 0.40 + brnd() * 0.28,     // how much it narrows as it runs
+    max:   14 + brnd() * 82,         // how far this one eventually reaches
+    delay: brnd() * 0.45,            // real blood does not start every run at once
+    drop:  brnd() > .55,             // does a bead break off and fall ahead of it
+  });
+}
+
+const bloodFill  = svgEl('path', { fill: 'url(#bloodFill)' });
+const bloodEdge  = svgEl('path', { fill: 'none', stroke: '#2a0004',
+                                   'stroke-width': .5, 'stroke-opacity': .7 });
+const bloodGloss = svgEl('path', { fill: 'url(#bloodGloss)' });
+const bloodDrops = svgEl('g', {});
+document.getElementById('bloodShape')
+        .append(bloodFill, bloodEdge, bloodGloss, bloodDrops);
+
+const clamp01 = v => v < 0 ? 0 : v > 1 ? 1 : v;
+
+function bloodPath(g) {
+  const band = 3 + g * 14;           // pooled at the hairline, never a wall
+  const B = band.toFixed(1);
+  let d = `M-4,-4 H104 V${B} `;
+  const drops = [];
+
+  for (const t of TENDRILS) {
+    const p = clamp01((g - t.delay) / (1 - t.delay));
+    const xr = (t.x + t.w).toFixed(1), xl = (t.x - t.w).toFixed(1);
+    if (p <= 0.02) { d += `L${xr},${B} L${xl},${B} `; continue; }
+
+    const len  = band + t.max * (p * p * (3 - 2 * p));   // gathers pace as it runs
+    const nw   = t.w * t.taper;
+    const bulb = nw * (1.6 + t.taper);
+    const mid  = band + (len - band) * 0.5;
+    const nwr = (t.x + nw).toFixed(1), nwl = (t.x - nw).toFixed(1);
+    const tip = (len - bulb).toFixed(1), bot = (len + bulb).toFixed(1);
+
+    d += `L${xr},${B} `
+       + `C${xr},${mid.toFixed(1)} ${nwr},${mid.toFixed(1)} ${nwr},${tip} `
+       + `Q${(t.x + bulb).toFixed(1)},${bot} ${t.x.toFixed(1)},${bot} `
+       + `Q${(t.x - bulb).toFixed(1)},${bot} ${nwl},${tip} `
+       + `C${nwl},${mid.toFixed(1)} ${xl},${mid.toFixed(1)} ${xl},${B} `;
+
+    if (t.drop && p > 0.45)
+      drops.push({ x: t.x, y: len + bulb + 5 + t.max * 0.14 * p, r: nw * 0.85 });
+  }
+  return { d: d + `L-4,${B} Z`, drops };
+}
+
+function drawBlood(g) {
+  const { d, drops } = bloodPath(g);
+  bloodFill.setAttribute('d', d);
+  bloodEdge.setAttribute('d', d);
+  bloodGloss.setAttribute('d', d);
+  bloodDrops.replaceChildren(...drops.map(o =>
+    svgEl('ellipse', { cx: o.x, cy: o.y, rx: o.r, ry: o.r * 1.5, fill: '#7d060b' })));
+}
+
+// Animate between stages ourselves. A path's `d` cannot be CSS transitioned, and
+// stepping it would make the blood jump rather than run.
+let goreNow = 0, goreTarget = 0, goreRAF = null;
+function animateGore(to) {
+  goreTarget = to;
+  if (goreRAF) return;
+  const tick = () => {
+    const diff = goreTarget - goreNow;
+    if (Math.abs(diff) < 0.004) { goreNow = goreTarget; drawBlood(goreNow); goreRAF = null; return; }
+    goreNow += diff * 0.06;            // ease toward the target
+    drawBlood(goreNow);
+    goreRAF = requestAnimationFrame(tick);
+  };
+  goreRAF = requestAnimationFrame(tick);
+}
+drawBlood(0);
+
+let clips = [], clip = null, player = null, timers = [];
+
+// No clip repeats until every one has been used.
+//
+// This replaced hashing the pairing to a clip. Hashing meant a popular matchup
+// showed the identical fatality every single time, and with only a handful of
+// closers actually trading places the board would cycle through the same few
+// kills forever while most of the 58 never appeared.
+//
+// Instead: shuffle all 58, play through the deck, and only reshuffle once it is
+// empty. The position survives page loads via localStorage, because each kill
+// cam is its own page load and an in-memory counter would reset every time.
+const DECK_KEY = 'phuket6.killcam.deck';
+
+function shuffled(n, avoidFirst) {
+  const a = [...Array(n).keys()];
+  for (let i = a.length - 1; i > 0; i--) {          // Fisher-Yates
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  // Stop a reshuffle from immediately replaying the clip that just ended the
+  // previous deck, which is the one repeat this scheme could still produce.
+  if (a.length > 1 && a[0] === avoidFirst) [a[0], a[1]] = [a[1], a[0]];
+  return a;
+}
+
+function nextClipIndex() {
+  let deck = null, last = null;
+  try {
+    const saved = JSON.parse(localStorage.getItem(DECK_KEY) || 'null');
+    if (saved && Array.isArray(saved.rest) && saved.total === clips.length) {
+      deck = saved.rest;
+      last = saved.last;
+    }
+  } catch (e) {}                       // private mode or storage disabled
+
+  if (!deck || !deck.length) deck = shuffled(clips.length, last);
+
+  const i = deck.shift();
+  try {
+    localStorage.setItem(DECK_KEY,
+      JSON.stringify({ total: clips.length, rest: deck, last: i }));
+  } catch (e) {}
+
+  console.log(`killcam: clip ${i}, ${deck.length} left before reshuffle`);
+  return i;
+}
+
+function pickClip() {
+  // An explicit &clip=N pins that fatality and does NOT consume from the deck,
+  // so testing a specific clip cannot disturb the rotation on a live board.
+  if (cfg.clip !== null && clips[+cfg.clip]) return clips[+cfg.clip];
+  return clips[nextClipIndex()];
+}
+
+// --gore still drives the wet sheen in CSS; the blood shape itself is animated.
+function setGore(v) { gore.style.setProperty('--gore', v); animateGore(v); }
+
+// The game audio and our announcer both play. Left flat they fight each other,
+// so the game ducks under our lines and ramps back rather than cutting, which
+// would read as a dropout.
+function duck(to, ms = 250) {
+  if (!player || !player.setVolume || !player.getVolume) return;
+  const from = player.getVolume();
+  const steps = 5;
+  for (let s = 1; s <= steps; s++) {
+    setTimeout(() => {
+      try { player.setVolume(from + (to - from) * (s / steps)); } catch (e) {}
+    }, (ms / steps) * s);
+  }
+}
+
+// Play one of our announcer cues and duck the game under it for its duration.
+function cue(el, duckTo) {
+  duck(duckTo);
+  el.currentTime = 0;
+  el.play().catch(() => {});   // rejected before first interaction, expected
+  el.onended = () => duck(100);
+}
+
+// Damage builds in stages across the run up, finishing exactly as the announcer
+// calls FATALITY. Fractions are of the run up (start to call), not of the whole
+// clip, so the kill completes on the call rather than at some arbitrary point.
+const STAGES = [[.26, .28, .72], [.52, .55, .46], [.74, .78, .24], [.93, 1, 0]];
+
+function hit(g, hp) {
+  setGore(g);
+  loseHp.style.transform = `scaleX(${hp})`;
+  flash.classList.remove('hit'); void flash.offsetWidth; flash.classList.add('hit');
+  shake.classList.remove('on'); void shake.offsetWidth; shake.classList.add('on');
+}
+
+function finish() {
+  if (stamp.classList.contains('in')) return;
+  losePort.classList.add('dead');
+  stamp.classList.add('in');
+  // Deeper duck here: this is the line that names the winner, it has to land.
+  cue(sfxOutro, 25);
+}
+
+function run() {
+  timers.forEach(clearTimeout); timers = [];
+  clearInterval(window.__tick);
+
+  hud.classList.add('in');
+  setGore(0);
+  loseHp.style.transform = 'scaleX(1)';
+  vicHp.style.transform  = 'scaleX(1)';
+  losePort.classList.remove('dead');
+  stamp.classList.remove('in');
+
+  cue(sfxOpen, 30);
+
+  let stage = 0;
+
+  // Everything is driven off the VIDEO's clock, not wall clock timers. Wall
+  // clock drifts against buffering and seek latency, which is how the FATALITY
+  // stamp ended up appearing partway through the fight instead of on the call.
+  const step = t => {
+    const p = (t - clip.start) / Math.max(0.1, clip.call - clip.start);
+    while (stage < STAGES.length && p >= STAGES[stage][0]) {
+      hit(STAGES[stage][1], STAGES[stage][2]);
+      stage++;
+    }
+    if (t >= clip.call) finish();
+    if (t >= clip.end) {
+      // Hard stop. Without this the video rolls straight on into the next
+      // fatality, which is exactly what it was doing.
+      try { player.pauseVideo(); } catch (e) {}
+      clearInterval(window.__tick);
+    }
+  };
+
+  if (player && player.getCurrentTime) {
+    window.__tick = setInterval(() => {
+      let t;
+      try { t = player.getCurrentTime(); } catch (e) { return; }
+      step(t);
+    }, 100);
+  } else {
+    // No player (embed blocked or offline). Fall back to wall clock so the HUD
+    // still performs rather than freezing on a full health bar.
+    const t0 = Date.now();
+    window.__tick = setInterval(
+      () => step(clip.start + (Date.now() - t0) / 1000), 100);
+  }
+}
+
+// The HUD must never depend on YouTube loading. If the embed is blocked, rate
+// limited, or offline, the kill cam still has to play its gore and call the
+// winner rather than sitting on a black screen saying nothing.
+// Try for sound immediately. If the browser refuses (no prior interaction with
+// this origin), arm every interaction type so the FIRST thing the viewer does,
+// anywhere on the page, turns it on. No target to hunt for, and nothing ever
+// blocks the fight from playing.
+function tryUnmute() {
+  if (!player || !player.unMute) return;
+
+  // Asking to unmute is itself what breaks autoplay: a browser without prior
+  // engagement will simply refuse to start, leaving the poster frame and a play
+  // button. So try it, then check playback actually survived, and fall straight
+  // back to muted playback if it did not. A kiosk launched with
+  // --autoplay-policy=no-user-gesture-required keeps the sound and skips all this.
+  try { player.unMute(); player.setVolume(100); } catch (e) { return; }
+
+  // Poll for real playback rather than checking once. A single check 600ms in
+  // was reading state 3 (BUFFERING) from the seek that happens just before, and
+  // wrongly concluding the browser had refused, so it re-muted itself even when
+  // sound was allowed. Success means unmuted AND the clock actually advancing.
+  let last = -1, waited = 0;
+  const probe = setInterval(() => {
+    waited += 300;
+    let muted = true, t = -1;
+    try { muted = player.isMuted(); t = player.getCurrentTime(); } catch (e) {}
+
+    if (!muted && last >= 0 && t > last + 0.15) {
+      clearInterval(probe);
+      soundchip.remove();          // sound is genuinely on, no chip needed
+      return;
+    }
+    last = t;
+
+    if (waited >= 3000) {
+      clearInterval(probe);
+      // Genuinely refused. Mute and offer sound instead.
+      // Only touch playback if it is actually stopped: calling playVideo() on an
+      // already playing video leaves YouTube's pause graphic stuck in the middle
+      // of the frame, which looked like the clip had frozen even though the
+      // clock was still advancing.
+      try {
+        player.mute();
+        const st = player.getPlayerState();
+        if (st !== YT.PlayerState.PLAYING && st !== YT.PlayerState.BUFFERING) {
+          if (player.getCurrentTime() < clip.start - 1) player.seekTo(clip.start, true);
+          player.playVideo();
+        }
+      } catch (e) {}
+      armSound();
+    }
+  }, 300);
+}
+
+function armSound() {
+  soundchip.classList.add('show');
+  const enable = () => {
+    try { player.unMute(); player.setVolume(100); } catch (e) {}
+    soundchip.remove();
+    // Replay whichever cue is currently due, so the viewer does not lose the
+    // announcer line just because sound arrived a moment late.
+    const el = stamp.classList.contains('in') ? sfxOutro : sfxOpen;
+    el.play().catch(() => {});
+    ['pointerdown', 'keydown', 'touchstart'].forEach(ev =>
+      window.removeEventListener(ev, enable));
+  };
+  ['pointerdown', 'keydown', 'touchstart'].forEach(ev =>
+    window.addEventListener(ev, enable, { once: true, passive: true }));
+}
+
+let started = false;
+function startOnce(why) {
+  if (started) return;
+  started = true;
+  console.log('killcam: starting sequence via', why);
+  run();
+}
+
+function onReady() {
+  // Belt and braces: if the player never reports ready, run anyway.
+  setTimeout(() => startOnce('fallback timer'), 3500);
+  player = new YT.Player('yt', {
+    videoId: '7AtZ_0kq978',
+    playerVars: {
+      autoplay: 1, controls: 0, disablekb: 1, fs: 0, modestbranding: 1,
+      rel: 0, playsinline: 1, iv_load_policy: 3,
+      // Muted so our own announcer audio carries the moment. The game's own
+      // mix would fight the cloned "<name> wins" line.
+      mute: 1,
+      // Deliberately no `end` param. Letting YouTube end the video triggers its
+      // end screen, which covers the fight in related video thumbnails right at
+      // the FATALITY beat. Instead we watch the clock and pause, which freezes
+      // on the last frame under the stamp.
+      start: clip.start,
+    },
+    events: {
+      onReady: e => {
+        // Seek explicitly rather than trusting the `start` player param. That
+        // param is unreliable once playVideo() is called manually: the player
+        // was starting from 0 and rolling through the whole video, playing one
+        // fatality after another instead of the one clip.
+        e.target.seekTo(clip.start, true);
+
+        // Autoplay MUTED first. Every browser allows that unconditionally, so
+        // the kill cam always starts. Sound is then layered onto a page that is
+        // already running, instead of being a precondition for it starting.
+        e.target.playVideo();
+        tryUnmute();
+        // run()'s ticker owns both the stage timing and the stop at clip.end,
+        // so there is no second watcher here to fight it.
+        startOnce('player ready');
+      },
+      onError: e => { console.warn('killcam: youtube error', e.data); startOnce('player error'); },
+    },
+  });
+}
+
+fetch('clips.json')
+  .then(r => r.json())
+  .then(d => {
+    clips = d.clips;
+    clip = pickClip();
+    const boot = () => {
+      window.onYouTubeIframeAPIReady = onReady;
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      // If the API script itself never loads, onYouTubeIframeAPIReady never
+      // fires, so nothing downstream would ever run.
+      tag.onerror = () => startOnce('youtube api failed to load');
+      document.head.appendChild(tag);
+      setTimeout(() => startOnce('youtube api timeout'), 6000);
+    };
+    boot();   // no gate: start immediately, muted, and offer sound after
+  })
+  .catch(e => {
+    // `err` here is the #err element, via its id. Named the catch param `e` so
+    // it does not shadow it.
+    err.textContent = `CLIPS FAILED TO LOAD: ${e}`;
+    err.classList.add('show');
+    console.error('killcam:', e);
+  });
+
+// Replay for the demo page.
+window.addEventListener('message', e => {
+  if (e.data === 'killcam:replay' && player) { player.seekTo(clip.start); run(); }
+});
+</script>
+</body>
+</html>
