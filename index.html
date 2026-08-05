@@ -296,11 +296,33 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 }
 
 /* face tiles */
-.pfp{position:relative;flex:none;width:56px;height:56px;background:linear-gradient(135deg,#2b1b52,#130a26);border:1px solid var(--line);overflow:hidden;display:flex;align-items:center;justify-content:center;
+/* No frame. The heads are background removed cutouts, so a box around them
+   just reads as a sticker on a card. Instead each head is backlit in its own
+   rank colour: gold for the leader, purple for 2 and 3, cyan below. */
+.pfp{--glow:168,85,247;position:relative;flex:none;width:56px;height:56px;background:transparent;border:0;overflow:visible;display:flex;align-items:center;justify-content:center;
  clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
-.pfp img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 100%;filter:contrast(1.06) saturate(.92)}
+.pfp img{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;object-position:50% 100%;
+         filter:contrast(1.06) saturate(.95)
+                drop-shadow(0 0 5px rgba(var(--glow),.95))
+                drop-shadow(0 0 14px rgba(var(--glow),.55))
+                drop-shadow(0 3px 6px rgba(0,0,0,.75))}
+.pfp:before{content:'';position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);
+            width:86%;height:52%;border-radius:50%;pointer-events:none;
+            background:radial-gradient(ellipse at center,rgba(var(--glow),.22),transparent 72%);
+            filter:blur(5px)}
+/* Initials fallback still needs something to sit in without a frame. */
+.pfp span{background:rgba(var(--glow),.13);border:1px solid rgba(var(--glow),.45);
+          border-radius:50%;width:100%;height:100%;display:flex;align-items:center;justify-content:center}
+/* Rank colours, matching the numerals. */
+#contenders .row:nth-child(-n+2) .pfp{--glow:168,85,247}
+#contenders .row:nth-child(n+3) .pfp{--glow:0,229,255}
+.gulag .pfp{--glow:120,132,126}
+/* Gold is the champion only. .row.gold marks every SEATED row, not the leader,
+   so using it here turned all five seats gold. The champ block is separate from
+   #contenders, which starts at rank 2, so no specificity fight either. */
+.champ .pfp{--glow:255,204,0}
 .pfp span{font-family:'Russo One',sans-serif;font-size:17px;color:#6a58a8;letter-spacing:.02em}
-.pfp:after{content:'';position:absolute;inset:0;background:linear-gradient(160deg,rgba(0,229,255,.10),transparent 45%,rgba(0,0,0,.42));pointer-events:none}
+.pfp:after{display:none}
 .row.gold .pfp{border-color:rgba(255,204,0,.55);box-shadow:0 0 16px rgba(255,204,0,.2)}
 #contenders .row:nth-child(-n+2) .pfp{border-color:rgba(168,85,247,.7);box-shadow:0 0 16px rgba(168,85,247,.25)}
 #contenders .row:nth-child(n+3) .pfp{border-color:rgba(0,229,255,.55);box-shadow:0 0 16px rgba(0,229,255,.2)}
