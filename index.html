@@ -502,7 +502,7 @@ const FACE_K=new URLSearchParams(location.search).get("k")||"";
 // Faces are cached in the browser for a day, so a re-imported headshot keeps
 // showing the old one until the cache expires. Bump FACE_V whenever the face
 // bundle is redeployed and every browser fetches the new image immediately.
-const FACE_V="20260805b";
+const FACE_V="20260805c";
 function faceUrl(slug){return FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face="+encodeURIComponent(slug)+"&v="+FACE_V;}
 function face(name,cls){const big=/champav|big/.test(cls||'');
   // Background removed cutouts everywhere, so heads read as avatars rather than
