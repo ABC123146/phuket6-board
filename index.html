@@ -499,7 +499,11 @@ const SPOKEN={'brodie-b':'Brodie','brodie-c':'Brodie','burness':'Brodie','cusack
 function initials(n){const p=String(n||'').trim().split(/\s+/);return (((p[0]||'')[0]||'')+((p[1]||'')[0]||(p[0]||'')[1]||'')).toUpperCase();}
 const FACE_API="https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6";
 const FACE_K=new URLSearchParams(location.search).get("k")||"";
-function faceUrl(slug){return FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face="+encodeURIComponent(slug);}
+// Faces are cached in the browser for a day, so a re-imported headshot keeps
+// showing the old one until the cache expires. Bump FACE_V whenever the face
+// bundle is redeployed and every browser fetches the new image immediately.
+const FACE_V="20260805b";
+function faceUrl(slug){return FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face="+encodeURIComponent(slug)+"&v="+FACE_V;}
 function face(name,cls){const big=/champav|big/.test(cls||'');
   // Background removed cutouts everywhere, so heads read as avatars rather than
   // as photos with someone's kitchen behind them.
@@ -733,7 +737,7 @@ function fatality(killer,victim){
     const liveAudio=AC&&AC.state==='running'&&!muted();
     // The kill cam page owns the clip, the HUD, the blood and the announcer.
     // Headshots come from the token gated face API, never the public repo.
-    const ftpl=FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face={slug}-cut";
+    const ftpl=FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face={slug}-cut&v="+FACE_V;
     $("fvid").innerHTML='<iframe src="killcam/killcam.html?victor='+encodeURIComponent(faceSlug(killer))
       +'&victim='+encodeURIComponent(faceSlug(victim))
       +'&faces='+encodeURIComponent(ftpl)+'&audio=audio&autoplay=1" allow="autoplay; encrypted-media" frameborder="0"></iframe>';
