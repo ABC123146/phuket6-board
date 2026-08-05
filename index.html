@@ -331,8 +331,13 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .pfp.sm{width:32px;height:32px;clip-path:polygon(0 0,calc(100% - 6px) 0,100% 6px,100% 100%,6px 100%,0 calc(100% - 6px))}
 .pfp.sm span{font-size:11px}
 .pfp.cardav{width:72px;height:72px;border-color:rgba(168,85,247,.7);box-shadow:0 0 18px rgba(168,85,247,.3)}
-.pfp.champav{width:112px;height:112px;border:2px solid var(--gd);box-shadow:0 0 30px rgba(255,204,0,.4);
- clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
+/* Champion carried its own gold box and clip-path, so it kept a frame after the
+   rows lost theirs. Same treatment as everyone else, just bigger and gold. */
+.pfp.champav{width:112px;height:112px;border:0;box-shadow:none;clip-path:none}
+.pfp.champav img{filter:contrast(1.06) saturate(.95)
+                 drop-shadow(0 0 8px rgba(255,204,0,.95))
+                 drop-shadow(0 0 24px rgba(255,204,0,.6))
+                 drop-shadow(0 4px 10px rgba(0,0,0,.8))}
 .champav-wrap{position:relative;flex:none;margin-right:4px}
 .champav-wrap .crown{position:absolute;top:-20px;left:50%;transform:translateX(-50%);font-size:32px;filter:drop-shadow(0 0 12px rgba(255,204,0,.85));animation:kingfloat 3s ease-in-out infinite;z-index:2}
 .f{align-items:center}
