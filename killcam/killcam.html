@@ -42,7 +42,10 @@ html,body{height:100%;background:#000;overflow:hidden;font-family:'Syne',sans-se
           border:3px solid #ffd84d;background:#0a1c30;
           clip-path:polygon(14% 0,100% 0,86% 100%,0 100%)}
 .fighter.right .portrait{clip-path:polygon(0 0,86% 0,100% 100%,14% 100%);border-color:#8a1418}
-.portrait img{width:100%;height:100%;object-fit:cover;display:block;filter:contrast(1.05) saturate(.95)}
+/* Cutouts have transparent margins, so contain not cover, seated on the
+   bottom edge of the frame like an arcade portrait. */
+.portrait img{width:100%;height:100%;object-fit:contain;object-position:50% 100%;
+              display:block;filter:contrast(1.05) saturate(.95)}
 
 /* No photo yet: a black plate with a question mark, so a closer without a
    headshot still gets a kill cam instead of blocking one. Everything else
