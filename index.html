@@ -111,6 +111,11 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .mv{padding:9px 0;border-bottom:1px solid #1d1140;font-size:14px;line-height:1.45}
 .mv:last-child{border:none}
 .mv .mt{color:var(--dim);font-size:11px;margin-left:8px;white-space:nowrap}
+.mv .mvl{display:block;margin-top:5px;font-size:12px;color:#9fb2d0;letter-spacing:.02em}
+.mv .mvl b{color:#ffd84d;letter-spacing:.08em;font-size:11px}
+.mv.rp{cursor:pointer;transition:background .15s,padding .15s}
+.mv.rp:hover{background:rgba(255,216,77,.06)}
+.mv.rp:hover .mvl b{text-decoration:underline}
 .ladderwide{margin-top:26px}
 .ladderwide .lwrap{display:flex;gap:10px 40px;flex-wrap:wrap;justify-content:space-between}
 .ladderwide .lrow{border:none;padding:4px 0;flex:1 1 260px}
@@ -461,8 +466,19 @@ function render(d){
   // feed
   $("feed").innerHTML=d.feed.map((f,i)=>'<div class="f" style="animation-delay:'+(i*40)+'ms">'+face(f.name,'xs')+'<span class="fn">'+f.name+'</span> closed <span class="fa">'+money(f.amount)+'</span><span class="ft">'+ago(f.ts)+'</span></div>').join('');
   // big moves
+  // Each move carries a plain english label and, where there is something to
+  // replay, is clickable: kills replay the kill cam, crownings replay the
+  // coronation. Someone who missed it live can still watch it.
   $("moves").innerHTML=(d.headlines&&d.headlines.length)
-    ? d.headlines.map(h=>'<div class="mv">'+h.headline+'<span class="mt">'+ago(h.ts)+'</span></div>').join('')
+    ? d.headlines.map(h=>{
+        const can=(h.kind==='king')||!!h.victim;
+        const esc=(x)=>String(x||'').replace(/"/g,'&quot;');
+        return '<div class="mv'+(can?' rp':'')+'"'
+          +(can?' data-k="'+esc(h.kind)+'" data-a="'+esc(h.actor)+'" data-v="'+esc(h.victim)+'" title="Click to rewatch"':'')
+          +'>'+h.headline
+          +(h.label?'<span class="mvl">'+(can?'<b>&#9654; REPLAY</b> ':'')+h.label+'</span>':'')
+          +'<span class="mt">'+ago(h.ts)+'</span></div>';
+      }).join('')
     : '<div class="mv" style="color:var(--dim)">No big moves yet. Make one.</div>';
   // tape
   if(d.tape){const t=d.tape;
@@ -665,6 +681,20 @@ function coronation(name,cash){
   kingFanfare();burst(320);
   setTimeout(()=>burst(280),900);setTimeout(()=>burst(280),1900);setTimeout(()=>burst(220),3200);
   setTimeout(()=>c.classList.remove("show"),9300);}
+// Replay a past moment from BIG MOVES. Delegated so it survives the feed
+// re-rendering on every poll.
+document.addEventListener('click',(e)=>{
+  const el=e.target.closest('.mv.rp'); if(!el) return;
+  try{ac();}catch(x){}
+  const kind=el.dataset.k, actor=el.dataset.a, victim=el.dataset.v;
+  if(kind==='king'){
+    const row=(prev&&prev.standings||[]).find(r=>r.name===actor);
+    coronation(actor,row?row.cash:0);
+  } else if(victim){
+    fatality(actor,victim);
+  }
+});
+
 function sadTrombone(){if(muted())return;tone(233,0,0.32,'sawtooth',0.05);tone(220,0.32,0.32,'sawtooth',0.05);tone(208,0.64,0.32,'sawtooth',0.05);tone(196,0.96,0.9,'sawtooth',0.06);}
 window.__lastEvent=Date.now();
 function spotlight(){
