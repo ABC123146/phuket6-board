@@ -739,11 +739,23 @@ function fatality(killer,victim){
       +'&faces='+encodeURIComponent(ftpl)+'&audio=audio&autoplay=1" allow="autoplay; encrypted-media" frameborder="0"></iframe>';
     f.className="on p2";
     if(!liveAudio){noiseHit(0,0.3,0.15);tone(49,0,2.5,'sawtooth',0.07);}},1500);
-  setTimeout(()=>{$("fvid").innerHTML="";f.className="on p3";
+  // The kill cam tells us when its announcer has finished (killcam:done), so we
+  // advance the moment it is actually over. The old fixed 21s left short clips
+  // frozen on the FATALITY card for seconds of dead air.
+  clearTimeout(window.__fT3); clearTimeout(window.__fT4);
+  window.__fDone=false;
+  const toP3=()=>{
+    if(window.__fDone) return; window.__fDone=true;
+    clearTimeout(window.__fT3);
+    $("fvid").innerHTML="";f.className="on p3";
     noiseHit(0,0.4,0.12);tone(30,0,1.4,'sine',0.12);  // voice cut: killcam already called it
     burst(260,undefined,undefined,['#ff1a1a','#8a0000','#ff5533','#ffaa00']);
-    setTimeout(()=>burst(220,undefined,undefined,['#ff1a1a','#8a0000','#ff5533']),700);},21000);
-  setTimeout(()=>{f.className="";},25000);}
+    setTimeout(()=>burst(220,undefined,undefined,['#ff1a1a','#8a0000','#ff5533']),700);
+    window.__fT4=setTimeout(()=>{f.className="";},3600);
+  };
+  window.__killcamDone=toP3;
+  // Ceiling only, in case the iframe never reports back.
+  window.__fT3=setTimeout(toP3,26000);}
 // A crowning is not a fatality. Royal trumpets, not the Mortal Kombat announcer.
 let CORO_SND=null;
 function kingVoice(){
@@ -763,6 +775,10 @@ function coronation(name,cash,dethroned){
   setTimeout(kingVoice,250);
   setTimeout(()=>burst(280),900);setTimeout(()=>burst(280),1900);setTimeout(()=>burst(220),3200);
   setTimeout(()=>c.classList.remove("show"),9300);}
+window.addEventListener('message',(e)=>{
+  if(e.data==='killcam:done' && typeof window.__killcamDone==='function') window.__killcamDone();
+});
+
 // Replay a past moment from BIG MOVES. Delegated so it survives the feed
 // re-rendering on every poll.
 document.addEventListener('click',(e)=>{

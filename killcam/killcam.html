@@ -526,6 +526,22 @@ function finish() {
   stamp.classList.add('in');
   // Deeper duck here: this is the line that names the winner, it has to land.
   cue(sfxOutro, 25);
+
+  // Tell the board we are done so it can move on. It used to sit on a hardcoded
+  // 21s regardless of clip length, and clips run 7 to 15s, so short ones left
+  // the FATALITY card frozen on screen for several dead seconds.
+  let sent = false;
+  const done = () => {
+    if (sent) return;
+    sent = true;
+    clearTimeout(window.__doneFallback);
+    try { parent.postMessage('killcam:done', '*'); } catch (e) {}
+  };
+  // One second after the announcer finishes, as asked.
+  sfxOutro.addEventListener('ended', () => setTimeout(done, 1000), { once: true });
+  // Audio may be blocked or missing entirely, so never rely on `ended` alone.
+  const wait = (isFinite(sfxOutro.duration) && sfxOutro.duration ? sfxOutro.duration : 4) * 1000 + 1200;
+  window.__doneFallback = setTimeout(done, wait);
 }
 
 function run() {
