@@ -54,6 +54,34 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .cav.king img{width:100%;height:100%;object-fit:contain;transform:none;filter:drop-shadow(0 0 12px rgba(255,204,0,.55))}
 .champ .sub,.sub{font-size:13px;color:var(--dim);font-weight:500}
 .champ .trk{margin-top:26px}
+/* king of the hill: how long the belt has stayed on the same neck. The reign
+   is replayed server side off the payment stream, the clock ticks locally. */
+.hill{margin-top:22px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;
+ background:linear-gradient(90deg,rgba(255,204,0,.12),rgba(255,204,0,.03) 60%,transparent);
+ border:1px solid rgba(255,204,0,.34);border-left:4px solid var(--gd);padding:14px 18px}
+.hill .hbadge{font-size:26px;filter:drop-shadow(0 0 10px rgba(255,204,0,.8));animation:kingfloat 3s ease-in-out infinite}
+.hill .hbig{display:flex;align-items:center;gap:10px;flex:none}
+.hill .hbig b{font-family:'Teko',sans-serif;font-weight:700;font-size:64px;line-height:.8;color:var(--gd);
+ text-shadow:0 0 24px rgba(255,204,0,.6)}
+.hill .hbig span{font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.26em;line-height:1.35;
+ color:#fff;font-weight:700;max-width:78px;text-transform:uppercase}
+.hill .hmid{flex:1;min-width:190px}
+.hill .hpips{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:7px}
+.hill .hpips i{width:16px;height:8px;background:var(--gd);box-shadow:0 0 9px rgba(255,204,0,.65);
+ clip-path:polygon(0 0,calc(100% - 3px) 0,100% 3px,100% 100%,3px 100%,0 calc(100% - 3px))}
+.hill .hpips i.off{background:rgba(255,204,0,.13);box-shadow:none}
+.hill .hpips .hmore{font-family:'Chakra Petch',sans-serif;font-size:11px;color:var(--gd);font-weight:700}
+.hill .hclock{font-size:12px;color:var(--dim);font-weight:500}
+.hill .hclock b{color:#fff;font-family:'Chakra Petch',monospace;letter-spacing:.06em}
+.hill .hprev{font-size:11px;color:var(--dim);margin-top:3px;opacity:.8}
+.hill .hrec{text-align:right;flex:none;border-left:1px solid rgba(255,204,0,.22);padding-left:18px}
+.hill .hrec span{display:block;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:.24em;color:var(--dim);font-weight:700}
+.hill .hrec b{font-family:'Teko',sans-serif;font-size:26px;color:#fff;letter-spacing:.02em}
+@media(max-width:700px){
+ .hill{gap:12px;padding:12px 14px}
+ .hill .hbig b{font-size:44px}
+ .hill .hrec{border-left:0;padding-left:0;text-align:left;width:100%}
+}
 /* rows */
 .rows{margin-top:16px;display:flex;flex-direction:column;gap:10px}
 .row{display:flex;align-items:center;gap:16px;background:linear-gradient(135deg,var(--card),var(--card2));border:1px solid var(--line);padding:14px 18px;transition:box-shadow .4s,transform .3s}
@@ -514,8 +542,45 @@ return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,
 '<div class="rk">'+r.rank+'</div>'+face(r.name)+
 '<div><div class="nm">'+r.name+'</div><div class="meta2">'+r.deals+' deal'+(r.deals!==1?'s':'')+(r.showRate!=null?' · shows '+r.showRate+'%':'')+(r.closeRate!=null?' · closes '+r.closeRate+'%':'')+'</div>'+badges(r)+'</div>'+
 track(r,gold)+'<div class="money">'+money(r.cash)+'</div><div class="wk '+(r.last7>0?'':'z')+'">'+wk+'</div></div>';}
+// KING OF THE HILL. The server replays the whole payment stream to work out
+// who was #1 at every moment, so this is the real unbroken streak, not a
+// counter that started the day we shipped it. Clock ticks locally off since.
+function dur(ms){const s=Math.max(ms,0)/1000|0,d=s/86400|0,h=s%86400/3600|0,m=s%3600/60|0,ss=s%60;
+  const p=n=>String(n).padStart(2,'0');
+  return (d?d+'d ':'')+p(h)+':'+p(m)+':'+p(ss);}
+function dcomp(ms){const h=Math.max(ms,0)/36e5,d=Math.floor(h/24);
+  return d>=1?d+'d '+Math.floor(h%24)+'h':(h>=1?Math.floor(h)+'h '+Math.floor(ms/6e4%60)+'m':Math.max(Math.floor(ms/6e4),1)+'m');}
+function kingStrip(k){
+  if(!k)return'';
+  const since=new Date(k.since).getTime(),held=Date.now()-since,days=Math.floor(held/864e5);
+  const big=days>=1?days:Math.max(Math.floor(held/36e5),0);
+  const lbl=days>=1?('Day'+(days===1?'':'s')+' on the hill'):('Hour'+(big===1?'':'s')+' on the hill');
+  // one pip per whole day survived, on a track of empty days so a short reign
+  // reads as a streak that has barely started, not as one lonely blob
+  const shown=Math.min(days,14),slots=Math.max(shown,7);
+  let pip='';for(let i=0;i<slots;i++)pip+=(i<shown?'<i></i>':'<i class="off"></i>');
+  if(days>14)pip+='<span class="hmore">+'+(days-14)+'</span>';
+  const rec=k.record?(k.record.current
+      ? '<div class="hrec"><span>LONGEST REIGN</span><b>THIS ONE 🔥</b></div>'
+      : '<div class="hrec"><span>LONGEST REIGN</span><b>'+k.record.name+' · '+dcomp(k.record.ms)+'</b></div>'):'';
+  const prev=k.prev?'<div class="hprev">took it off '+k.prev.name+', who held it '+dcomp(k.prev.ms)
+      +' · crown has changed hands '+(k.changes-1)+'x</div>':'';
+  return '<div class="hill"><div class="hbadge">👑</div>'+
+    '<div class="hbig"><b id="reignbig">'+big+'</b><span>'+lbl+'</span></div>'+
+    '<div class="hmid"><div class="hpips">'+pip+'</div>'+
+      '<div class="hclock">holding the hill <b id="reignclk">'+dur(held)+'</b></div>'+prev+'</div>'+
+    rec+'</div>';
+}
+function tickReign(){const k=window.__king;if(!k)return;
+  const el=document.getElementById("reignclk");if(!el)return;
+  const held=Date.now()-new Date(k.since).getTime();
+  el.textContent=dur(held);
+  const big=document.getElementById("reignbig"),days=Math.floor(held/864e5);
+  if(big&&days>=1&&big.textContent!==String(days))big.textContent=days;}
+setInterval(tickReign,1000);
 function render(d){
   const s=d.standings;
+  window.__king=d.king||null;
   // champion
   if(s[0]){const c=s[0];
   $("champ").innerHTML='<div class="champ"><div class="beltrow">'+
@@ -523,7 +588,7 @@ function render(d){
     '<div><h2>'+c.name+'</h2><div class="sub">'+c.deals+' deals · '+(c.showRate!=null?'shows '+c.showRate+'% · ':'')+(c.closeRate!=null?'closes '+c.closeRate+'% · ':'')+'+'+money(c.last7)+' this week</div>'+badges(c)+'</div>'+
     '<img class="vr" src="vr.png" alt="">'+
     '<div class="cash">'+money(c.cash)+'<div class="sub" style="text-align:right">'+(c.business?'✈ BUSINESS CLASS LOCKED':(c.qualified?'QUALIFIED':money(FLOOR-c.cash)+' to qualify'))+'</div></div>'+
-    '</div>'+track(c,true)+'</div>';}
+    '</div>'+track(c,true)+kingStrip(d.king)+'</div>';}
   else{$("champ").innerHTML='<div class="champ"><h2>THE BELT IS VACANT</h2><div class="sub">Nobody has landed a dollar yet.</div></div>';}
   // contenders 2..5
   $("contenders").innerHTML=s.slice(1,5).map(r=>rowHtml(r,true)).join('');
@@ -629,6 +694,15 @@ function render(d){
   $("upd").textContent="live · "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
 }
 let CARDS={};
+// total time this closer has spent at #1 across the whole comp, all reigns
+// added up. Empty tile for anyone who has never had the crown.
+function throneStat(name){
+  const k=window.__king;if(!k)return'';
+  const t=(k.throne||[]).find(x=>x.name===name);
+  if(!t||!t.ms)return'';
+  const v=dcomp(t.ms);
+  const live=k.name===name?' <span style="font-size:14px;color:var(--gd)">NOW</span>':'';
+  return '<div class="stat"><div class="sv gold">'+v+live+'</div><div class="sk">TIME AS KING</div></div>';}
 function openCard(name){
   const c=CARDS[name];if(!c)return;
   const weeksLeft=Math.max((new Date("2026-12-01T23:59:59+04:00")-Date.now())/6048e5,0.1);
@@ -648,6 +722,7 @@ function openCard(name){
    '<div class="stat"><div class="sv">'+(c.shows??0)+(c.showRate!=null?' <span style="font-size:16px;color:var(--dim)">('+c.showRate+'%)</span>':'')+'</div><div class="sk">SHOWED</div></div>'+
    '<div class="stat"><div class="sv">'+(c.closes??0)+(c.closeRate!=null?' <span style="font-size:16px;color:var(--dim)">('+c.closeRate+'%)</span>':'')+'</div><div class="sk">CLOSED</div></div>'+
    '<div class="stat"><div class="sv">'+(c.finPipe??0)+'</div><div class="sk">FIN PIPELINE</div></div>'+
+   throneStat(name)+
    '</div>'+
    (need180>0?'<div class="pace">Needs <b>$'+need180.toLocaleString()+'</b> more to qualify: that is <b>$'+pace.toLocaleString()+'</b> per week from here. '+(c.rank&&c.rank<=5?'Holding a seat but the pass is not unlocked.':'No 180, no seat.')+'</div>'
     :(need350>0?'<div class="pace">QUALIFIED. <b>$'+need350.toLocaleString()+'</b> more unlocks BUSINESS CLASS.</div>'
@@ -805,6 +880,7 @@ function spotlight(){
   if(d.bubble)msgs.push('🎯 THE BUBBLE: <b>'+money(d.bubble.gap)+'</b> separates '+d.bubble.chaser.name+' from the plane');
   if(d.tape)msgs.push('⚔️ '+d.tape.a.name+' and '+d.tape.b.name+' are separated by <b>'+money(d.tape.gap)+'</b>. Somebody do something.');
   msgs.push('👑 '+s[0].name+' holds the crown at <b>'+money(s[0].cash)+'</b>. Come take it.');
+  if(d.king)msgs.push('👑 '+d.king.name+' has owned the hill for <b>'+dcomp(Date.now()-new Date(d.king.since).getTime())+'</b> straight. Nobody has laid a glove on them.');
   if(s[4])msgs.push('🪑 '+s[4].name+' holds the LAST seat with <b>'+money(s[4].cash)+'</b>');
   const days=Math.max(Math.ceil((new Date("2026-12-01T23:59:59+04:00")-Date.now())/864e5),0);
   msgs.push('⛈️ Quiet lane. The storm does not care. <b>'+days+' days</b> left.');
