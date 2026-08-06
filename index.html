@@ -218,24 +218,26 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 #fatal.p3 .fsub{display:block}
 @media(max-width:700px){#fatal .ftxt{font-size:64px}#fatal .finish{font-size:44px}#fatal .fvs{font-size:36px}#fatal .fsub{font-size:16px}}
 #coro{position:fixed;inset:0;background:radial-gradient(ellipse at center,rgba(30,18,2,.94),rgba(4,2,10,.97));z-index:280;display:none;align-items:center;justify-content:center;text-align:center}
-#coro.show{display:flex;animation:corofade 9.2s forwards}
+/* duration tracks CORO_MS in the script: the ceremony now runs long enough for
+   the whole court to bend the knee before the room fades */
+#coro.show{display:flex;animation:corofade 12.9s forwards}
 #coro img{height:34vh;filter:drop-shadow(0 0 60px rgba(255,204,0,.65));animation:kingfloat 3s ease-in-out infinite}
 .cwrap{animation:coroin .7s cubic-bezier(.2,.9,.3,1.2)}
 @keyframes coroin{from{transform:scale(.6);opacity:0}to{transform:none;opacity:1}}
-@keyframes corofade{0%{opacity:0}4%{opacity:1}92%{opacity:1}100%{opacity:0}}
-.ct{font-family:'Russo One',sans-serif;font-size:26px;letter-spacing:.5em;color:var(--gd);margin-top:26px;text-shadow:0 0 24px rgba(255,204,0,.7)}
-.cn{font-family:'Russo One',sans-serif;font-size:110px;line-height:1.05;color:#fff;text-transform:uppercase;text-shadow:0 0 60px rgba(255,204,0,.55),0 0 18px rgba(255,255,255,.4)}
-.cc{font-family:'Teko',sans-serif;font-weight:700;font-size:44px;color:var(--gd);text-shadow:0 0 20px rgba(255,204,0,.6)}
+@keyframes corofade{0%{opacity:0}3%{opacity:1}94%{opacity:1}100%{opacity:0}}
+.ct{font-family:'Russo One',sans-serif;font-size:20px;letter-spacing:.5em;color:var(--gd);margin-top:18px;text-shadow:0 0 24px rgba(255,204,0,.7)}
+.cn{font-family:'Russo One',sans-serif;font-size:clamp(44px,6.4vw,88px);line-height:1.05;color:#fff;text-transform:uppercase;text-shadow:0 0 60px rgba(255,204,0,.55),0 0 18px rgba(255,255,255,.4)}
+.cc{font-family:'Teko',sans-serif;font-weight:700;font-size:34px;color:var(--gd);text-shadow:0 0 20px rgba(255,204,0,.6)}
 /* The king wears the crown himself. A generic skull said nothing about who won. */
 .cking{position:relative;display:flex;flex-direction:column;align-items:center}
 /* king.png is a skull wearing a crown. Clip to the crown only, so the crown
    lands on the actual closer's head instead of a generic skull. */
-.cking .ccrown{height:15vh!important;width:auto;
-       margin-bottom:-5.2vh;position:relative;z-index:3;
+.cking .ccrown{height:11vh!important;width:auto;
+       margin-bottom:-3.8vh;position:relative;z-index:3;
        animation:crowndrop 1.1s cubic-bezier(.2,1.5,.4,1) both,kingfloat 3s ease-in-out 1.1s infinite}
 /* Background removed cutout, so the crown lands on actual hair. No circle:
    a crop ring cut the head off and defeated the point. */
-.cface{position:relative;z-index:2;width:30vh;height:30vh;
+.cface{position:relative;z-index:2;width:21vh;height:21vh;
        animation:facerise .8s cubic-bezier(.2,.9,.3,1.2) .35s both}
 .cface img{width:100%;height:100%;object-fit:contain;object-position:50% 0;
            filter:drop-shadow(0 0 40px rgba(255,204,0,.45)) drop-shadow(0 14px 26px rgba(0,0,0,.85))}
@@ -254,10 +256,79 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 @keyframes facerise{from{opacity:0;transform:translateY(26px) scale(.85)}
                     to{opacity:1;transform:none}}
 /* Someone lost the throne. That is half the story. */
-.cd{margin-top:16px;font-family:'Teko',sans-serif;font-size:26px;letter-spacing:.14em;
+.cd{margin-top:12px;font-family:'Teko',sans-serif;font-size:26px;letter-spacing:.14em;
     color:#ff6b5e;text-transform:uppercase;text-shadow:0 0 18px rgba(255,60,50,.5);
     animation:dethin .6s ease-out 1.5s both}
 @keyframes dethin{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+/* THE COURT. A crowning is only a statement if everyone else is seen bending
+   the knee to it. Every other closer lines up under the throne and bows in a
+   wave, the dethroned king last and lowest. */
+.creign{margin-top:10px;font-family:'Chakra Petch',sans-serif;font-size:13px;letter-spacing:.34em;
+        color:var(--gd);text-transform:uppercase;opacity:0;animation:dethin .6s ease-out 1.9s both}
+.courtwrap{margin-top:20px;padding-top:18px;position:relative}
+/* the floor of the throne room */
+.courtwrap:before{content:"";position:absolute;top:0;left:50%;transform:translateX(-50%);
+  width:min(760px,86vw);height:1px;
+  background:linear-gradient(90deg,transparent,rgba(255,204,0,.55),transparent);
+  box-shadow:0 0 18px rgba(255,204,0,.35)}
+.courtlbl{font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.42em;color:var(--dim);
+  text-transform:uppercase;margin-bottom:14px;opacity:0;animation:dethin .5s ease-out 2s both}
+.court{display:flex;justify-content:center;align-items:flex-end;gap:min(1.5vw,14px);flex-wrap:wrap;
+  max-width:min(1040px,94vw);margin:0 auto}
+.subj{display:flex;flex-direction:column;align-items:center;width:62px;opacity:0;
+  transform-origin:50% 100%;animation:subjin .45s ease-out both}
+.subj .sh{width:60px;height:60px;position:relative;transform-origin:50% 100%;margin-bottom:16px}
+/* #coro img sets height:34vh for the throne portrait, so the court has to
+   out specify it or every subject renders the size of the king */
+#coro .subj .sh img{width:100%;height:100%;object-fit:contain;object-position:50% 0;
+  filter:drop-shadow(0 10px 14px rgba(0,0,0,.7))}
+.subj .sh .ph{width:100%;height:100%;display:flex;align-items:center;justify-content:center;
+  color:#6b5a2a;font-family:'Russo One',sans-serif;font-size:22px}
+.subj .sl{margin-top:6px;font-family:'Chakra Petch',sans-serif;font-size:9px;letter-spacing:.14em;
+  color:var(--dim);font-weight:700;text-transform:uppercase;white-space:nowrap}
+.subj .sk{font-family:'Chakra Petch',sans-serif;font-size:8px;letter-spacing:.2em;color:transparent;
+  font-weight:700;margin-top:2px;transition:color .3s}
+/* the bow itself: head pitches forward and down, colour drains out of them */
+.subj.bow .sh{animation:kneel .9s cubic-bezier(.3,1.4,.4,1) forwards}
+.subj.bow .sk{color:var(--gd)}
+.subj .sh:after{content:"";position:absolute;left:50%;bottom:-6px;transform:translateX(-50%) scaleX(.3);
+  width:44px;height:7px;border-radius:50%;background:rgba(255,204,0,.5);filter:blur(4px);opacity:0;transition:.6s .3s}
+.subj.bow .sh:after{opacity:1;transform:translateX(-50%) scaleX(1)}
+#coro .subj.bow .sh img{filter:grayscale(.75) brightness(.6) drop-shadow(0 4px 8px rgba(0,0,0,.8))}
+.subj.dethroned .sl{color:#ff6b5e}
+.subj.dethroned.bow .sh{animation:kneeldeep 1.1s cubic-bezier(.3,1.2,.4,1) forwards}
+#coro .subj.dethroned.bow .sh img{filter:grayscale(1) brightness(.42) drop-shadow(0 3px 6px rgba(0,0,0,.9))}
+@keyframes subjin{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes kneel{0%{transform:none}
+  45%{transform:translateY(20px) scale(.8) rotate(-13deg)}
+  100%{transform:translateY(16px) scale(.82) rotate(-10deg)}}
+@keyframes kneeldeep{0%{transform:none}
+  45%{transform:translateY(30px) scale(.64) rotate(-24deg)}
+  100%{transform:translateY(26px) scale(.66) rotate(-21deg)}}
+/* the stamp that lands once the whole room is down */
+.hail{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;
+  font-family:'Russo One',sans-serif;font-size:min(9vw,118px);letter-spacing:.06em;color:#fff;
+  text-transform:uppercase;white-space:nowrap;opacity:0;z-index:6;
+  text-shadow:0 0 40px rgba(255,204,0,.9),0 0 90px rgba(255,150,0,.7),0 6px 0 rgba(120,80,0,.6)}
+.hail.on{animation:hailstamp 3.4s cubic-bezier(.2,1.4,.3,1) forwards}
+/* when the stamp lands the room goes quiet: the titles drop back so ALL HAIL
+   and the bowed court are the only things left worth looking at */
+/* .cd and .creign keep their own entry animations, which would win anyway, and
+   the dethroning line earns its place under the stamp */
+#coro.hailon .ct,#coro.hailon .cn,#coro.hailon .cc{opacity:.12;transition:opacity .55s ease}
+#coro.hailon .cface,#coro.hailon .ccrown{filter:drop-shadow(0 0 70px rgba(255,204,0,.8))}
+@keyframes hailstamp{0%{opacity:0;transform:translate(-50%,-50%) scale(3.2);filter:blur(14px)}
+  14%{opacity:1;transform:translate(-50%,-50%) scale(1);filter:blur(0)}
+  18%{transform:translate(-50%,-50%) scale(1.06)}
+  22%{transform:translate(-50%,-50%) scale(1)}
+  86%{opacity:1}100%{opacity:0;transform:translate(-50%,-50%) scale(1.1)}}
+@media(max-width:700px){
+ .court{gap:8px}
+ .subj{width:46px}.subj .sh{width:44px;height:44px}
+ .subj .sl{font-size:7px;letter-spacing:.06em}.subj .sk{font-size:7px}
+ .courtwrap{margin-top:18px;padding-top:14px}
+ .creign{font-size:10px;letter-spacing:.24em}
+}
 @media(max-width:700px){.cface{width:17vh;height:17vh}.cking .ccrown{height:9vh!important;margin-bottom:-3.6vh}.cd{font-size:16px}}
 @media(max-width:700px){.cn{font-size:52px}.ct{font-size:14px;letter-spacing:.3em}#coro img{height:24vh}}
 #next{color:var(--dim);margin-left:10px;font-size:11px;letter-spacing:.08em}
@@ -486,7 +557,11 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 <div class="cking"><img class="ccrown" src="crown.png" alt=""><div class="cface" id="coroface"></div></div>
 <div class="ct">A NEW KING HAS BEEN CROWNED</div>
 <div class="cn" id="coroname"></div><div class="cc" id="corocash"></div>
-<div class="cd" id="corodeth"></div></div></div>
+<div class="cd" id="corodeth"></div>
+<div class="creign" id="cororeign"></div>
+<div class="courtwrap"><div class="courtlbl" id="corocourtlbl"></div>
+<div class="court" id="corocourt"></div></div>
+<div class="hail" id="corohail"></div></div></div>
 <canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
 <div id="toasts"></div>
 <script>
@@ -672,7 +747,10 @@ function render(d){
       if(before<UPGRADE&&r.cash>=UPGRADE){showBanner('✈️ <b>'+r.name+'</b> UNLOCKED BUSINESS CLASS','gold');horn();burst(240);burst(240);}
       const was=pr[r.closer];
       if(was&&r.rank<was){
-        if(r.rank===1){coronation(r.name,r.cash);}
+        // name the closer who actually held the crown a second ago, so the
+        // court knows who to bury last instead of guessing from __lastKing
+        if(r.rank===1){const old=prev.standings.find(x=>x.rank===1);
+          coronation(r.name,r.cash,old&&old.name!==r.name?old.name:null);}
         else if(r.rank<=5&&r.closer!==fatalK){const victim=s.find(x=>x.rank===r.rank+1);
           showBanner('⚔️ <b>'+r.name+'</b> OVERTAKES '+(victim?victim.name:'')+' FOR SPOT '+r.rank);horn();burst(110);}
         else{blip();}
@@ -841,6 +919,40 @@ function kingVoice(){
   if(!CORO_SND) CORO_SND=new Audio('killcam/audio/CORONATION.mp3');
   try{CORO_SND.currentTime=0;CORO_SND.play().catch(()=>{});}catch(e){}
 }
+// A crowning has to be a statement, not a notification. The whole floor lines
+// up under the throne and bends the knee one by one, the closer who just lost
+// the crown last and lowest, then ALL HAIL lands on the room.
+const CORO_MS=13200;
+function courtBow(king,dethroned){
+  const court=$("corocourt"),lbl=$("corocourtlbl"),hail=$("corohail");
+  court.innerHTML='';hail.className='hail';hail.textContent='';
+  $("coro").classList.remove('hailon');
+  const s=(prev&&prev.standings)||[];
+  // everyone with cash on the board, king out, dethroned pushed to the end so
+  // the room watches the old king go down last
+  let subs=s.filter(r=>r.name!==king).map(r=>r.name).slice(0,12);
+  if(dethroned&&dethroned!==king){subs=subs.filter(n=>n!==dethroned);subs.push(dethroned);}
+  lbl.textContent=subs.length?'THE COURT':'';
+  const T0=2300,STEP=230;
+  subs.forEach((n,i)=>{
+    const el=document.createElement('div');
+    el.className='subj'+(n===dethroned?' dethroned':'');
+    el.style.animationDelay=(T0-600+i*70)+'ms';
+    el.innerHTML='<div class="sh"><img src="'+faceUrl(faceSlug(n)+'-cutsm')+'" alt="" '
+      +'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'ph\',textContent:\''+initials(n)+'\'}))"></div>'
+      +'<div class="sl">'+n+'</div><div class="sk">'+(n===dethroned?'DEPOSED':'BOWS')+'</div>';
+    court.appendChild(el);
+    setTimeout(()=>{el.classList.add('bow');thud(i,n===dethroned);},T0+i*STEP);
+  });
+  const end=T0+subs.length*STEP+500;
+  setTimeout(()=>{hail.textContent='ALL HAIL '+king;hail.className='hail on';
+    $("coro").classList.add('hailon');
+    kingFanfare();burst(300);setTimeout(()=>burst(260),500);},end);
+}
+// the sound of a knee hitting stone
+function thud(i,deep){if(muted())return;
+  tone(deep?46:64+i*2,0,0.16,'sine',deep?0.16:0.1);
+  tone(deep?92:150+i*4,0.01,0.07,'triangle',0.035);}
 function coronation(name,cash,dethroned){
   $("coroname").textContent=name;
   $("corocash").textContent=money(cash)+" COLLECTED";
@@ -848,12 +960,18 @@ function coronation(name,cash,dethroned){
     +'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'ph\',textContent:\'?\'}))">';
   const d=dethroned||window.__lastKing;
   $("corodeth").textContent=(d&&d!==name)?(d+" IS DETHRONED"):"";
+  // the reign line only means anything if this is the king who actually holds it
+  const k=window.__king;
+  $("cororeign").textContent=(k&&k.name===name)
+    ? 'RULER OF THE HILL · '+dcomp(Date.now()-new Date(k.since).getTime())+' AND COUNTING'
+    : 'THE HILL HAS A NEW OWNER';
   window.__lastKing=name;
   const c=$("coro");c.classList.add("show");
   kingFanfare();burst(320);
   setTimeout(kingVoice,250);
-  setTimeout(()=>burst(280),900);setTimeout(()=>burst(280),1900);setTimeout(()=>burst(220),3200);
-  setTimeout(()=>c.classList.remove("show"),9300);}
+  setTimeout(()=>burst(280),900);setTimeout(()=>burst(280),1900);
+  courtBow(name,(d&&d!==name)?d:null);
+  setTimeout(()=>c.classList.remove("show"),CORO_MS-300);}
 window.addEventListener('message',(e)=>{
   if(e.data==='killcam:done' && typeof window.__killcamDone==='function') window.__killcamDone();
 });
