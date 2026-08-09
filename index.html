@@ -322,12 +322,31 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 /* king.png is a skull wearing a crown. Clip to the crown only, so the crown
    lands on the actual closer's head instead of a generic skull. */
 /* The king is the whole point of the ceremony, so he is sized as the hero and
-   everything else, heralds included, plays support. */
-.cking .ccrown{height:16vh!important;width:auto;
-       margin-bottom:-5.4vh;position:relative;z-index:3;
+   everything else, heralds included, plays support.
+
+   The crown is drawn, not a stock png. The old one was a blue gem cartoon at
+   22vh wide sitting on a head that measures about 11vh, so it hovered above the
+   hair like a hat on a stand. Measured off the cutouts: the head is 30 to 41%
+   of the frame (median 35%) and the hair starts 10% down, so the band is sized
+   and dropped to actually sit on it. Both edges of the band arc DOWNWARD at the
+   centre, which is what a circular band around a head projects to from the
+   front, and it is what makes it read as worn rather than pasted on. */
+.cking .ccrown{height:9.6vh!important;width:auto;overflow:visible;
+       margin-bottom:-7.1vh;position:relative;z-index:3;
        animation:crowndrop 1.1s cubic-bezier(.2,1.5,.4,1) both,kingfloat 3s ease-in-out 1.1s infinite}
 /* Background removed cutout, so the crown lands on actual hair. No circle:
    a crop ring cut the head off and defeated the point. */
+#coro .kcspike{fill:url(#kcg);stroke:#7d5c0c;stroke-width:2;stroke-linejoin:round}
+#coro .kcband{fill:url(#kcg);stroke:#7d5c0c;stroke-width:2;stroke-linejoin:round}
+#coro .kcrim{fill:#a67c14}
+#coro .kcshine{fill:none;stroke:#fff3c4;stroke-width:3;opacity:.55;stroke-linecap:round}
+#coro .kcpearl{fill:#fff4cf;stroke:#a67c14;stroke-width:1.5}
+#coro .kcbig{fill:#fffae6}
+#coro .kcstud{fill:#7d1128;stroke:#ffd84d;stroke-width:1.5}
+/* crimson to match the herald banners, not the stock crown's blue */
+#coro .kcgem{fill:#a30f34;stroke:#ffd84d;stroke-width:2.5}
+#coro .kcgemc{fill:#c2123d}
+#coro .kcglint{fill:#ff90a8;opacity:.75}
 .cface{position:relative;z-index:2;width:32vh;height:32vh;
        animation:facerise .8s cubic-bezier(.2,.9,.3,1.2) .35s both}
 .cface img{width:100%;height:100%;object-fit:contain;object-position:50% 0;
@@ -461,20 +480,20 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
  .courtwrap{margin-top:18px;padding-top:14px}
  .creign{font-size:10px;letter-spacing:.24em}
 }
-@media(max-width:700px){.cface{width:25vh;height:25vh}.cking .ccrown{height:13vh!important;margin-bottom:-4.4vh}.cd{font-size:16px}}
+@media(max-width:700px){.cface{width:25vh;height:25vh}.cking .ccrown{height:7.5vh!important;margin-bottom:-5.6vh}.cd{font-size:16px}}
 /* A hero sized king costs about 14vh of column, which on a laptop pushed the
    court off the bottom of the screen. On a short viewport he gives a little of
    it back and the court tightens up, so the ceremony always fits end to end. */
 @media(max-height:800px){
  .cface{width:30vh;height:30vh}
- .cking .ccrown{height:15vh!important;margin-bottom:-5vh}
+ .cking .ccrown{height:9vh!important;margin-bottom:-6.7vh}
  .ct{margin-top:12px}
  .courtwrap{margin-top:12px;padding-top:14px}
  .subj{width:62px}
 }
 @media(max-height:680px){
  .cface{width:25vh;height:25vh}
- .cking .ccrown{height:12.5vh!important;margin-bottom:-4.2vh}
+ .cking .ccrown{height:7.5vh!important;margin-bottom:-5.6vh}
  .courtwrap{margin-top:8px;padding-top:10px}
  .subj{width:56px}
 }
@@ -714,7 +733,24 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 <div id="coro"><div class="petals bk" id="coropetalsbk"></div><div class="cwrap">
 <div class="royal">
 <div class="hside" id="coroherL"></div>
-<div class="cking"><img class="ccrown" src="crown.png" alt=""><div class="cface" id="coroface"></div></div>
+<div class="cking"><svg class="ccrown" viewBox="0 0 240 150" aria-hidden="true">
+<defs><linearGradient id="kcg" x1="0" y1="0" x2="0" y2="1">
+<stop offset="0" stop-color="#ffe9a8"/><stop offset="42%" stop-color="#f0c33f"/><stop offset="100%" stop-color="#b8901f"/></linearGradient></defs>
+<path class="kcspike" d="M16 60 L14 30 L42 66 L68 20 L94 73 L120 6 L146 73 L172 20 L198 66 L226 30 L224 60 Q120 88 16 60 Z"/>
+<path class="kcband" d="M16 60 Q120 88 224 60 L224 90 Q120 118 16 90 Z"/>
+<path class="kcrim" d="M16 85 Q120 113 224 85 L224 90 Q120 118 16 90 Z"/>
+<path class="kcshine" d="M19 64 Q120 91 221 64"/>
+<circle class="kcpearl" cx="14" cy="30" r="7"/><circle class="kcpearl" cx="68" cy="20" r="7"/>
+<circle class="kcpearl kcbig" cx="120" cy="6" r="8.5"/>
+<circle class="kcpearl" cx="172" cy="20" r="7"/><circle class="kcpearl" cx="226" cy="30" r="7"/>
+<circle class="kcstud" cx="42" cy="81" r="4"/><circle class="kcstud" cx="198" cy="81" r="4"/>
+<ellipse class="kcgem" cx="68" cy="85" rx="8" ry="10"/>
+<ellipse class="kcgem kcgemc" cx="120" cy="89" rx="10" ry="13"/>
+<ellipse class="kcgem" cx="172" cy="85" rx="8" ry="10"/>
+<ellipse class="kcglint" cx="65" cy="81" rx="2.4" ry="3"/>
+<ellipse class="kcglint" cx="116" cy="84" rx="3" ry="3.8"/>
+<ellipse class="kcglint" cx="169" cy="81" rx="2.4" ry="3"/>
+</svg><div class="cface" id="coroface"></div></div>
 <div class="hside" id="coroherR"></div>
 </div>
 <div class="ct">A NEW KING HAS BEEN CROWNED</div>
@@ -1220,11 +1256,54 @@ function courtBow(king,dethroned){
 function thud(i,deep){if(muted())return;
   tone(deep?46:64+i*2,0,0.16,'sine',deep?0.16:0.1);
   tone(deep?92:150+i*4,0.01,0.07,'triangle',0.035);}
+// Fit the crown to THIS king's head. Heads sit differently in every cutout
+// (Brodie's skull is 44% of his frame, Jemma's 41% and her hair starts lower),
+// so one hardcoded size fits exactly one closer and floats above everyone else.
+// Reads the alpha channel of the headshot, finds the top of the hair and the
+// widest point of the skull just under it, then sizes and drops the crown onto
+// it. Falls back silently to the stylesheet values if anything goes wrong, so a
+// measurement failure can never cost us the ceremony.
+function fitCrown(url){
+  const el=document.querySelector('.ccrown');
+  if(!el) return;
+  const im=new Image();
+  im.crossOrigin='anonymous';
+  im.onload=()=>{
+    try{
+      const N=120,c=document.createElement('canvas');c.width=c.height=N;
+      const g=c.getContext('2d',{willReadFrequently:true});
+      g.drawImage(im,0,0,N,N);
+      const d=g.getImageData(0,0,N,N).data;
+      const op=(x,y)=>d[(y*N+x)*4+3]>70;
+      let top=-1;
+      for(let y=0;y<N&&top<0;y++){for(let x=0;x<N;x++){if(op(x,y)){top=y;break;}}}
+      if(top<0) return;
+      // widest opaque run across the top fifth of the head, which is the band
+      // of skull a crown actually rests on
+      let L=N,R=-1;
+      for(let y=top;y<Math.min(N,top+Math.round(N*0.20));y++){
+        for(let x=0;x<N;x++) if(op(x,y)){ if(x<L)L=x; if(x>R)R=x; }
+      }
+      if(R<=L) return;
+      const skull=(R-L+1)/N, hair=top/N;
+      const B=document.querySelector('.cface').offsetWidth;
+      if(!B) return;
+      const W=skull*1.08*B;          // the band clears the skull by a touch
+      const H=W*150/240;             // the crown svg's own aspect
+      const bandBottom=(hair+0.045)*B; // sunk into the hair, not perched on it
+      // 0.213 is how much of the svg hangs below the band's lowest point
+      el.style.setProperty('height',H.toFixed(1)+'px','important');
+      el.style.marginBottom=(-(bandBottom+0.213*H)).toFixed(1)+'px';
+    }catch(e){ /* tainted canvas or no data: stylesheet sizing stands */ }
+  };
+  im.src=url;
+}
 function coronation(name,cash,dethroned){
   $("coroname").textContent=name;
   $("corocash").textContent=money(cash)+" COLLECTED";
   $("coroface").innerHTML='<img src="'+faceUrl(faceSlug(name)+'-cut')+'" alt="" '
     +'onerror="this.replaceWith(Object.assign(document.createElement(\'div\'),{className:\'ph\',textContent:\'?\'}))">';
+  fitCrown(faceUrl(faceSlug(name)+'-cut'));
   const d=dethroned||window.__lastKing;
   $("corodeth").textContent=(d&&d!==name)?(d+" IS DETHRONED"):"";
   // the reign line only means anything if this is the king who actually holds it
