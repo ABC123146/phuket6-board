@@ -321,12 +321,14 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .cking{position:relative;display:flex;flex-direction:column;align-items:center}
 /* king.png is a skull wearing a crown. Clip to the crown only, so the crown
    lands on the actual closer's head instead of a generic skull. */
-.cking .ccrown{height:11vh!important;width:auto;
-       margin-bottom:-3.8vh;position:relative;z-index:3;
+/* The king is the whole point of the ceremony, so he is sized as the hero and
+   everything else, heralds included, plays support. */
+.cking .ccrown{height:16vh!important;width:auto;
+       margin-bottom:-5.4vh;position:relative;z-index:3;
        animation:crowndrop 1.1s cubic-bezier(.2,1.5,.4,1) both,kingfloat 3s ease-in-out 1.1s infinite}
 /* Background removed cutout, so the crown lands on actual hair. No circle:
    a crop ring cut the head off and defeated the point. */
-.cface{position:relative;z-index:2;width:21vh;height:21vh;
+.cface{position:relative;z-index:2;width:32vh;height:32vh;
        animation:facerise .8s cubic-bezier(.2,.9,.3,1.2) .35s both}
 .cface img{width:100%;height:100%;object-fit:contain;object-position:50% 0;
            filter:drop-shadow(0 0 40px rgba(255,204,0,.45)) drop-shadow(0 14px 26px rgba(0,0,0,.85))}
@@ -459,7 +461,23 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
  .courtwrap{margin-top:18px;padding-top:14px}
  .creign{font-size:10px;letter-spacing:.24em}
 }
-@media(max-width:700px){.cface{width:17vh;height:17vh}.cking .ccrown{height:9vh!important;margin-bottom:-3.6vh}.cd{font-size:16px}}
+@media(max-width:700px){.cface{width:25vh;height:25vh}.cking .ccrown{height:13vh!important;margin-bottom:-4.4vh}.cd{font-size:16px}}
+/* A hero sized king costs about 14vh of column, which on a laptop pushed the
+   court off the bottom of the screen. On a short viewport he gives a little of
+   it back and the court tightens up, so the ceremony always fits end to end. */
+@media(max-height:800px){
+ .cface{width:30vh;height:30vh}
+ .cking .ccrown{height:15vh!important;margin-bottom:-5vh}
+ .ct{margin-top:12px}
+ .courtwrap{margin-top:12px;padding-top:14px}
+ .subj{width:62px}
+}
+@media(max-height:680px){
+ .cface{width:25vh;height:25vh}
+ .cking .ccrown{height:12.5vh!important;margin-bottom:-4.2vh}
+ .courtwrap{margin-top:8px;padding-top:10px}
+ .subj{width:56px}
+}
 /* One herald a side on a phone, the back pair has nowhere to stand. Sized off
    the viewport WIDTH here: sizing by height put two 215px heralds either side of
    the king on a 390px screen and shoved the whole ceremony off the right edge. */
