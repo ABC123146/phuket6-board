@@ -178,6 +178,28 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 
 /* player card modal */
 
+/* missing money report */
+.repbtn{font-family:'Russo One',sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#ffb3b3;background:linear-gradient(135deg,#2a0e0e,#1c0808);border:1px solid #7a2020;padding:12px 26px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:box-shadow .2s,color .2s}
+.repbtn:hover{color:#ffd84d;box-shadow:0 0 24px rgba(210,10,10,.45)}
+#repov{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:260;display:none;align-items:center;justify-content:center;padding:20px}
+#repov.on{display:flex}
+#repov .repcard{background:linear-gradient(160deg,#181014,#0f0b0d);border:1px solid #7a2020;max-width:460px;width:100%;padding:26px 28px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));max-height:90vh;overflow-y:auto}
+#repov h3{font-family:'Russo One',sans-serif;font-size:18px;letter-spacing:.08em;margin-bottom:4px;color:#ff5c5c}
+#repov .sub2{color:#9a8f95;font-size:12px;margin-bottom:16px;line-height:1.5}
+#repov label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b8a8ae;margin:12px 0 4px}
+#repov input,#repov select,#repov textarea{width:100%;background:#0b0709;border:1px solid #3a2228;color:#f2f2f4;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none;border-radius:0}
+#repov input:focus,#repov select:focus,#repov textarea:focus{border-color:#d20a0a}
+#repov textarea{min-height:88px;resize:vertical}
+#repov .repactions{display:flex;gap:12px;margin-top:20px}
+#repov .repsend{flex:1;font-family:'Russo One',sans-serif;font-size:13px;letter-spacing:.1em;text-transform:uppercase;background:linear-gradient(135deg,#d20a0a,#7a0505);color:#fff;border:none;padding:13px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+#repov .repx{background:none;border:1px solid #3a2228;color:#9a8f95;padding:13px 18px;cursor:pointer;font-size:13px}
+#repov .repmsg{margin-top:14px;font-size:13px;line-height:1.5;display:none}
+#repov .repmsg.ok{display:block;color:#35c759}
+#repov .repmsg.err{display:block;color:#ff5c5c}
+#reppanel .reprow{border-bottom:1px solid #242428;padding:9px 0;font-size:13px;line-height:1.5}
+#reppanel .reprow b{color:#ffd84d}
+#reppanel .reprow .repwhen{color:#7a7a85;font-size:11px}
+
 /* rocket race */
 .trk{overflow:visible;background:#0d0620;background-image:radial-gradient(1px 1px at 12% 30%,rgba(255,255,255,.5),transparent),radial-gradient(1px 1px at 34% 70%,rgba(255,255,255,.35),transparent),radial-gradient(1px 1px at 57% 25%,rgba(255,255,255,.45),transparent),radial-gradient(1px 1px at 78% 60%,rgba(255,255,255,.3),transparent),radial-gradient(1px 1px at 91% 40%,rgba(255,255,255,.4),transparent)}
 .trail{position:absolute;left:0;top:50%;height:11px;border-radius:6px;transform:translateY(-50%);background:linear-gradient(90deg,rgba(0,229,255,.35),var(--cy) 55%,var(--mg));box-shadow:0 0 16px rgba(0,229,255,.55);transition:width 1.1s cubic-bezier(.3,.9,.4,1)}
@@ -704,8 +726,12 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
       <div class="panel laurel" id="wcpanel" style="display:none"><h3>THE <span class="accent">WILDCARD RACE</span> 🎯</h3>
         <div class="sub" style="margin-bottom:8px">The 6th seat. Hardest grinder wins it, these numbers decide who Trev picks.</div>
         <table id="laurel"></table></div>
+      <div class="panel laurel" id="reppanel" style="display:none"><h3>MISSING <span class="accent">MONEY REPORTS</span> 🚨</h3>
+        <div class="sub" style="margin-bottom:8px">Open claims filed from the board. Resolve them with Claude, they clear when status leaves open.</div>
+        <div id="replist"></div></div>
     </div>
   </div>
+  <div style="text-align:center;margin-top:26px"><button class="repbtn" onclick="repOpen()">🚨 Missing money? File a report</button></div>
   <div class="foot">Net cash collected USD, refunds deducted · window 1 Aug to 1 Dec 2026 · board refreshes live · a fresh deal can take a few minutes to sync from the payment system, it is coming, relax · PHUKET 6</div>
 <div class="panel ladder ladderwide"><h3>PAYOUT <span class="accent">LADDER</span></h3><div class="lwrap">
   <div class="lrow"><span class="lk">SEATS 1 TO 5</span><span class="lv gold">PHUKET · VILLA ZAI</span></div>
@@ -762,11 +788,24 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 <div class="hail" id="corohail"></div></div><div class="petals" id="coropetals"></div></div>
 <canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
 <div id="toasts"></div>
+<div id="repov"><div class="repcard">
+  <h3>🚨 REPORT MISSING MONEY</h3>
+  <div class="sub2">Closed a deal that is not on the board, or cash showing under the wrong name? File it here. It goes straight to Trev's machine, gets checked against the payment system and fixed. New deals can take a few minutes to sync, give it 15 before filing.</div>
+  <label>Who are you</label><select id="repwho"></select>
+  <label>Customer name</label><input id="repcust" placeholder="e.g. Jackson Rangi-Twiss">
+  <label>Customer email (from the PO / booking)</label><input id="repemail" placeholder="their email, this is how we find the charge">
+  <label>Amount + currency</label><input id="repamt" placeholder="e.g. 500 NZD deposit">
+  <label>When did they pay</label><input id="repdate" placeholder="e.g. today 2pm, or 9 Aug">
+  <label>What happened</label><textarea id="repdet" placeholder="e.g. reschedule from Ben's calendar, I took the call and closed it, money went to Ben / not showing at all"></textarea>
+  <div class="repactions"><button class="repsend" onclick="repSend()">Send it</button><button class="repx" onclick="repClose()">Cancel</button></div>
+  <div class="repmsg" id="repmsg"></div>
+</div></div>
 <script>
 const FLOOR=180000,UPGRADE=350000,MILES=[50000,100000,150000,180000,250000,350000];
 const CUTOFF=new Date("2026-12-01T23:59:59+04:00").getTime();
 let prev=null;let nextPollAt=0;
 const $=(id)=>document.getElementById(id);
+const hesc=(x)=>String(x??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const money=(n)=>"$"+n.toLocaleString();
 function clock(){const d=Math.max(CUTOFF-Date.now(),0);const dd=Math.floor(d/864e5),h=Math.floor(d%864e5/36e5),m=Math.floor(d%36e5/6e4),s=Math.floor(d%6e4/1e3);
 $("clock").textContent=[dd,h,m,s].map((x,i)=>String(x).padStart(2,"0")).join(" : ");
@@ -914,7 +953,13 @@ function render(d){
    '<td class="n">'+(w.booked??0)+'</td>'+
    '<td class="n">'+(w.shows??0)+' <span class="pct">('+(w.showRate??0)+'%)</span></td>'+
    '<td class="n">'+(w.closes??0)+' <span class="pct">('+(w.closeRate??0)+'%)</span></td>'+
-   '<td class="n">'+(w.finPipe??0)+'<span class="pct">/'+(w.finApps??0)+'</span></td></tr>').join('');}
+   '<td class="n">'+(w.finPipe??0)+'<span class="pct">/'+(w.finApps??0)+'</span></td></tr>').join('');
+  // open missing money reports, commander view only
+  const reps=d.reports||[];
+  if(reps.length){$("reppanel").style.display='block';
+    $("replist").innerHTML=reps.map(r=>'<div class="reprow"><b>'+hesc(r.closer)+'</b> · '+hesc(r.amount||'?')+' · '+hesc(r.customer_name||'?')+' <span class="repwhen">('+hesc(r.customer_email||'no email')+' · '+new Date(r.created_at).toLocaleString()+')</span><br>'+hesc(r.details)+'</div>').join('');
+  }else{$("reppanel").style.display='none';}}
+  window.__names=roster.map(c=>c.name);
   // shot of the day
   const day=d.feed.filter(f=>Date.now()-new Date(f.ts).getTime()<864e5);
   const tt=d.today||{total:0,deals:0};
@@ -1376,6 +1421,30 @@ function fxloop(){const cv=$("fx"),ctx=cv.getContext('2d');ctx.clearRect(0,0,cv.
   for(const q of parts){q.x+=q.vx;q.y+=q.vy;q.vy+=0.12;q.life--;
     ctx.globalAlpha=Math.min(q.life/40,1);ctx.fillStyle=q.c;ctx.fillRect(q.x,q.y,3,3);}
   ctx.globalAlpha=1;requestAnimationFrame(fxloop);}
+function repOpen(){
+  const sel=$("repwho");
+  const names=(window.__names||[]);
+  sel.innerHTML='<option value="">pick your name</option>'+names.map(n=>'<option>'+hesc(n)+'</option>').join('')+'<option>someone else / not listed</option>';
+  const m=$("repmsg");m.className='repmsg';m.textContent='';
+  $("repov").classList.add('on');}
+function repClose(){$("repov").classList.remove('on');}
+async function repSend(){
+  const m=$("repmsg");
+  const body={closer:$("repwho").value,customer_name:$("repcust").value,customer_email:$("repemail").value,
+    amount:$("repamt").value,sale_date:$("repdate").value,details:$("repdet").value};
+  if(!body.closer){m.className='repmsg err';m.textContent='pick your name first.';return;}
+  if(!body.details.trim()){m.className='repmsg err';m.textContent='tell us what happened, that box is the whole point.';return;}
+  m.className='repmsg';m.textContent='';
+  try{
+    const K=new URLSearchParams(location.search).get("k")||"";
+    const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&report=1",
+      {method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});
+    const j=await r.json();
+    if(!r.ok||!j.ok)throw new Error(j.error||r.status);
+    m.className='repmsg ok';m.textContent='✅ Filed. It lands on Trev\'s machine and gets checked against the payment system. If it\'s real it hits the board, no need to chase.';
+    $("repdet").value='';$("repamt").value='';$("repcust").value='';$("repemail").value='';$("repdate").value='';
+    setTimeout(repClose,4000);
+  }catch(e){m.className='repmsg err';m.textContent='could not send ('+e.message+'). Screenshot this and WhatsApp Trev instead.';}}
 function toast(html){window.__lastEvent=Date.now();const t=document.createElement('div');t.className='toast';t.innerHTML=html;
 $("toasts").appendChild(t);setTimeout(()=>t.remove(),9000);}
 async function poll(){try{
