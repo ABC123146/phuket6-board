@@ -599,6 +599,9 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .led .er .ev{font-size:9px;letter-spacing:.12em;color:var(--dim);border:1px solid #2b1b52;padding:1px 5px;margin-left:8px;vertical-align:middle;white-space:nowrap}
 .led .er .ev.pipe{color:#e0a83a;border-color:#5a4416}
 .led .er .ev.claim{color:#7fd1b9;border-color:#1f5a48}
+.led .er .ev.refund{color:#e35d6a;border-color:#6a2028}
+.led .er .ea.rf{color:#e35d6a}
+.led .er .ea.rf s{color:#7a5a60;font-size:14px;margin-right:6px}
 /* claims: logged on a PO, nothing on a processor yet, not in the total */
 .clm{margin-top:10px;border:1px dashed #5a4416;background:rgba(224,168,58,.06)}
 .clm .er{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:baseline;padding:7px 12px;border-bottom:1px solid #2a2010;font-size:13px;color:#b9a77a}
@@ -1092,14 +1095,15 @@ function ledgerHTML(c){
   return '<div class="csec"><h4>Every Payment · '+L.length+'</h4>'+
    '<div class="led">'+L.map(l=>'<div class="er">'+
      '<span class="ed">'+fmtDay(l.d)+'</span>'+
-     '<span class="ec">'+esc(l.c)+(l.v==='pipe'?'<span class="ev pipe" title="no PO filed for this one, credited by the pipeline">NO PO</span>':(l.v==='claim'?'<span class="ev claim" title="counted on your PO, nothing on a processor yet">PO ONLY</span>':(l.v==='override'?'<span class="ev" title="credited by ruling">RULED</span>':'')))+'</span>'+
-     '<span class="ea">$'+money2(l.a)+'</span></div>').join('')+'</div>'+
+     '<span class="ec">'+esc(l.c)+(l.r>0?'<span class="ev refund" title="refunded, came off your total">'+(l.a>0?'PART ':'')+'REFUNDED</span>':'')+(l.v==='pipe'?'<span class="ev pipe" title="no PO filed for this one, credited by the pipeline">NO PO</span>':(l.v==='claim'?'<span class="ev claim" title="counted on your PO, nothing on a processor yet">PO ONLY</span>':(l.v==='override'?'<span class="ev" title="credited by ruling">RULED</span>':'')))+'</span>'+
+     (l.r>0?'<span class="ea rf"><s>$'+money2(l.g)+'</s> $'+money2(l.a)+'</span>':'<span class="ea">$'+money2(l.a)+'</span>')+'</div>').join('')+'</div>'+
    '<div class="ltot"><span class="tk">TOTAL OF ALL '+L.length+' PAYMENTS</span>'+
      '<span class="tv">$'+money2(c.ledgerTotal!=null?c.ledgerTotal:c.cash)+'</span></div>'+
    claimsHTML(c)+
    '<div class="lnote">Every payment the board counts for you, and they add up to the total at the top of this card. '+
    'Rows tagged NO PO were credited by the pipeline with no purchase order behind them, so file one. '+
    'Rows tagged PO ONLY are counted on your purchase order alone, nothing has reached a processor yet. '+
+   'REFUNDED rows show what the customer got back struck out, only what they kept counts. '+
    'Closed something that is not on this list at all? Close this card and hit the red <b>MISSING MONEY</b> button under the board, '+
    'and name the customer.</div></div>';
 }
