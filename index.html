@@ -565,8 +565,12 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .stat .sk{font-size:9px;letter-spacing:.18em;color:var(--dim);font-weight:700;margin-top:2px}
 .csec{margin-top:20px}
 .csec h4{font-family:'Russo One',sans-serif;font-size:13px;letter-spacing:.14em;color:var(--cy);margin-bottom:10px;text-transform:uppercase}
-.wbars{display:flex;align-items:flex-end;gap:8px;height:90px}
-.wb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;height:100%}
+.wbars{display:flex;align-items:flex-end;gap:8px}
+.wb{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;min-width:0}
+/* the bar lives alone in a fixed height track, so its percentage is a real
+   percentage. Before, the bar shared one 90px column with its two labels and
+   flexbox squashed the tall bars to fit, so 12k and 8k drew the same height. */
+.wb .btrk{width:100%;height:64px;display:flex;align-items:flex-end}
 .wb .bar{width:100%;background:linear-gradient(180deg,var(--pu),var(--mg));box-shadow:0 0 10px rgba(168,85,247,.4);min-height:3px}
 .wb .wl{font-size:9px;color:var(--dim);font-weight:600}
 .wb .wv{font-family:'Teko',sans-serif;font-size:16px;color:#fff;line-height:.9}
@@ -864,12 +868,15 @@ const RKT='<img src="rocket.png" alt="">';
 function track(r,gold){
 const c=r.closer.replace(/\\W/g,'_');
 if(r.cash<FLOOR){
-  const w=Math.min(Math.sqrt(r.cash/FLOOR)*100,99);
+  // linear: a rocket at 60% of the track has 60% of the money. The square root
+  // scale this replaced drew 106k of 180k at 77% and 75k at 65%, so everyone
+  // looked a nose from the flag while sitting half way (Trev, 2026-09-09).
+  const w=Math.min(r.cash/FLOOR*100,99);
   return '<div class="trk" data-c="'+c+'" data-pct="'+w+'"><div class="trail" style="width:'+w+'%"></div>'+
   '<div class="rkt'+(gold?' gold':'')+'" style="left:'+w+'%">'+RKT+'</div>'+
   '<div class="fin">🏁<span>180K</span></div></div>';
 }
-const w=Math.min(Math.sqrt(Math.max(r.cash-FLOOR,0)/(UPGRADE-FLOOR))*100,99);
+const w=Math.min(Math.max(r.cash-FLOOR,0)/(UPGRADE-FLOOR)*100,99);
 return '<div class="trk stage2" data-c="'+c+'" data-pct="'+w+'"><div class="trail gold" style="width:'+w+'%"></div>'+
 '<div class="rkt gold" style="left:'+w+'%">'+RKT+'</div>'+
 '<div class="gate g180 lit" style="left:2px"><div class="gl" style="left:-6px">180K ✓</div></div>'+
@@ -1140,7 +1147,7 @@ function openCard(name){
     :(need350>0?'<div class="pace">QUALIFIED. <b>$'+need350.toLocaleString()+'</b> more unlocks BUSINESS CLASS.</div>'
     :'<div class="pace">VICTORY ROYALE. Business class locked in. Absolute menace.</div>'))+
    (c.daily&&c.daily.some(x=>x.v>0)?'<div class="csec"><h4>Daily Cash, Last 14 Days</h4><div class="wbars">'+
-     c.daily.map(w=>'<div class="wb">'+(w.v>0?'<div class="wv">$'+(w.v>=1000?Math.round(w.v/1000)+'k':w.v)+'</div>':'')+'<div class="bar" style="height:'+Math.max(w.v/maxW*100,2)+'%"></div><div class="wl">'+w.d.slice(3)+'</div></div>').join('')+'</div></div>':'')+
+     c.daily.map(w=>'<div class="wb">'+(w.v>0?'<div class="wv">$'+(w.v>=1000?Math.round(w.v/1000)+'k':w.v)+'</div>':'')+'<div class="btrk"><div class="bar" style="height:'+Math.max(w.v/maxW*100,2)+'%"></div></div><div class="wl">'+w.d.slice(3)+'</div></div>').join('')+'</div></div>':'')+
    ledgerHTML(c);
   document.getElementById("ov").classList.add("open");
 }
