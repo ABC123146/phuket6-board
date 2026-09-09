@@ -591,6 +591,21 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .ltot .tv{margin-left:auto;font-family:'Teko',sans-serif;font-weight:700;font-size:27px;color:var(--gd);line-height:.9}
 .lnote{margin-top:9px;font-size:11px;color:var(--dim);line-height:1.55}
 .lnote b{color:#e35d6a}
+#unppanel .reprow{border-bottom:1px solid #242428;padding:9px 0;font-size:13px;line-height:1.5}
+#unppanel .reprow b{color:#ffd84d}
+#unppanel .reprow .repwhen{color:#7a7a85;font-size:11px}
+#unppanel .reprow .repbad{color:#e35d6a;font-size:11px}
+/* ledger provenance: a PO backs most rows; the rest are pipeline only or a ruling */
+.led .er .ev{font-size:9px;letter-spacing:.12em;color:var(--dim);border:1px solid #2b1b52;padding:1px 5px;margin-left:8px;vertical-align:middle;white-space:nowrap}
+.led .er .ev.pipe{color:#e0a83a;border-color:#5a4416}
+/* claims: logged on a PO, nothing on a processor yet, not in the total */
+.clm{margin-top:10px;border:1px dashed #5a4416;background:rgba(224,168,58,.06)}
+.clm .er{display:grid;grid-template-columns:56px 1fr auto;gap:10px;align-items:baseline;padding:7px 12px;border-bottom:1px solid #2a2010;font-size:13px;color:#b9a77a}
+.clm .er:last-child{border-bottom:0}
+.clm .er .ed{font-size:11px;letter-spacing:.03em;white-space:nowrap;color:#8f7f55}
+.clm .er .ec{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.clm .er .ea{font-family:'Teko',sans-serif;font-weight:700;font-size:20px;line-height:.9;justify-self:end;white-space:nowrap;color:#e0a83a}
+.clmh{font-size:10px;letter-spacing:.14em;color:#e0a83a;padding:8px 12px 4px;font-weight:700}
 .pace{margin-top:20px;background:#0e0720;border:1px solid rgba(255,204,0,.4);padding:12px 16px;font-size:13px;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
 .pace b{color:var(--gd);font-family:'Teko',sans-serif;font-size:20px}
 
@@ -752,6 +767,9 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
       <div class="panel laurel" id="reppanel" style="display:none"><h3>MISSING <span class="accent">MONEY REPORTS</span> 🚨</h3>
         <div class="sub" style="margin-bottom:8px">Open claims filed from the board. Resolve them with Claude, they clear when status leaves open.</div>
         <div id="replist"></div></div>
+      <div class="panel laurel" id="unppanel" style="display:none"><h3>LOGGED, <span class="accent">NOT YET PROVEN</span> 🔎</h3>
+        <div class="sub" style="margin-bottom:8px">POs the closers filed that no processor row backs yet. Duplicates, AUD typed as USD, backup processors that have not landed, and money that never came. Not scoring until proven.</div>
+        <div id="unplist"></div></div>
     </div>
   </div>
   <div style="text-align:center;margin-top:26px"><button class="repbtn" onclick="repOpen()">🚨 Missing money? File a report</button></div>
@@ -981,7 +999,14 @@ function render(d){
   const reps=d.reports||[];
   if(reps.length){$("reppanel").style.display='block';
     $("replist").innerHTML=reps.map(r=>'<div class="reprow"><b>'+hesc(r.closer)+'</b> · '+hesc(r.amount||'?')+' · '+hesc(r.customer_name||'?')+' <span class="repwhen">('+hesc(r.customer_email||'no email')+' · '+new Date(r.created_at).toLocaleString()+')</span><br>'+hesc(r.details)+'</div>').join('');
-  }else{$("reppanel").style.display='none';}}
+  }else{$("reppanel").style.display='none';}
+  // unproven POs off the audit block (only present when &audit=1 was requested)
+  const unp=((d.audit||{}).unproven||[]).filter(u=>u.usd>=1);
+  if(unp.length){$("unppanel").style.display='block';
+    $("unplist").innerHTML=unp.map(u=>'<div class="reprow"><b>'+hesc(u.closer)+'</b> · $'+money2(u.usd)+' · '+hesc(u.customer||'?')+
+      ' <span class="repwhen">(PO '+hesc(u.poId)+' · '+hesc(u.method||'?')+' · '+Math.floor((u.ageH||0)/24)+'d ago · '+hesc(u.email||'no email')+')</span>'+
+      (u.badId?'<br><span class="repbad">pasted id points at another customer\'s charge: '+hesc(u.badId)+'</span>':'')+'</div>').join('');
+  }else{$("unppanel").style.display='none';}}
   window.__names=roster.map(c=>c.name);
   // shot of the day
   const day=d.feed.filter(f=>Date.now()-new Date(f.ts).getTime()<864e5);
@@ -1066,13 +1091,23 @@ function ledgerHTML(c){
   return '<div class="csec"><h4>Every Payment · '+L.length+'</h4>'+
    '<div class="led">'+L.map(l=>'<div class="er">'+
      '<span class="ed">'+fmtDay(l.d)+'</span>'+
-     '<span class="ec">'+esc(l.c)+'</span>'+
+     '<span class="ec">'+esc(l.c)+(l.v==='pipe'?'<span class="ev pipe" title="no PO filed for this one, credited by the pipeline">NO PO</span>':(l.v==='override'?'<span class="ev" title="credited by ruling">RULED</span>':''))+'</span>'+
      '<span class="ea">$'+money2(l.a)+'</span></div>').join('')+'</div>'+
    '<div class="ltot"><span class="tk">TOTAL OF ALL '+L.length+' PAYMENTS</span>'+
      '<span class="tv">$'+money2(c.ledgerTotal!=null?c.ledgerTotal:c.cash)+'</span></div>'+
+   claimsHTML(c)+
    '<div class="lnote">Every payment the board counts for you, and they add up to the total at the top of this card. '+
-   'Closed something that is not on this list? Close this card and hit the red <b>MISSING MONEY</b> button under the board, '+
+   'Rows tagged NO PO were credited by the pipeline with no purchase order behind them, so file one. '+
+   'Closed something that is not on this list at all? Close this card and hit the red <b>MISSING MONEY</b> button under the board, '+
    'and name the customer.</div></div>';
+}
+// POs the closer filed that nothing on a processor backs yet. Shown so they
+// can see the claim is logged and being chased, kept out of the total until
+// proven (or until COUNT_UNPROVEN is switched on in the edge function).
+function claimsHTML(c){
+  const C=c.claims||[]; if(!C.length) return '';
+  return '<div class="clm"><div class="clmh">LOGGED ON A PO, NOT FOUND ON A PROCESSOR YET · '+C.length+(c.claimsCounted?' · COUNTED':' · NOT IN YOUR TOTAL')+'</div>'+
+    C.map(l=>'<div class="er"><span class="ed">'+fmtDay(l.d)+'</span><span class="ec">'+esc(l.c)+' <span style="font-size:10px;color:#8f7f55">'+esc(l.method||'')+'</span></span><span class="ea">$'+money2(l.a)+'</span></div>').join('')+'</div>';
 }
 function openCard(name){
   const c=CARDS[name];if(!c)return;
@@ -1497,7 +1532,9 @@ async function repSend(){
 function toast(html){window.__lastEvent=Date.now();const t=document.createElement('div');t.className='toast';t.innerHTML=html;
 $("toasts").appendChild(t);setTimeout(()=>t.remove(),9000);}
 async function poll(){try{
-  const K=new URLSearchParams(location.search).get("k")||"";const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1",{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
+  const Q=new URLSearchParams(location.search);const K=Q.get("k")||"";
+  // the commander view also wants the reconciliation audit (unproven POs); the team page never asks for it
+  const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1"+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
   render(await r.json());nextPollAt=Date.now()+45000;}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+45000;}}
 poll();setInterval(poll,45000);
 </script></body></html>
