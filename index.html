@@ -595,6 +595,58 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .ltot .tv{margin-left:auto;font-family:'Teko',sans-serif;font-weight:700;font-size:27px;color:var(--gd);line-height:.9}
 .lnote{margin-top:9px;font-size:11px;color:var(--dim);line-height:1.55}
 .lnote b{color:#e35d6a}
+/* FINANCING APPS panel: team applications a day against the 15 goal and 10
+   minimum, Sydney calendar day. Bars sit in a fixed track so height is a true
+   percentage (same lesson as the cash bars); the goal and minimum are dashed
+   lines inside that track at the same scale. */
+#finp .sub b{color:var(--gd)}
+#finp .finhead{display:flex;align-items:flex-end;gap:10px;margin:6px 0 22px}
+#finp .fbig{font-family:'Teko',sans-serif;font-size:56px;line-height:.82;font-weight:700;color:#fff}
+#finp .fbig.lo{color:var(--mg)}#finp .fbig.mid{color:var(--gd)}#finp .fbig.hi{color:var(--gr)}
+#finp .fof{font-family:'Teko',sans-serif;font-size:22px;color:var(--dim);line-height:1;padding-bottom:2px}
+#finp .fview{margin-left:auto;display:flex;align-items:center;gap:6px;padding-bottom:4px}
+#finp .fvl{font-size:9px;letter-spacing:.16em;color:var(--dim);font-weight:700}
+#finp .fsel{appearance:none;-webkit-appearance:none;background:var(--card2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%2300e5ff'/%3E%3C/svg%3E") no-repeat right 8px center;border:1px solid var(--cy);color:#fff;font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.16em;font-weight:700;padding:5px 22px 5px 9px;cursor:pointer;box-shadow:0 0 10px rgba(0,229,255,.15)}
+#finp .fsel:focus{outline:none}
+#finp .fchart{position:relative;height:120px;border-bottom:1px solid #2b1b52;display:flex;align-items:flex-end;gap:3px}
+#finp .fb{flex:1;min-width:3px;position:relative;background:linear-gradient(180deg,#c084fc,var(--pu));min-height:2px;box-shadow:0 0 8px rgba(168,85,247,.35)}
+#finp .fb.lo{background:linear-gradient(180deg,#ff7aa6,var(--mg));box-shadow:0 0 8px rgba(255,45,120,.35)}
+#finp .fb.mid{background:linear-gradient(180deg,#ffe066,var(--gd));box-shadow:0 0 8px rgba(255,204,0,.35)}
+#finp .fb.hi{background:linear-gradient(180deg,#8dffc4,var(--gr));box-shadow:0 0 12px rgba(45,255,136,.5)}
+#finp .fb.zero{background:#1d1140;box-shadow:none}
+#finp .fb.fut{background:transparent;border:1px dashed #2b1b52;box-shadow:none;min-height:8px}
+#finp .fb.now{outline:1px solid var(--cy);outline-offset:1px;box-shadow:0 0 14px rgba(0,229,255,.55)}
+#finp .fb.prev{opacity:.42}
+#finp .fb.gap{flex:0 0 6px;background:transparent;border:0;box-shadow:none;min-height:0}
+#finp .flabels span.gap{flex:0 0 6px}
+#finp .fb .fv{position:absolute;top:-15px;left:-6px;right:-6px;text-align:center;font-family:'Teko',sans-serif;font-size:13px;color:#fff;line-height:1}
+#finp .fline{position:absolute;left:0;right:0;height:0;border-top:1px dashed;pointer-events:none;z-index:2}
+#finp .fline.goal{border-color:rgba(45,255,136,.75)}#finp .fline.min{border-color:rgba(255,204,0,.75)}
+#finp .fline span{position:absolute;right:0;top:-11px;font-size:9px;letter-spacing:.12em;font-weight:700;background:var(--card);padding:0 3px}
+#finp .fline.goal span{color:var(--gr)}#finp .fline.min span{color:var(--gd)}
+#finp .flabels{display:flex;gap:3px;margin-top:5px}
+#finp .flabels span{flex:1;text-align:center;font-size:9px;color:var(--dim);min-width:0;overflow:hidden;white-space:nowrap}
+#finp .flabels span.now{color:var(--cy);font-weight:700}
+#finp .fsum{display:flex;justify-content:space-between;font-size:10px;letter-spacing:.12em;color:var(--dim);margin-top:8px}
+#finp .fsum b{color:#fff;font-family:'Teko',sans-serif;font-size:15px;letter-spacing:0}
+#finp .finlead{margin-top:12px;display:grid;gap:5px}
+#finp .fl{display:flex;align-items:center;gap:8px;font-size:12px}
+#finp .fl .fn{font-family:'Russo One',sans-serif;font-size:11px;letter-spacing:.06em}
+#finp .fl .fw{margin-left:auto;font-family:'Teko',sans-serif;font-size:19px;color:var(--gd);line-height:1}
+#finp .fl .ft{font-size:10px;color:var(--dim)}
+#finp .flh{font-size:10px;letter-spacing:.16em;color:var(--cy);font-weight:700;margin-top:12px}
+#finp .fb.pick{cursor:pointer}
+#finp .fb.pick:hover{filter:brightness(1.25)}
+#finp .fb.sel{outline:1px solid #fff;outline-offset:1px}
+#finp .fday{margin-top:10px;border:1px solid var(--line);background:rgba(8,4,20,.55);padding:9px 12px;display:grid;gap:6px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+#finp .fdh{display:flex;align-items:center;font-size:10px;letter-spacing:.16em;color:var(--cy);font-weight:700}
+#finp .fdh b{color:#fff;font-family:'Teko',sans-serif;font-size:16px;letter-spacing:0}
+#finp .fdx{margin-left:auto;cursor:pointer;color:var(--dim);font-size:13px;padding:0 4px}
+#finp .fdx:hover{color:#fff}
+/* per closer pill on the standings rows and the champion belt */
+.finpill{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid #1f5a48;border-radius:3px;font-size:10px;letter-spacing:.06em;color:var(--dim);vertical-align:middle;white-space:nowrap}
+.finpill.hot{color:var(--gr);border-color:#2a8a66}
+
 #unppanel .reprow{border-bottom:1px solid #242428;padding:9px 0;font-size:13px;line-height:1.5}
 #unppanel .reprow b{color:#ffd84d}
 #unppanel .reprow .repwhen{color:#7a7a85;font-size:11px}
@@ -762,6 +814,8 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
       <div class="rows" id="rest" style="margin-top:14px"></div></div>
     </div>
     <div>
+      <div class="panel" id="finp" style="display:none"><h3>FINANCING <span class="accent">APPS</span> 🏦</h3>
+        <div id="finbody"></div></div>
       <div class="panel"><h3>BIG <span class="accent">MOVES</span> 📰</h3><div id="moves"></div></div>
       <div class="panel" id="shotp" style="display:none"></div>
       <div class="panel"><h3>LIVE <span class="accent">KILL FEED</span></h3><div class="feed" id="feed"></div></div>
@@ -904,7 +958,7 @@ function face(name,cls){const big=/champav|big/.test(cls||'');
 function rowHtml(r,gold){const wk=r.last24h>0?'+'+money(r.last24h)+' today':'quiet today';
 return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,'_')+'">'+
 '<div class="rk">'+r.rank+'</div>'+face(r.name)+
-'<div><div class="nm">'+r.name+'</div><div class="meta2">'+r.deals+' deal'+(r.deals!==1?'s':'')+(r.showRate!=null?' · shows '+r.showRate+'%':'')+(r.closeRate!=null?' · closes '+r.closeRate+'%':'')+'</div>'+badges(r)+'</div>'+
+'<div><div class="nm">'+r.name+'</div><div class="meta2">'+r.deals+' deal'+(r.deals!==1?'s':'')+(r.showRate!=null?' · shows '+r.showRate+'%':'')+(r.closeRate!=null?' · closes '+r.closeRate+'%':'')+finPill(r.name)+'</div>'+badges(r)+'</div>'+
 track(r,gold)+'<div class="money">'+money(r.cash)+'</div><div class="wk '+(r.last7>0?'':'z')+'">'+wk+'</div></div>';}
 // KING OF THE HILL. The server replays the whole payment stream to work out
 // who was #1 at every moment, so this is the real unbroken streak, not a
@@ -942,14 +996,79 @@ function tickReign(){const k=window.__king;if(!k)return;
   const big=document.getElementById("reignbig"),days=Math.floor(held/864e5);
   if(big&&days>=1&&big.textContent!==String(days))big.textContent=days;}
 setInterval(tickReign,1000);
+// ---- FINANCING APPS ----
+// d.finance is built by the edge function (or the local fixture): team counts
+// per Sydney day / hour / month day against the 15 goal and 10 minimum, plus
+// today and this week per closer keyed by display name.
+window.__finView=window.__finView||"week";
+function finOf(name){const f=window.__fin;if(!f||!f.byCloser)return null;return f.byCloser[name]||{today:0,week:0};}
+function finPill(name){const v=finOf(name);if(!v)return '';
+  return ' <span class="finpill'+(v.today>0?' hot':'')+'">'+v.today+' app'+(v.today===1?'':'s')+' today · '+v.week+' wk</span>';}
+function finTiles(name){const v=finOf(name);if(!v)return '';
+  return '<div class="stat"><div class="sv'+(v.today>0?' green':'')+'">'+v.today+'</div><div class="sk">FIN APPS TODAY</div></div>'+
+         '<div class="stat"><div class="sv">'+v.week+'</div><div class="sk">FIN APPS THIS WEEK</div></div>';}
+function finBand(n,g){if(n==null)return 'fut';if(n<=0)return 'zero';if(n>=g.goal)return 'hi';if(n>=g.min)return 'mid';return 'lo';}
+function finDayHTML(f){
+  const d=window.__finDay;if(!d||!f.perDay)return '';
+  const rows=Object.entries(f.perDay[d]||{}).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
+  const total=rows.reduce((t,r)=>t+r[1],0);
+  const dt=new Date(d+'T12:00:00Z');const lab=['SUN','MON','TUE','WED','THU','FRI','SAT'][dt.getUTCDay()]+' '+fmtDay(d).toUpperCase();
+  return '<div class="fday"><div class="fdh"><span>'+lab+' · <b>'+total+'</b> app'+(total===1?'':'s')+'</span><span class="fdx">✕</span></div>'+
+    (rows.length?rows.map(([n,c])=>'<div class="fl">'+face(n,'sm')+'<span class="fn">'+hesc(n)+'</span><span class="fw">'+c+'</span></div>').join(''):'<div class="ft">Nobody submitted anything.</div>')+'</div>';
+}
+function renderFinance(f){
+  const p=$("finp");if(!f){p.style.display='none';return;}p.style.display='block';
+  const g=f.target||{goal:15,min:10};const view=window.__finView;
+  const hour=parseInt((f.now||"T00").split("T")[1]||"0",10);
+  const n=f.today?f.today.n:0;const band=finBand(n,g);
+  let word,wcls;
+  if(n>=g.goal){word='GOAL HIT';wcls='hi';}else if(n>=g.min){word='MINIMUM MET';wcls='mid';}
+  else if(hour>=15){word='BEHIND';wcls='lo';}else if(n>0){word='ON THE CLOCK';wcls='dim';}else{word='NOTHING YET';wcls='dim';}
+  // series per view
+  let bars,labels,title,summary;
+  if(view==='day'){
+    bars=(f.today.byHour||[]).map((v,h)=>({v:v,lab:(h%3===0?String(h).padStart(2,'0'):''),now:h===hour,fut:h>hour}));
+    title='TODAY BY HOUR';summary='<span>'+hesc(f.todayYmd)+' · SYDNEY</span><span><b>'+n+'</b> so far</span>';
+  }else if(view==='month'){
+    const ds=(f.month&&f.month.days)||[];
+    bars=ds.map((x,i)=>({v:x.n,lab:((i+1)%5===0||i===0?String(i+1):''),now:x.d===f.todayYmd,fut:x.n==null,d:x.d}));
+    title='THIS MONTH BY DAY';summary='<span>'+hesc(f.month.ym)+'</span><span><b>'+f.month.n+'</b> this month · avg <b>'+(f.month.days.filter(x=>x.n!=null).length?Math.round(f.month.n/f.month.days.filter(x=>x.n!=null).length*10)/10:0)+'</b> a day</span>';
+  }else{
+    // last week dimmed beside this week, so the view has context on a Tuesday
+    const lw=(f.lastWeek&&f.lastWeek.days)||[];const ds=(f.week&&f.week.days)||[];const DN=['M','T','W','T','F','S','S'];
+    bars=lw.map((x,i)=>({v:x.n,lab:DN[i],prev:true,d:x.d})).concat([{v:null,lab:'',gap:true}]).concat(ds.map((x,i)=>({v:x.n,lab:DN[i],now:x.d===f.todayYmd,fut:x.n==null,d:x.d})));
+    title='LAST WEEK · THIS WEEK';summary='<span>last wk <b>'+(f.lastWeek?f.lastWeek.n:0)+'</b></span><span>this wk <b>'+f.week.n+'</b> · '+hesc(f.week.from.slice(5))+' to '+hesc(f.week.to.slice(5))+'</span>';
+  }
+  const showLines=view!=='day';
+  const maxV=Math.max(showLines?g.goal:0,...bars.map(b=>b.v||0));
+  const scale=maxV*1.22||1;   // headroom for the value label above the tallest bar
+  const pct=v=>Math.max(0,Math.min(100,v/scale*100));
+  const chart='<div class="fchart">'+
+    (showLines?'<div class="fline goal" style="bottom:'+pct(g.goal)+'%"><span>GOAL '+g.goal+'</span></div><div class="fline min" style="bottom:'+pct(g.min)+'%"><span>MIN '+g.min+'</span></div>':'')+
+    bars.map(b=>'<div class="fb '+(b.gap?'':finBand(b.fut?null:b.v,g))+(b.now?' now':'')+(b.prev?' prev':'')+(b.gap?' gap':'')+(b.d&&!b.fut?' pick':'')+(b.d&&b.d===window.__finDay?' sel':'')+'"'+(b.d&&!b.fut?' data-d="'+b.d+'"':'')+' style="height:'+(b.fut?0:Math.max(pct(b.v||0),(b.v||0)>0?2:1.5))+'%">'+((b.v||0)>0&&!b.fut?'<div class="fv">'+b.v+'</div>':'')+'</div>').join('')+
+    '</div><div class="flabels">'+bars.map(b=>'<span class="'+(b.now?'now':'')+(b.gap?' gap':'')+(b.prev?' prev':'')+'">'+b.lab+'</span>').join('')+'</div>';
+  const seg='<div class="fview"><span class="fvl">VIEW BY</span><select class="fsel">'+[['day','DAY'],['week','WEEK'],['month','MONTH']].map(([k,l])=>'<option value="'+k+'"'+(view===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div>';
+  const lead=(f.leaders||[]).slice(0,5);
+  $("finbody").innerHTML=
+    '<div class="finhead"><div class="fbig '+band+'">'+n+'</div><div class="fof">/ '+g.goal+' today</div>'+seg+'</div>'+
+    chart+'<div class="fsum">'+summary+'</div>'+finDayHTML(f)+
+    (lead.length?'<div class="flh">'+(lead.some(l=>l.week>0)?'MOST APPS THIS WEEK':'NOBODY ON THE BOARD YET THIS WEEK')+'</div><div class="finlead">'+
+      lead.map(l=>'<div class="fl">'+face(l.name,'sm')+'<span class="fn">'+hesc(l.name)+'</span><span class="ft">'+l.today+' today</span><span class="fw">'+l.week+'</span></div>').join('')+'</div>':'');
+  const sel=$("finbody").querySelector('.fsel');if(sel)sel.onchange=()=>{window.__finView=sel.value;window.__finDay=null;renderFinance(window.__fin);};
+  // click a day bar for who submitted that day; click it again, or the x, to close
+  $("finbody").querySelectorAll('.fb.pick').forEach(el=>el.onclick=()=>{window.__finDay=(window.__finDay===el.dataset.d?null:el.dataset.d);renderFinance(window.__fin);});
+  const fx=$("finbody").querySelector('.fdx');if(fx)fx.onclick=()=>{window.__finDay=null;renderFinance(window.__fin);};
+}
 function render(d){
+  window.__fin=d.finance||null;
+  try{renderFinance(window.__fin);}catch(e){console.error('finance panel',e);}
   const s=d.standings;
   window.__king=d.king||null;
   // champion
   if(s[0]){const c=s[0];
   $("champ").innerHTML='<div class="champ"><div class="beltrow">'+
     '<div class="champav-wrap"><div class="crown">👑</div>'+face(c.name,'champav')+'</div>'+
-    '<div><h2>'+c.name+'</h2><div class="sub">'+c.deals+' deals · '+(c.showRate!=null?'shows '+c.showRate+'% · ':'')+(c.closeRate!=null?'closes '+c.closeRate+'% · ':'')+'+'+money(c.last7)+' this week</div>'+badges(c)+'</div>'+
+    '<div><h2>'+c.name+'</h2><div class="sub">'+c.deals+' deals · '+(c.showRate!=null?'shows '+c.showRate+'% · ':'')+(c.closeRate!=null?'closes '+c.closeRate+'% · ':'')+'+'+money(c.last7)+' this week'+finPill(c.name)+'</div>'+badges(c)+'</div>'+
     '<img class="vr" src="vr.png" alt="">'+
     '<div class="cash">'+money(c.cash)+'<div class="sub" style="text-align:right">'+(c.business?'✈ BUSINESS CLASS LOCKED':(c.qualified?'QUALIFIED':money(FLOOR-c.cash)+' to qualify'))+'</div></div>'+
     '</div>'+track(c,true)+kingStrip(d.king)+'</div>';}
@@ -1141,6 +1260,7 @@ function openCard(name){
    '<div class="stat"><div class="sv">'+(c.shows??0)+(c.showRate!=null?' <span style="font-size:16px;color:var(--dim)">('+c.showRate+'%)</span>':'')+'</div><div class="sk">SHOWED</div></div>'+
    '<div class="stat"><div class="sv">'+(c.closes??0)+(c.closeRate!=null?' <span style="font-size:16px;color:var(--dim)">('+c.closeRate+'%)</span>':'')+'</div><div class="sk">CLOSED</div></div>'+
    '<div class="stat"><div class="sv">'+(c.finPipe??0)+'</div><div class="sk">FIN PIPELINE</div></div>'+
+   finTiles(name)+
    throneStat(name)+
    '</div>'+
    (need180>0?'<div class="pace">Needs <b>$'+need180.toLocaleString()+'</b> more to qualify: that is <b>$'+pace.toLocaleString()+'</b> per week from here. '+(c.rank&&c.rank<=5?'Holding a seat but the pass is not unlocked.':'No 180, no seat.')+'</div>'
@@ -1548,6 +1668,11 @@ async function poll(){try{
   const Q=new URLSearchParams(location.search);const K=Q.get("k")||"";
   // the commander view also wants the reconciliation audit (unproven POs); the team page never asks for it
   const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1"+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
-  render(await r.json());nextPollAt=Date.now()+45000;}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+45000;}}
+  const d=await r.json();
+  // ?src=local: review the FINANCING APPS panel against a fixture built from the
+  // database by tools/fin_mock.py, before the edge function serves the block.
+  // Same code path, real numbers, nothing to rework at ship time.
+  if(Q.get("src")==="local"){try{d.finance=await (await fetch("./finance-mock.json?cb="+Date.now(),{cache:"no-store"})).json();}catch(e){console.warn("no local finance fixture",e);}}
+  render(d);nextPollAt=Date.now()+45000;}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+45000;}}
 poll();setInterval(poll,45000);
 </script></body></html>
