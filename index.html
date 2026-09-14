@@ -603,7 +603,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 #finp .finhead{display:flex;align-items:flex-end;gap:10px;margin:6px 0 22px}
 #finp .fbig{font-family:'Teko',sans-serif;font-size:56px;line-height:.82;font-weight:700;color:#fff}
 #finp .fbig.lo{color:var(--mg)}#finp .fbig.mid{color:var(--gd)}#finp .fbig.hi{color:var(--gr)}
-#finp .fof{font-family:'Teko',sans-serif;font-size:22px;color:var(--dim);line-height:1;padding-bottom:2px}
+#finp .fof{font-family:'Teko',sans-serif;font-size:22px;color:var(--dim);line-height:1;padding-bottom:2px;white-space:nowrap}
 #finp .fview{margin-left:auto;display:flex;align-items:center;gap:6px;padding-bottom:4px}
 #finp .fvl{font-size:9px;letter-spacing:.16em;color:var(--dim);font-weight:700}
 #finp .fsel{appearance:none;-webkit-appearance:none;background:var(--card2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%2300e5ff'/%3E%3C/svg%3E") no-repeat right 8px center;border:1px solid var(--cy);color:#fff;font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.16em;font-weight:700;padding:5px 22px 5px 9px;cursor:pointer;box-shadow:0 0 10px rgba(0,229,255,.15)}
@@ -1053,7 +1053,7 @@ function renderFinance(f){
     bars.map(b=>'<div class="fb '+(b.gap?'':finBand(b.fut?null:b.v,g))+(b.now?' now':'')+(b.prev?' prev':'')+(b.gap?' gap':'')+(b.d&&!b.fut?' pick':'')+(b.d&&b.d===window.__finDay?' sel':'')+'"'+(b.d&&!b.fut?' data-d="'+b.d+'"':'')+' style="height:'+(b.fut?0:Math.max(pct(b.v||0),(b.v||0)>0?2:1.5))+'%">'+((b.v||0)>0&&!b.fut?'<div class="fv">'+b.v+'</div>':'')+'</div>').join('')+
     '</div><div class="flabels">'+bars.map(b=>'<span class="'+(b.now?'now':'')+(b.gap?' gap':'')+(b.prev?' prev':'')+'">'+b.lab+'</span>').join('')+'</div>';
   const tzName=(TZ_LIST.find(([v])=>v===f.tz)||[f.tz,String(f.tz).split("/").pop().replace(/_/g," ").toUpperCase()])[1];
-  const seg='<div class="fview"><span class="fvl" title="day counted in '+hesc(f.tz)+'">'+hesc(tzName)+' DAY · VIEW BY</span><select class="fsel">'+[['day','DAY'],['week','WEEK'],['month','MONTH']].map(([k,l])=>'<option value="'+k+'"'+(view===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div>';
+  const seg='<div class="fview"><span class="fvl" title="the day is counted in '+hesc(f.tz)+'. Change it with the TIME picker top right.">'+hesc(tzName)+' DAY</span><select class="fsel">'+[['day','DAY'],['week','WEEK'],['month','MONTH']].map(([k,l])=>'<option value="'+k+'"'+(view===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div>';
   const lead=(f.leaders||[]).slice(0,5);
   $("finbody").innerHTML=
     '<div class="finhead"><div class="fbig '+band+'">'+n+'</div><div class="fof">/ '+g.goal+' today</div>'+seg+'</div>'+
