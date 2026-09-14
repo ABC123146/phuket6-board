@@ -1039,10 +1039,10 @@ function renderFinance(f){
     bars=ds.map((x,i)=>({v:x.n,lab:((i+1)%5===0||i===0?String(i+1):''),now:x.d===f.todayYmd,fut:x.n==null,d:x.d}));
     title='THIS MONTH BY DAY';summary='<span>'+hesc(f.month.ym)+'</span><span><b>'+f.month.n+'</b> this month · avg <b>'+(f.month.days.filter(x=>x.n!=null).length?Math.round(f.month.n/f.month.days.filter(x=>x.n!=null).length*10)/10:0)+'</b> a day</span>';
   }else{
-    // last week dimmed beside this week, so the view has context on a Tuesday
-    const lw=(f.lastWeek&&f.lastWeek.days)||[];const ds=(f.week&&f.week.days)||[];const DN=['M','T','W','T','F','S','S'];
-    bars=lw.map((x,i)=>({v:x.n,lab:DN[i],prev:true,d:x.d})).concat([{v:null,lab:'',gap:true}]).concat(ds.map((x,i)=>({v:x.n,lab:DN[i],now:x.d===f.todayYmd,fut:x.n==null,d:x.d})));
-    title='LAST WEEK · THIS WEEK';summary='<span>last wk <b>'+(f.lastWeek?f.lastWeek.n:0)+'</b></span><span>this wk <b>'+f.week.n+'</b> · '+hesc(f.week.from.slice(5))+' to '+hesc(f.week.to.slice(5))+'</span>';
+    // this week only, Monday to Sunday (Trev, 2026-09-14)
+    const ds=(f.week&&f.week.days)||[];const DN=['MON','TUE','WED','THU','FRI','SAT','SUN'];
+    bars=ds.map((x,i)=>({v:x.n,lab:DN[i],now:x.d===f.todayYmd,fut:x.n==null,d:x.d}));
+    title='THIS WEEK';summary='<span>'+hesc(f.week.from.slice(5))+' to '+hesc(f.week.to.slice(5))+' · last wk <b>'+(f.lastWeek?f.lastWeek.n:0)+'</b></span><span>this wk <b>'+f.week.n+'</b></span>';
   }
   const showLines=view!=='day';
   const maxV=Math.max(showLines?g.goal:0,...bars.map(b=>b.v||0));
