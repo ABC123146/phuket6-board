@@ -643,6 +643,12 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 #finp .fdh b{color:#fff;font-family:'Teko',sans-serif;font-size:16px;letter-spacing:0}
 #finp .fdx{margin-left:auto;cursor:pointer;color:var(--dim);font-size:13px;padding:0 4px}
 #finp .fdx:hover{color:#fff}
+#finp .fwho{cursor:pointer}
+#finp .fwho:hover .fw,#finp .fwho.open .fw{color:#fff;text-shadow:0 0 8px rgba(0,229,255,.6)}
+#finp .fwho .fw{border-bottom:1px dotted #5a4a8a}
+#finp .fwl{display:flex;flex-wrap:wrap;gap:4px;margin:-2px 0 6px 38px}
+#finp .fwl span{font-size:11px;color:#d9c8ff;border:1px solid #2b1b52;background:rgba(168,85,247,.08);padding:2px 7px;border-radius:3px}
+#finp .fwl span.ft{border:0;background:none;color:var(--dim)}
 /* per closer pill on the standings rows and the champion belt */
 .finpill{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid #1f5a48;border-radius:3px;font-size:10px;letter-spacing:.06em;color:var(--dim);vertical-align:middle;white-space:nowrap}
 .finpill.hot{color:var(--gr);border-color:#2a8a66}
@@ -1015,11 +1021,16 @@ function finTiles(name){const v=finOf(name);if(!v)return '';
 function finBand(n,g){if(n==null)return 'fut';if(n<=0)return 'zero';if(n>=g.goal)return 'hi';if(n>=g.min)return 'mid';return 'lo';}
 function finDayHTML(f){
   const d=window.__finDay;if(!d||!f.perDay)return '';
-  const rows=Object.entries(f.perDay[d]||{}).sort((a,b)=>b[1]-a[1]||a[0].localeCompare(b[0]));
-  const total=rows.reduce((t,r)=>t+r[1],0);
+  // each entry is {n, who:[applicants]} (older payloads: a bare number)
+  const norm=v=>typeof v==='number'?{n:v,who:[]}:(v||{n:0,who:[]});
+  const rows=Object.entries(f.perDay[d]||{}).map(([n,v])=>[n,norm(v)]).sort((a,b)=>b[1].n-a[1].n||a[0].localeCompare(b[0]));
+  const total=rows.reduce((t,r)=>t+r[1].n,0);
   const dt=new Date(d+'T12:00:00Z');const lab=['SUN','MON','TUE','WED','THU','FRI','SAT'][dt.getUTCDay()]+' '+fmtDay(d).toUpperCase();
+  const open=window.__finWho||'';
   return '<div class="fday"><div class="fdh"><span>'+lab+' · <b>'+total+'</b> app'+(total===1?'':'s')+'</span><span class="fdx">✕</span></div>'+
-    (rows.length?rows.map(([n,c])=>'<div class="fl">'+face(n,'sm')+'<span class="fn">'+hesc(n)+'</span><span class="fw">'+c+'</span></div>').join(''):'<div class="ft">Nobody submitted anything.</div>')+'</div>';
+    (rows.length?rows.map(([n,v])=>'<div class="fl fwho'+(open===n?' open':'')+'" data-n="'+hesc(n)+'" title="click for the applicants">'+face(n,'sm')+'<span class="fn">'+hesc(n)+'</span><span class="fw">'+v.n+'</span></div>'+
+      (open===n?'<div class="fwl">'+(v.who.length?v.who.map(w=>'<span>'+hesc(w)+'</span>').join(''):'<span class="ft">no applicant name on the record</span>')+'</div>':'')).join('')
+    :'<div class="ft">Nobody submitted anything.</div>')+'</div>';
 }
 function renderFinance(f){
   const p=$("finp");if(!f){p.style.display='none';return;}p.style.display='block';
@@ -1062,8 +1073,10 @@ function renderFinance(f){
       lead.map(l=>'<div class="fl">'+face(l.name,'sm')+'<span class="fn">'+hesc(l.name)+'</span><span class="ft">'+l.today+' today</span><span class="fw">'+l.week+'</span></div>').join('')+'</div>':'');
   const sel=$("finbody").querySelector('.fsel');if(sel)sel.onchange=()=>{window.__finView=sel.value;window.__finDay=null;renderFinance(window.__fin);};
   // click a day bar for who submitted that day; click it again, or the x, to close
-  $("finbody").querySelectorAll('.fb.pick').forEach(el=>el.onclick=()=>{window.__finDay=(window.__finDay===el.dataset.d?null:el.dataset.d);renderFinance(window.__fin);});
-  const fx=$("finbody").querySelector('.fdx');if(fx)fx.onclick=()=>{window.__finDay=null;renderFinance(window.__fin);};
+  $("finbody").querySelectorAll('.fb.pick').forEach(el=>el.onclick=()=>{window.__finDay=(window.__finDay===el.dataset.d?null:el.dataset.d);window.__finWho=null;renderFinance(window.__fin);});
+  const fx=$("finbody").querySelector('.fdx');if(fx)fx.onclick=()=>{window.__finDay=null;window.__finWho=null;renderFinance(window.__fin);};
+  // click a closer's count for the applicants behind it; click again to fold
+  $("finbody").querySelectorAll('.fwho').forEach(el=>el.onclick=()=>{window.__finWho=(window.__finWho===el.dataset.n?null:el.dataset.n);renderFinance(window.__fin);});
 }
 function render(d){
   window.__fin=d.finance||null;

@@ -1,6 +1,6 @@
 {
  "tz": "Asia/Dubai",
- "now": "2026-09-14T21:41",
+ "now": "2026-09-14T21:55",
  "todayYmd": "2026-09-14",
  "target": {
   "goal": 15,
@@ -329,7 +329,11 @@
   }
  ],
  "byCloser": {
-  "BRODIE B": {
+  "ERICH": {
+   "today": 1,
+   "week": 1
+  },
+  "THOMAS": {
    "today": 1,
    "week": 1
   },
@@ -341,368 +345,1574 @@
    "today": 1,
    "week": 1
   },
+  "BRODIE B": {
+   "today": 1,
+   "week": 1
+  },
   "KYUSS": {
-   "today": 1,
-   "week": 1
-  },
-  "THOMAS": {
-   "today": 1,
-   "week": 1
-  },
-  "ERICH": {
    "today": 1,
    "week": 1
   }
  },
  "perDay": {
-  "2026-07-17": {
-   "BEN": 1,
-   "ZEALAN": 1
-  },
-  "2026-07-18": {
-   "ZEALAN": 1,
-   "SAM K": 1
-  },
-  "2026-07-19": {
-   "BEN": 1
-  },
-  "2026-07-20": {
-   "WILL": 1,
-   "BEN": 1
-  },
-  "2026-07-21": {
-   "BEN": 2,
-   "BRODIE C": 2,
-   "ERICH": 1,
-   "ORI": 1,
-   "KYUSS": 1,
-   "ZEALAN": 1
-  },
-  "2026-07-22": {
-   "ERICH": 1
-  },
-  "2026-07-23": {
-   "BEN": 1,
-   "BRODIE B": 2,
-   "ERICH": 1
-  },
-  "2026-07-24": {
-   "BRODIE C": 1,
-   "BEN": 1
-  },
-  "2026-07-27": {
-   "JEMMA": 1
-  },
-  "2026-07-28": {
-   "JEMMA": 1,
-   "BRODIE C": 1,
-   "ZEALAN": 1,
-   "ERICH": 1,
-   "RICARDO": 1
-  },
-  "2026-07-29": {
-   "BRODIE C": 2,
-   "BRODIE B": 1,
-   "SAM K": 1,
-   "WILL": 1,
-   "THOMAS": 1
-  },
-  "2026-07-30": {
-   "BRODIE B": 2,
-   "BEN": 1
-  },
-  "2026-07-31": {
-   "BEN": 1
-  },
-  "2026-08-01": {
-   "RICARDO": 1
-  },
-  "2026-08-02": {
-   "SAM K": 1,
-   "ORI": 1
-  },
-  "2026-08-03": {
-   "ERICH": 2,
-   "BRODIE C": 1,
-   "WILL": 1
-  },
-  "2026-08-04": {
-   "JEMMA": 1,
-   "JACKSON": 1,
-   "WILL": 1
-  },
-  "2026-08-05": {
-   "RICARDO": 1,
-   "WILL": 1,
-   "SAM K": 2,
-   "CHUONG": 1,
-   "BRODIE C": 1,
-   "BRODIE B": 1,
-   "BEN": 1
-  },
-  "2026-08-06": {
-   "THOMAS": 2,
-   "CHUONG": 1,
-   "BEN": 1,
-   "BRODIE B": 1
-  },
-  "2026-08-07": {
-   "BEN": 1,
-   "BRODIE B": 1,
-   "ERICH": 1,
-   "ORI": 1
-  },
-  "2026-08-08": {
-   "THOMAS": 1,
-   "RICARDO": 1,
-   "BRODIE C": 1,
-   "ORI": 1
-  },
-  "2026-08-09": {
-   "BAYLEIGH": 1
-  },
-  "2026-08-10": {
-   "RICARDO": 1,
-   "ERICH": 1,
-   "BEN": 2,
-   "BRODIE B": 2,
-   "THOMAS": 1
-  },
-  "2026-08-11": {
-   "CHUONG": 2,
-   "THOMAS": 1,
-   "SAM K": 1,
-   "BEN": 2
-  },
-  "2026-08-12": {
-   "RICARDO": 1,
-   "THOMAS": 1,
-   "CHUONG": 1,
-   "BRODIE C": 2,
-   "ERICH": 1,
-   "SAM K": 1
-  },
-  "2026-08-13": {
-   "BRODIE C": 1,
-   "BEN": 1,
-   "BAYLEIGH": 1,
-   "ALEX": 1
-  },
-  "2026-08-14": {
-   "CHUONG": 1,
-   "BRODIE C": 2
-  },
-  "2026-08-15": {
-   "BRODIE C": 1,
-   "CHUONG": 1,
-   "ERICH": 1,
-   "BAYLEIGH": 1
-  },
-  "2026-08-16": {
-   "CHUONG": 1,
-   "ORI": 1,
-   "SAM K": 1,
-   "ALEX": 1
-  },
-  "2026-08-17": {
-   "ORI": 1,
-   "SAM K": 1,
-   "BAYLEIGH": 1,
-   "RICARDO": 1
-  },
-  "2026-08-18": {
-   "RICARDO": 2,
-   "BRODIE B": 1,
-   "MAIKA": 1,
-   "THOMAS": 1,
-   "BEN": 1,
-   "BRODIE C": 1
-  },
-  "2026-08-19": {
-   "BRODIE C": 2,
-   "BRODIE B": 1,
-   "RICARDO": 1,
-   "BAYLEIGH": 1,
-   "CHUONG": 1
-  },
-  "2026-08-20": {
-   "RICARDO": 1,
-   "BEN": 2,
-   "BAYLEIGH": 1,
-   "CHUONG": 1
-  },
-  "2026-08-21": {
-   "ALEX": 1,
-   "BEN": 1,
-   "BRODIE C": 1,
-   "CHUONG": 1,
-   "THOMAS": 1,
-   "RICARDO": 1
-  },
-  "2026-08-22": {
-   "RICARDO": 1,
-   "BEN": 1
+  "2026-09-09": {
+   "BRODIE B": {
+    "n": 3,
+    "who": [
+     "Aaron A.",
+     "Chelsea L.",
+     "Joshua I."
+    ]
+   },
+   "SAM H": {
+    "n": 1,
+    "who": [
+     "Albert N."
+    ]
+   },
+   "OLIVER": {
+    "n": 1,
+    "who": [
+     "Caleb S."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Kijan P."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Kudzai M."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Kyran A."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Valentino B."
+    ]
+   }
   },
   "2026-08-23": {
-   "CHUONG": 1,
-   "MAIKA": 1,
-   "BEN": 1,
-   "THOMAS": 1
-  },
-  "2026-08-24": {
-   "BEN": 2,
-   "JACKSON": 1,
-   "BAYLEIGH": 1,
-   "OLIVER": 1,
-   "SAM K": 1
-  },
-  "2026-08-25": {
-   "ORI": 1,
-   "RICARDO": 1,
-   "BRODIE C": 1
-  },
-  "2026-08-26": {
-   "THOMAS": 1,
-   "BRODIE C": 1,
-   "WILL": 1,
-   "BEN": 2,
-   "RICARDO": 1
-  },
-  "2026-08-27": {
-   "BRODIE B": 1,
-   "BRODIE C": 2,
-   "CHUONG": 2,
-   "ORI": 1,
-   "SAM K": 2,
-   "BEN": 1,
-   "BAYLEIGH": 1,
-   "SAM H": 1
-  },
-  "2026-08-28": {
-   "CHUONG": 2,
-   "RICARDO": 1,
-   "BRODIE B": 1,
-   "BAYLEIGH": 1,
-   "LIAM": 1,
-   "ALEX": 1,
-   "ORI": 1
-  },
-  "2026-08-29": {
-   "BRODIE B": 2,
-   "ALEX": 1,
-   "ERICH": 1,
-   "BAYLEIGH": 2,
-   "BEN": 1,
-   "KYUSS": 1
-  },
-  "2026-08-30": {
-   "ERICH": 1,
-   "CHUONG": 1,
-   "BRODIE C": 2,
-   "ORI": 1,
-   "WILL": 1
-  },
-  "2026-08-31": {
-   "ORI": 1,
-   "WILL": 2,
-   "RICARDO": 1
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Abduljalil M."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Arthur A."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Fabrice R."
+    ]
+   },
+   "MAIKA": {
+    "n": 1,
+    "who": [
+     "Tai C."
+    ]
+   }
   },
   "2026-09-01": {
-   "ERICH": 1,
-   "BRODIE B": 2,
-   "BAYLEIGH": 1,
-   "SAM K": 1
-  },
-  "2026-09-02": {
-   "BRODIE B": 3,
-   "JACKSON": 1,
-   "WILL": 2,
-   "BEN": 2,
-   "CHUONG": 1,
-   "SAM K": 1,
-   "ORI": 1
-  },
-  "2026-09-03": {
-   "JACKSON": 1,
-   "THOMAS": 1,
-   "BRODIE C": 2,
-   "BEN": 2,
-   "ORI": 1
-  },
-  "2026-09-04": {
-   "CHUONG": 3,
-   "RICARDO": 1,
-   "BEN": 1
+   "BRODIE B": {
+    "n": 2,
+    "who": [
+     "Adam R.",
+     "Max E."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Jake T."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Malakye L."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Niall S."
+    ]
+   }
   },
   "2026-09-05": {
-   "OLIVER": 1,
-   "CHUONG": 1,
-   "BRODIE C": 1,
-   "SAM K": 1,
-   "ALEX": 1
+   "OLIVER": {
+    "n": 1,
+    "who": [
+     "Adrian H."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Benjamin H."
+    ]
+   },
+   "ALEX": {
+    "n": 1,
+    "who": [
+     "Ethan F."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Mark K."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Seth B."
+    ]
+   }
   },
-  "2026-09-06": {
-   "BAYLEIGH": 2,
-   "ORI": 1
+  "2026-08-12": {
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Aidan S."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Ashton T."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Jake P."
+    ]
+   },
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Mason G.",
+     "Rowan B."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Riley R."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Te T."
+    ]
+   }
   },
   "2026-09-07": {
-   "CHUONG": 2,
-   "BRODIE B": 1,
-   "BRODIE C": 2,
-   "SAM K": 1,
-   "ORI": 1
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Aiden K.",
+     "Mitchell P."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Alfred J."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "John E."
+    ]
+   },
+   "CHUONG": {
+    "n": 2,
+    "who": [
+     "Jordan Z.",
+     "Reece G."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Lincoln L."
+    ]
+   }
   },
-  "2026-09-08": {
-   "BRODIE B": 2,
-   "SAM K": 1,
-   "OLIVER": 1,
-   "BEN": 1
-  },
-  "2026-09-09": {
-   "BRODIE B": 3,
-   "WILL": 1,
-   "OLIVER": 1,
-   "BEN": 1,
-   "SAM H": 1,
-   "RICARDO": 1,
-   "ORI": 1
-  },
-  "2026-09-10": {
-   "WILL": 2,
-   "THOMAS": 1,
-   "BRODIE C": 1,
-   "MAX": 1,
-   "BEN": 1,
-   "ERICH": 1,
-   "SAM K": 1,
-   "SAM H": 1
+  "2026-08-21": {
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Ailal P."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Harry T."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Innocent K."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Logan S."
+    ]
+   },
+   "ALEX": {
+    "n": 1,
+    "who": [
+     "Riley N."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Samuel U."
+    ]
+   }
   },
   "2026-09-11": {
-   "CHUONG": 1,
-   "BRODIE B": 2,
-   "BROOKE": 1,
-   "MAX": 1,
-   "WILL": 1,
-   "BAYLEIGH": 1,
-   "BEN": 1
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Alan F."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Elijah M."
+    ]
+   },
+   "BRODIE B": {
+    "n": 2,
+    "who": [
+     "Harry W.",
+     "Tom B."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Jack P."
+    ]
+   },
+   "MAX": {
+    "n": 1,
+    "who": [
+     "Jhy L."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Muhamad D."
+    ]
+   },
+   "BROOKE": {
+    "n": 1,
+    "who": [
+     "Steven H."
+    ]
+   }
+  },
+  "2026-07-21": {
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Alejandro A."
+    ]
+   },
+   "KYUSS": {
+    "n": 1,
+    "who": [
+     "Chase M."
+    ]
+   },
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Ezekiel M.",
+     "Poppi T."
+    ]
+   },
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Harvey S.",
+     "Lochlan H."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Mitchell G."
+    ]
+   },
+   "ZEALAN": {
+    "n": 1,
+    "who": [
+     "Robert M."
+    ]
+   }
+  },
+  "2026-08-30": {
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Andrew C."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Austin G."
+    ]
+   },
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Jack C.",
+     "Lucas W."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Luke M."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Sebastien B."
+    ]
+   }
+  },
+  "2026-09-08": {
+   "OLIVER": {
+    "n": 1,
+    "who": [
+     "Andrew K."
+    ]
+   },
+   "BRODIE B": {
+    "n": 2,
+    "who": [
+     "Jacob O.",
+     "Liam C."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Maxwell K."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Odin J."
+    ]
+   }
+  },
+  "2026-08-26": {
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Andrew M.",
+     "Ashton S."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Coby W."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Hunter T."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Rainier J."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Sean Z."
+    ]
+   }
   },
   "2026-09-12": {
-   "CHUONG": 1,
-   "OLIVER": 2,
-   "BRODIE B": 1,
-   "BRODIE C": 1,
-   "WILL": 1
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Andrew D."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Brodie R."
+    ]
+   },
+   "OLIVER": {
+    "n": 2,
+    "who": [
+     "James B.",
+     "Zac J."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Tallin I."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Tighe L."
+    ]
+   }
   },
-  "2026-09-13": {
-   "OLIVER": 1
+  "2026-09-03": {
+   "JACKSON": {
+    "n": 1,
+    "who": [
+     "Angus W."
+    ]
+   },
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Harry K.",
+     "Nate J."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Jack O."
+    ]
+   },
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Jake C.",
+     "Riley P."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Zekiah G."
+    ]
+   }
+  },
+  "2026-07-28": {
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Aniq S."
+    ]
+   },
+   "ZEALAN": {
+    "n": 1,
+    "who": [
+     "Cody M."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Damon C."
+    ]
+   },
+   "JEMMA": {
+    "n": 1,
+    "who": [
+     "Michael R."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Sam W."
+    ]
+   }
+  },
+  "2026-09-06": {
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Anthony C."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 2,
+    "who": [
+     "Heke M.",
+     "Seth B."
+    ]
+   }
+  },
+  "2026-09-10": {
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Aria C."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Harry L."
+    ]
+   },
+   "MAX": {
+    "n": 1,
+    "who": [
+     "Jake R."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Justin F."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Lachy A."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Nikolaos C."
+    ]
+   },
+   "SAM H": {
+    "n": 1,
+    "who": [
+     "Quinn S."
+    ]
+   },
+   "WILL": {
+    "n": 2,
+    "who": [
+     "Ricky B.",
+     "Robbie C."
+    ]
+   }
+  },
+  "2026-08-05": {
+   "SAM K": {
+    "n": 2,
+    "who": [
+     "Aro A.",
+     "Dustin P."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Bailey C."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Brendan D."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Maddison S."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Pete"
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Zac M."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Zachary R."
+    ]
+   }
+  },
+  "2026-08-20": {
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Ash H."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Ashley T."
+    ]
+   },
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Harrison B.",
+     "Jakai T."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Niholas C."
+    ]
+   }
+  },
+  "2026-08-27": {
+   "SAM K": {
+    "n": 2,
+    "who": [
+     "Asher S.",
+     "Tarkyn M."
+    ]
+   },
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Eddie H.",
+     "Xaiythem W."
+    ]
+   },
+   "CHUONG": {
+    "n": 2,
+    "who": [
+     "Lachlan L.",
+     "Taurie D."
+    ]
+   },
+   "SAM H": {
+    "n": 1,
+    "who": [
+     "Marshall M."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Oliver K."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Rathusan M."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Triantafilos K."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "William W."
+    ]
+   }
+  },
+  "2026-08-06": {
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Bailey D."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Blake C."
+    ]
+   },
+   "THOMAS": {
+    "n": 2,
+    "who": [
+     "Connor M.",
+     "Jarvis M."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Stuart H."
+    ]
+   }
+  },
+  "2026-08-07": {
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Bailey B."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Kennard R."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Tiger P."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Toby B."
+    ]
+   }
+  },
+  "2026-09-04": {
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Baxter S."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Jack M."
+    ]
+   },
+   "CHUONG": {
+    "n": 3,
+    "who": [
+     "Riley D.",
+     "Shelby T.",
+     "Tim B."
+    ]
+   }
+  },
+  "2026-08-11": {
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Beau C."
+    ]
+   },
+   "CHUONG": {
+    "n": 2,
+    "who": [
+     "Chris S.",
+     "Zuberi M."
+    ]
+   },
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Christopher C.",
+     "Taj H."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "William C."
+    ]
+   }
+  },
+  "2026-07-18": {
+   "ZEALAN": {
+    "n": 1,
+    "who": [
+     "Benjamin R."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Daniel T."
+    ]
+   }
+  },
+  "2026-08-15": {
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Beth T."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Corbin H."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Lionell N."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Matthew R."
+    ]
+   }
+  },
+  "2026-08-28": {
+   "ALEX": {
+    "n": 1,
+    "who": [
+     "Billy C."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Chayce B."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Jeremy X."
+    ]
+   },
+   "CHUONG": {
+    "n": 2,
+    "who": [
+     "Liam B.",
+     "Nate S."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Max L."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Mereani B."
+    ]
+   },
+   "LIAM": {
+    "n": 1,
+    "who": [
+     "Rhys W."
+    ]
+   }
+  },
+  "2026-08-29": {
+   "BRODIE B": {
+    "n": 2,
+    "who": [
+     "Billy S.",
+     "Michael O."
+    ]
+   },
+   "KYUSS": {
+    "n": 1,
+    "who": [
+     "Dakota H."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "James M."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 2,
+    "who": [
+     "Jayden P.",
+     "Mia S."
+    ]
+   },
+   "ALEX": {
+    "n": 1,
+    "who": [
+     "Nicholas N."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Thomas H."
+    ]
+   }
+  },
+  "2026-07-24": {
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Blake D."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Sung V."
+    ]
+   }
+  },
+  "2026-08-19": {
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Bohdy S."
+    ]
+   },
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Cooper B.",
+     "Tom S."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Judd R."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Montoya L."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Tehanataua D."
+    ]
+   }
+  },
+  "2026-08-10": {
+   "BRODIE B": {
+    "n": 2,
+    "who": [
+     "Bradley A.",
+     "Rhian H."
+    ]
+   },
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Ely W.",
+     "Sean N."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Jackson R."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Jacob H."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Rory B."
+    ]
+   }
+  },
+  "2026-09-02": {
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Braith G."
+    ]
+   },
+   "WILL": {
+    "n": 2,
+    "who": [
+     "Duck H.",
+     "Jett E."
+    ]
+   },
+   "JACKSON": {
+    "n": 1,
+    "who": [
+     "Esteban P."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Harry L."
+    ]
+   },
+   "BRODIE B": {
+    "n": 3,
+    "who": [
+     "Luke C.",
+     "Nick O.",
+     "Rylie B."
+    ]
+   },
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Ripley C.",
+     "Tyler H."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Tinotenda D."
+    ]
+   }
+  },
+  "2026-08-04": {
+   "JACKSON": {
+    "n": 1,
+    "who": [
+     "Brandon M."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Dillon S."
+    ]
+   },
+   "JEMMA": {
+    "n": 1,
+    "who": [
+     "Tim V."
+    ]
+   }
+  },
+  "2026-08-16": {
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Brayden B."
+    ]
+   },
+   "ALEX": {
+    "n": 1,
+    "who": [
+     "Brayden R."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Ethan W."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Zak P."
+    ]
+   }
+  },
+  "2026-08-25": {
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Brodi G."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Finn P."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Joaquin P."
+    ]
+   }
+  },
+  "2026-08-08": {
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Brylee X."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Chase M."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Christian D."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "James H."
+    ]
+   }
+  },
+  "2026-08-18": {
+   "MAIKA": {
+    "n": 1,
+    "who": [
+     "Cale R."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Corey C."
+    ]
+   },
+   "RICARDO": {
+    "n": 2,
+    "who": [
+     "Jack C.",
+     "Ryan C."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Nathan W."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Samual D."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Samuel B."
+    ]
+   }
+  },
+  "2026-07-30": {
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Christian J."
+    ]
+   },
+   "BRODIE B": {
+    "n": 2,
+    "who": [
+     "Cody J.",
+     "Morgan D."
+    ]
+   }
+  },
+  "2026-08-24": {
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Cody H."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Ivan A."
+    ]
+   },
+   "JACKSON": {
+    "n": 1,
+    "who": [
+     "Karla S."
+    ]
+   },
+   "BEN": {
+    "n": 2,
+    "who": [
+     "Niki C.",
+     "Tyler C."
+    ]
+   },
+   "OLIVER": {
+    "n": 1,
+    "who": [
+     "Tristen Y."
+    ]
+   }
+  },
+  "2026-08-13": {
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Cooper T."
+    ]
+   },
+   "ALEX": {
+    "n": 1,
+    "who": [
+     "Joshua T."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Kobey L."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Max S."
+    ]
+   }
   },
   "2026-09-14": {
-   "BRODIE B": 1,
-   "RICARDO": 1,
-   "CHUONG": 1,
-   "KYUSS": 1,
-   "THOMAS": 1,
-   "ERICH": 1
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Cooper M."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Izaac H."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Jaxon C."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Lauchlan H."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Ryan W."
+    ]
+   },
+   "KYUSS": {
+    "n": 1,
+    "who": [
+     "Sacha B."
+    ]
+   }
+  },
+  "2026-08-09": {
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "David C."
+    ]
+   }
+  },
+  "2026-07-29": {
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Dayne R."
+    ]
+   },
+   "THOMAS": {
+    "n": 1,
+    "who": [
+     "Hamish P."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Kennedy T."
+    ]
+   },
+   "BRODIE B": {
+    "n": 1,
+    "who": [
+     "Kyle J."
+    ]
+   },
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Matty M.",
+     "Shane O."
+    ]
+   }
+  },
+  "2026-08-14": {
+   "BRODIE C": {
+    "n": 2,
+    "who": [
+     "Denver B.",
+     "Phoenix S."
+    ]
+   },
+   "CHUONG": {
+    "n": 1,
+    "who": [
+     "Jay H."
+    ]
+   }
+  },
+  "2026-08-03": {
+   "ERICH": {
+    "n": 2,
+    "who": [
+     "Ethan G.",
+     "Ethan O."
+    ]
+   },
+   "BRODIE C": {
+    "n": 1,
+    "who": [
+     "Harvey P."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Michael M."
+    ]
+   }
+  },
+  "2026-08-17": {
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Jared H."
+    ]
+   },
+   "BAYLEIGH": {
+    "n": 1,
+    "who": [
+     "Joshuah S."
+    ]
+   },
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Luke W."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Malachi B."
+    ]
+   }
+  },
+  "2026-08-02": {
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Jineet S."
+    ]
+   },
+   "SAM K": {
+    "n": 1,
+    "who": [
+     "Sirbastian P."
+    ]
+   }
+  },
+  "2026-07-27": {
+   "JEMMA": {
+    "n": 1,
+    "who": [
+     "Jobe S."
+    ]
+   }
+  },
+  "2026-07-23": {
+   "BRODIE B": {
+    "n": 2,
+    "who": [
+     "Jospeh S.",
+     "Micheal O."
+    ]
+   },
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Jye D."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Levi C."
+    ]
+   }
+  },
+  "2026-08-31": {
+   "ORI": {
+    "n": 1,
+    "who": [
+     "Jye H."
+    ]
+   },
+   "WILL": {
+    "n": 2,
+    "who": [
+     "Kohen O.",
+     "Oliver P."
+    ]
+   },
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Onyx M."
+    ]
+   }
+  },
+  "2026-07-20": {
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Kye W."
+    ]
+   },
+   "WILL": {
+    "n": 1,
+    "who": [
+     "Seth W."
+    ]
+   }
+  },
+  "2026-07-22": {
+   "ERICH": {
+    "n": 1,
+    "who": [
+     "Michael M."
+    ]
+   }
+  },
+  "2026-08-22": {
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Mohammed W."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Tyler R."
+    ]
+   }
+  },
+  "2026-08-01": {
+   "RICARDO": {
+    "n": 1,
+    "who": [
+     "Oliver S."
+    ]
+   }
+  },
+  "2026-07-17": {
+   "ZEALAN": {
+    "n": 1,
+    "who": [
+     "Salesi K."
+    ]
+   },
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Tory K."
+    ]
+   }
+  },
+  "2026-07-19": {
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Timothy B."
+    ]
+   }
+  },
+  "2026-07-31": {
+   "BEN": {
+    "n": 1,
+    "who": [
+     "Tyrone M."
+    ]
+   }
+  },
+  "2026-09-13": {
+   "OLIVER": {
+    "n": 1,
+    "who": [
+     "Zac B."
+    ]
+   }
   }
  },
  "unmapped": []
