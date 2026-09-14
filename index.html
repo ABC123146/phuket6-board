@@ -646,6 +646,11 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 /* per closer pill on the standings rows and the champion belt */
 .finpill{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid #1f5a48;border-radius:3px;font-size:10px;letter-spacing:.06em;color:var(--dim);vertical-align:middle;white-space:nowrap}
 .finpill.hot{color:var(--gr);border-color:#2a8a66}
+/* viewer timezone, top right: drives the FINANCING APPS day. Stored per device. */
+.tzpick{display:inline-flex;align-items:center;gap:5px;margin-left:12px;vertical-align:middle}
+.tzpick span{font-size:9px;letter-spacing:.16em;color:var(--dim);font-weight:700}
+.tzpick select{appearance:none;-webkit-appearance:none;background:var(--card2) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='5'%3E%3Cpath d='M0 0l4 5 4-5z' fill='%2300e5ff'/%3E%3C/svg%3E") no-repeat right 7px center;border:1px solid var(--line);color:#fff;font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.1em;font-weight:700;padding:3px 20px 3px 8px;cursor:pointer}
+.tzpick select:hover{border-color:var(--cy)}.tzpick select:focus{outline:none;border-color:var(--cy)}
 
 #unppanel .reprow{border-bottom:1px solid #242428;padding:9px 0;font-size:13px;line-height:1.5}
 #unppanel .reprow b{color:#ffd84d}
@@ -803,7 +808,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
   <div class="top">
     <div class="logo">PHUKET <span>6</span><small>THE FIGHT CARD · <a href="https://youtu.be/JnYP96UEikI" target="_blank" rel="noopener" class="vz">VILLA ZAI ▶</a></small></div>
     <div class="clock"><div class="t" id="clock">--:--:--:--</div><div class="l">DAYS : HRS : MIN : SEC UNTIL THE BOOKS CLOSE · 1 DEC</div></div>
-    <div class="live"><div class="dot"></div><span id="upd">connecting</span><span id="next"></span><div id="snd" title="sound on or off">🔊</div></div>
+    <div class="live"><div class="dot"></div><span id="upd">connecting</span><label class="tzpick" title="the day the FINANCING APPS panel counts in"><span>TIME</span><select id="tzsel"></select></label><span id="next"></span><div id="snd" title="sound on or off">🔊</div></div>
   </div>
   <div class="grid">
     <div>
@@ -1047,7 +1052,8 @@ function renderFinance(f){
     (showLines?'<div class="fline goal" style="bottom:'+pct(g.goal)+'%"><span>GOAL '+g.goal+'</span></div><div class="fline min" style="bottom:'+pct(g.min)+'%"><span>MIN '+g.min+'</span></div>':'')+
     bars.map(b=>'<div class="fb '+(b.gap?'':finBand(b.fut?null:b.v,g))+(b.now?' now':'')+(b.prev?' prev':'')+(b.gap?' gap':'')+(b.d&&!b.fut?' pick':'')+(b.d&&b.d===window.__finDay?' sel':'')+'"'+(b.d&&!b.fut?' data-d="'+b.d+'"':'')+' style="height:'+(b.fut?0:Math.max(pct(b.v||0),(b.v||0)>0?2:1.5))+'%">'+((b.v||0)>0&&!b.fut?'<div class="fv">'+b.v+'</div>':'')+'</div>').join('')+
     '</div><div class="flabels">'+bars.map(b=>'<span class="'+(b.now?'now':'')+(b.gap?' gap':'')+(b.prev?' prev':'')+'">'+b.lab+'</span>').join('')+'</div>';
-  const seg='<div class="fview"><span class="fvl">VIEW BY</span><select class="fsel">'+[['day','DAY'],['week','WEEK'],['month','MONTH']].map(([k,l])=>'<option value="'+k+'"'+(view===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div>';
+  const tzName=(TZ_LIST.find(([v])=>v===f.tz)||[f.tz,String(f.tz).split("/").pop().replace(/_/g," ").toUpperCase()])[1];
+  const seg='<div class="fview"><span class="fvl" title="day counted in '+hesc(f.tz)+'">'+hesc(tzName)+' DAY · VIEW BY</span><select class="fsel">'+[['day','DAY'],['week','WEEK'],['month','MONTH']].map(([k,l])=>'<option value="'+k+'"'+(view===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div>';
   const lead=(f.leaders||[]).slice(0,5);
   $("finbody").innerHTML=
     '<div class="finhead"><div class="fbig '+band+'">'+n+'</div><div class="fof">/ '+g.goal+' today</div>'+seg+'</div>'+
@@ -1191,6 +1197,7 @@ function render(d){
   const want=new URLSearchParams(location.search).get("p");
   if(want&&!window.__pOpened){window.__pOpened=true;openCard(want.toUpperCase());}
   $("upd").textContent="live · "+new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+  syncTzPicker();
 }
 let CARDS={};
 // total time this closer has spent at #1 across the whole comp, all reigns
@@ -1664,10 +1671,23 @@ async function repSend(){
   }catch(e){m.className='repmsg err';m.textContent='could not send ('+e.message+'). Screenshot this and WhatsApp Trev instead.';}}
 function toast(html){window.__lastEvent=Date.now();const t=document.createElement('div');t.className='toast';t.innerHTML=html;
 $("toasts").appendChild(t);setTimeout(()=>t.remove(),9000);}
+// ---- viewer timezone ----
+// The FINANCING APPS day is counted in whatever zone the viewer picks here.
+// Default Dubai (Trev, 2026-09-14). Remembered per device. The page sends it
+// to the edge function as &tz= and re polls the moment it changes.
+const TZ_DEFAULT="Asia/Dubai";
+const TZ_LIST=[["Asia/Dubai","DUBAI"],["Australia/Sydney","SYDNEY"],["Australia/Brisbane","BRISBANE"],["Australia/Adelaide","ADELAIDE"],["Australia/Perth","PERTH"],["Pacific/Auckland","AUCKLAND"],["Asia/Manila","MANILA"],["Europe/London","LONDON"],["America/New_York","NEW YORK"],["America/Los_Angeles","LOS ANGELES"],["auto","MY DEVICE"]];
+function tzStored(){try{return localStorage.getItem("p6tz")||TZ_DEFAULT;}catch(e){return TZ_DEFAULT;}}
+function tzResolved(){const v=tzStored();if(v!=="auto")return v;try{return Intl.DateTimeFormat().resolvedOptions().timeZone||TZ_DEFAULT;}catch(e){return TZ_DEFAULT;}}
+function syncTzPicker(){const el=$("tzsel");if(!el)return;
+  if(!el.options.length){TZ_LIST.forEach(([v,l])=>{const o=document.createElement("option");o.value=v;o.textContent=l;el.appendChild(o);});
+    el.onchange=()=>{try{localStorage.setItem("p6tz",el.value);}catch(e){}window.__finDay=null;poll();};}
+  if(el.value!==tzStored())el.value=tzStored();}
 async function poll(){try{
   const Q=new URLSearchParams(location.search);const K=Q.get("k")||"";
+  syncTzPicker();
   // the commander view also wants the reconciliation audit (unproven POs); the team page never asks for it
-  const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1"+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
+  const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1&tz="+encodeURIComponent(tzResolved())+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
   const d=await r.json();
   // ?src=local: review the FINANCING APPS panel against a fixture built from the
   // database by tools/fin_mock.py, before the edge function serves the block.
