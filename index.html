@@ -1064,7 +1064,7 @@ function renderFinance(f){
     bars.map(b=>'<div class="fb '+(b.gap?'':finBand(b.fut?null:b.v,g))+(b.now?' now':'')+(b.prev?' prev':'')+(b.gap?' gap':'')+(b.d&&!b.fut?' pick':'')+(b.d&&b.d===window.__finDay?' sel':'')+'"'+(b.d&&!b.fut?' data-d="'+b.d+'"':'')+' style="height:'+(b.fut?0:Math.max(pct(b.v||0),(b.v||0)>0?2:1.5))+'%">'+((b.v||0)>0&&!b.fut?'<div class="fv">'+b.v+'</div>':'')+'</div>').join('')+
     '</div><div class="flabels">'+bars.map(b=>'<span class="'+(b.now?'now':'')+(b.gap?' gap':'')+(b.prev?' prev':'')+'">'+b.lab+'</span>').join('')+'</div>';
   const tzName=(TZ_LIST.find(([v])=>v===f.tz)||[f.tz,String(f.tz).split("/").pop().replace(/_/g," ").toUpperCase()])[1];
-  const seg='<div class="fview"><span class="fvl" title="the day is counted in '+hesc(f.tz)+'. Change it with the TIME picker top right.">'+hesc(tzName)+' DAY</span><select class="fsel">'+[['day','DAY'],['week','WEEK'],['month','MONTH']].map(([k,l])=>'<option value="'+k+'"'+(view===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div>';
+  const seg='<div class="fview" title="the day is counted in '+hesc(f.tz)+'. Change it with the TIME picker top right."><select class="fsel">'+[['day','DAY'],['week','WEEK'],['month','MONTH']].map(([k,l])=>'<option value="'+k+'"'+(view===k?' selected':'')+'>'+l+'</option>').join('')+'</select></div>';
   const lead=(f.leaders||[]).slice(0,5);
   $("finbody").innerHTML=
     '<div class="finhead"><div class="fbig '+band+'">'+n+'</div><div class="fof">/ '+g.goal+' today</div>'+seg+'</div>'+
