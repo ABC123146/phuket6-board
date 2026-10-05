@@ -64,7 +64,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .hill .hbig b{font-family:'Teko',sans-serif;font-weight:700;font-size:64px;line-height:.8;color:var(--gd);
  text-shadow:0 0 24px rgba(255,204,0,.6)}
 .hill .hbig span{font-family:'Chakra Petch',sans-serif;font-size:10px;letter-spacing:.26em;line-height:1.35;
- color:#fff;font-weight:700;max-width:78px;text-transform:uppercase}
+ color:#fff;font-weight:700;max-width:118px;text-transform:uppercase}
 .hill .hmid{flex:1;min-width:190px}
 .hill .hpips{display:flex;gap:5px;flex-wrap:wrap;align-items:center;margin-bottom:7px}
 .hill .hpips i{width:16px;height:8px;background:var(--gd);box-shadow:0 0 9px rgba(255,204,0,.65);
@@ -983,7 +983,7 @@ function kingStrip(k){
   if(!k)return'';
   const since=new Date(k.since).getTime(),held=Date.now()-since,days=Math.floor(held/864e5);
   const big=days>=1?days:Math.max(Math.floor(held/36e5),0);
-  const lbl=days>=1?('Day'+(days===1?'':'s')+' on the hill'):('Hour'+(big===1?'':'s')+' on the hill');
+  const lbl=days>=1?('Day'+(days===1?'':'s')+' in the number one spot'):('Hour'+(big===1?'':'s')+' in the number one spot');
   // one pip per whole day survived, on a track of empty days so a short reign
   // reads as a streak that has barely started, not as one lonely blob
   const shown=Math.min(days,14),slots=Math.max(shown,7);
