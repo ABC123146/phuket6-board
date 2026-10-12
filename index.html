@@ -961,11 +961,18 @@ const FACE_K=new URLSearchParams(location.search).get("k")||"";
 // bundle is redeployed and every browser fetches the new image immediately.
 const FACE_V="20260806a";
 function faceUrl(slug){return FACE_API+"?k="+encodeURIComponent(FACE_K)+"&face="+encodeURIComponent(slug)+"&v="+FACE_V;}
+// Slugs the face API answered "no face" for. A 404 is never cached and the board
+// re-renders on every 45s poll, so without this each open tab re-asked for every
+// missing headshot every poll (about 106,000 edge function calls a day). Now a
+// missing face is asked for once per page load. Reload the tab to pick up a new one.
+const NOFACE=new Set();
+function noFace(slug){NOFACE.add(slug);}
 function face(name,cls){const big=/champav|big/.test(cls||'');
   // Background removed cutouts everywhere, so heads read as avatars rather than
   // as photos with someone's kitchen behind them.
+  const slug=faceSlug(name)+(big?'-cut':'-cutsm');
   return '<div class="pfp '+(cls||'')+'"><span>'+initials(name)+'</span>'+
-  '<img src="'+faceUrl(faceSlug(name)+(big?'-cut':'-cutsm'))+'" alt="" onerror="this.remove()"></div>';}
+  (NOFACE.has(slug)?'':'<img src="'+faceUrl(slug)+'" alt="" onerror="noFace(\''+slug+'\');this.remove()">')+'</div>';}
 function rowHtml(r,gold){const wk=r.last24h>0?'+'+money(r.last24h)+' today':'quiet today';
 return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,'_')+'">'+
 '<div class="rk">'+r.rank+'</div>'+face(r.name)+
@@ -1490,10 +1497,12 @@ function figure(n){
         +'<path class="foot far" d="M60 140 L72 140"></path></g></g>'
       +'<g class="torso">'
         +'<g class="head">'
-          +'<text class="ini" x="60" y="48" style="display:none">'+initials(n)+'</text>'
+          +(NOFACE.has(slug+'-cutsm')
+            ?'<text class="ini" x="60" y="48">'+initials(n)+'</text>'
+            :'<text class="ini" x="60" y="48" style="display:none">'+initials(n)+'</text>'
           +'<image href="'+faceUrl(slug+'-cutsm')+'" x="36" y="16" width="48" height="48" '
           +'preserveAspectRatio="xMidYMid meet" '
-          +'onerror="this.remove();this.closest(\'.head\').querySelector(\'.ini\').style.display=\'\'"></image>'
+          +'onerror="noFace(\''+slug+'-cutsm\');this.remove();this.closest(\'.head\').querySelector(\'.ini\').style.display=\'\'"></image>')
         +'</g>'
         +'<path class="limb" d="M60 92 L60 62"></path>'
         +'<path class="plate" d="M48 63 Q60 57 72 63 L68 94 L52 94 Z"></path>'
