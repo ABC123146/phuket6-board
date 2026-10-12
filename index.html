@@ -1717,4 +1717,20 @@ async function poll(){try{
   if(Q.get("src")==="local"){try{d.finance=await (await fetch("./finance-mock.json?cb="+Date.now(),{cache:"no-store"})).json();}catch(e){console.warn("no local finance fixture",e);}}
   render(d);nextPollAt=Date.now()+45000;}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+45000;}}
 poll();setInterval(poll,45000);
+// Self-update. GitHub Pages stamps index.html with Last-Modified, and the browser
+// keeps the stamp of the copy this tab is running in document.lastModified. If the
+// published page is newer, reload onto it. Before this a fix only reached people who
+// refreshed by hand. Waits while a banner, toast or kill cam has just fired, and
+// reloads at most once per published version so a stale cache cannot loop it.
+function newerPage(serverStamp,docStamp){const a=Date.parse(serverStamp),b=Date.parse(docStamp);
+  return isFinite(a)&&isFinite(b)&&a>b+2000;}
+async function checkVersion(){try{
+  const r=await fetch(location.pathname+"?vc="+Date.now(),{method:"HEAD",cache:"no-store"});
+  const stamp=r.ok&&r.headers.get("last-modified");
+  if(!stamp||!newerPage(stamp,document.lastModified))return;
+  if(Date.now()-window.__lastEvent<60000)return;
+  if(sessionStorage.getItem("p6reloaded")===stamp)return;
+  sessionStorage.setItem("p6reloaded",stamp);location.reload();
+}catch(e){}}
+setInterval(checkVersion,300000);
 </script></body></html>
