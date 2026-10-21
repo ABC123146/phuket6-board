@@ -101,6 +101,8 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .b{width:13px;height:13px;background:#1d1140;border:1px solid #32205e;transform:rotate(45deg)}
 .b.on{background:linear-gradient(135deg,var(--cy),var(--pu));border-color:var(--cy);box-shadow:0 0 8px rgba(0,229,255,.6)}
 .b.on.black{background:linear-gradient(135deg,var(--gd),#ff9d00);border-color:var(--gd);box-shadow:0 0 10px rgba(255,204,0,.8)}
+.b.th{width:20px;height:13px;transform:none;border:1px solid #32205e;border-radius:1px;background:linear-gradient(180deg,#a51931 0 16.67%,#f4f5f8 16.67% 33.33%,#2d2a4a 33.33% 66.67%,#f4f5f8 66.67% 83.33%,#a51931 83.33%);opacity:.6}
+.b.th.on{opacity:1;border-color:#f4f5f8;box-shadow:0 0 10px rgba(255,255,255,.6)}
 .trk{flex:1;position:relative;height:16px;background:#0d0620;border:1px solid var(--line);clip-path:polygon(6px 0,100% 0,calc(100% - 6px) 100%,0 100%)}
 .fill{height:100%;background:linear-gradient(90deg,var(--cy),var(--pu) 55%,var(--mg));box-shadow:0 0 14px rgba(168,85,247,.55);transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
 .fin{position:absolute;right:-10px;top:50%;transform:translateY(-56%);font-size:26px;z-index:2;display:flex;flex-direction:column;align-items:center;line-height:1;filter:drop-shadow(0 0 10px rgba(255,255,255,.3));animation:finwave 2.2s ease-in-out infinite}
@@ -928,7 +930,7 @@ const ne=$("next");if(ne)ne.textContent=nextPollAt?(np>0?'· next update in '+np
 setInterval(clock,1000);clock();
 function ago(ts){const m=Math.round((Date.now()-new Date(ts).getTime())/6e4);
 if(m<1)return"now";if(m<60)return m+"m ago";if(m<1440)return Math.round(m/60)+"h ago";return Math.round(m/1440)+"d ago";}
-function badges(r){return '<div class="badges">'+MILES.map(m=>'<div class="bwrap"><div class="b '+(r.cash>=m?('on'+(m===350000?' black':'')):'')+'"></div><div class="bl">'+(m/1000)+'k</div></div>').join('')+'</div>';}
+function badges(r){return '<div class="badges">'+MILES.map(m=>'<div class="bwrap"><div class="b'+(m===FLOOR?' th':'')+' '+(r.cash>=m?('on'+(m===350000?' black':'')):'')+'"></div><div class="bl">'+(m/1000)+'k</div></div>').join('')+'</div>';}
 const RKT='<img src="rocket.png" alt="">';
 function track(r,gold){
 const c=r.closer.replace(/\\W/g,'_');
