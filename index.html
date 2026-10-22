@@ -173,6 +173,33 @@ body[data-phase=final]:before{background:radial-gradient(900px 520px at 50% -10%
 body[data-phase=final] .clock .t{color:#ff5a5a;animation:finalpulse 1s ease-in-out infinite}
 @keyframes finalpulse{0%,100%{text-shadow:0 0 14px rgba(255,40,60,.6)}50%{text-shadow:0 0 34px rgba(255,40,60,1)}}
 body[data-phase] .clock .l{color:#fff}
+/* HERE COMES THE MONEY. $5k+ single payment: Vince keyed off his green screen,
+   bills and the closer's face raining down, a glass card in the middle. */
+#money{position:fixed;inset:0;z-index:288;display:none;overflow:hidden;background:radial-gradient(ellipse at 60% 50%,rgba(10,40,20,.55),rgba(0,0,0,.82));backdrop-filter:blur(3px)}
+#money.on{display:block;animation:mfade .35s ease-out}
+#money.out{animation:mfadeout .6s ease-in forwards}
+@keyframes mfade{from{opacity:0}to{opacity:1}}
+@keyframes mfadeout{to{opacity:0}}
+#mvince{position:absolute;left:-3vw;bottom:0;height:72vh;z-index:2;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 16%);mask-image:linear-gradient(180deg,transparent 0,#000 16%);filter:drop-shadow(0 0 30px rgba(0,0,0,.6)) blur(.4px);animation:vin .6s cubic-bezier(.2,.9,.3,1.1)}
+@keyframes vin{from{transform:translateX(-40%)}to{transform:none}}
+#mrain{position:absolute;inset:0;z-index:1;pointer-events:none}
+.bill{position:absolute;top:-80px;width:78px;height:36px;border-radius:3px;background:linear-gradient(135deg,#9fe0a0,#4c9a52 55%,#2f6b36);border:2px solid #d7f5c9;box-shadow:0 4px 10px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;font-family:'Russo One',sans-serif;font-size:15px;color:#1d4a22;animation:fall linear forwards}
+.bill:before{content:'';position:absolute;inset:4px;border:1px solid rgba(29,74,34,.45);border-radius:2px}
+.mface{position:absolute;top:-130px;width:110px;height:110px;animation:fall linear forwards}
+.mface .pfp{width:110px;height:110px}
+@keyframes fall{0%{transform:translate(0,0) rotate(var(--r0))}100%{transform:translate(var(--dx),115vh) rotate(var(--r1))}}
+#mcard{position:absolute;left:66%;top:50%;z-index:3;transform:translate(-50%,-50%);min-width:min(560px,90vw);padding:34px 48px 30px;text-align:center;border-radius:30px;
+ background:linear-gradient(160deg,rgba(255,255,255,.16),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.28);backdrop-filter:blur(22px) saturate(1.4);-webkit-backdrop-filter:blur(22px) saturate(1.4);
+ box-shadow:0 30px 80px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.35),0 0 80px rgba(45,255,136,.25)}
+#money.on #mcard{animation:mpop .7s cubic-bezier(.2,1.4,.4,1) .25s both}
+@keyframes mpop{from{transform:translate(-50%,-50%) scale(.5);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+#mcard .mf{width:150px;height:150px;margin:-100px auto 6px;border-radius:50%;background:radial-gradient(circle at 50% 40%,rgba(45,255,136,.35),rgba(0,0,0,.4));border:3px solid #2dff88;box-shadow:0 0 40px rgba(45,255,136,.6);overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+#mcard .mf .pfp{width:150px;height:150px}
+#mcard .mk{font-size:12px;letter-spacing:.42em;font-weight:700;color:#bfffd8}
+#mcard .mn{font-family:'Russo One',sans-serif;font-size:54px;line-height:1.05;color:#fff;text-transform:uppercase;margin-top:4px}
+#mcard .ma{font-family:'Teko',sans-serif;font-weight:700;font-size:120px;line-height:.9;margin-top:6px;background:linear-gradient(180deg,#fff6c2,#ffcc00 55%,#e08a00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 18px rgba(255,204,0,.45))}
+#mcard .ms{font-size:13px;color:#d6ffe6;letter-spacing:.12em;margin-top:2px}
+@media(max-width:700px){#mcard{left:50%;top:36%}#mcard .mn{font-size:30px}#mcard .ma{font-size:70px}#mcard .mf{width:100px;height:100px;margin-top:-70px}#mcard .mf .pfp{width:100px;height:100px}#mvince{height:45vh}}
 /* race to 180k, the qualification line, sits under the cabin header */
 .race{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:-2px 0 12px;font-size:13px;color:var(--tx2)}
 .race .rf{width:22px;height:14px;flex:none;border:1px solid #f4f5f8;border-radius:1px;background:linear-gradient(180deg,#a51931 0 16.67%,#f4f5f8 16.67% 33.33%,#2d2a4a 33.33% 66.67%,#f4f5f8 66.67% 83.33%,#a51931 83.33%)}
@@ -971,7 +998,7 @@ body[data-phase] .clock .l{color:#fff}
 <div class="courtwrap"><div class="courtlbl" id="corocourtlbl"></div>
 <div class="court" id="corocourt"></div></div>
 <div class="hail" id="corohail"></div></div><div class="petals" id="coropetals"></div></div>
-<div id="thai"></div><canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
+<div id="thai"></div><div id="money"><div id="mrain"></div><canvas id="mvince"></canvas><div id="mcard"></div></div><canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
 <div id="toasts"></div>
 <div id="repov"><div class="repcard">
   <h3>🚨 REPORT MISSING MONEY</h3>
@@ -999,6 +1026,9 @@ const ne=$("next");if(ne)ne.textContent=nextPollAt?(np>0?'· next update in '+np
 const THEME='andaman';
 const THEME_Q=new URLSearchParams(location.search).get('theme');
 if(THEME_Q!=='none'&&(THEME_Q||THEME))document.body.dataset.theme=THEME_Q||THEME;
+// ?moneytest=BEN:7500 previews the money moment a few seconds after load
+const MONEY_Q=new URLSearchParams(location.search).get('moneytest');
+if(MONEY_Q){const [n,a]=MONEY_Q.split(':');setTimeout(()=>moneyMoment(n.toUpperCase(),Number(a)||7500),4000);}
 const PHASE_Q=new URLSearchParams(location.search).get('phase');
 function phase(){const days=(CUTOFF-Date.now())/864e5;
   const ph=PHASE_Q?(PHASE_Q==='none'?'':PHASE_Q):(days<=7?'final':days<=14?'sunset':'');
@@ -1071,6 +1101,41 @@ function raceHtml(s){
   if(q.length)return '<div class="race done"><span class="rf"></span><span class="rt">THROUGH TO PHUKET</span><span class="ri">'+q.map(r=>'<b>'+r.name+'</b>').join(' · ')+'</span></div>';
   const near=s.slice(0,3);
   return '<div class="race"><span class="rf"></span><span class="rt">RACE TO 180K</span><span class="ri"><i>nobody through yet · </i>'+near.map(r=>'<b>'+r.name+'</b> '+money(FLOOR-r.cash)+' away').join(' · ')+'</span></div>';
+}
+const MONEY_MIN=5000;
+const MONEY_SND=new Audio('money/here-comes-the-money.mp3');
+const MONEY_VID=Object.assign(document.createElement('video'),{src:'money/vince.mp4',muted:true,playsInline:true,preload:'auto'});
+let moneyQ=[],moneyBusy=false;
+function moneyMoment(name,amount){moneyQ.push([name,amount]);if(!moneyBusy)nextMoney();}
+function nextMoney(){const it=moneyQ.shift();if(!it){moneyBusy=false;return;}moneyBusy=true;
+  window.__lastEvent=Date.now();
+  const [name,amount]=it,el=$("money"),rain=$("mrain"),cv=$("mvince"),ctx=cv.getContext('2d',{willReadFrequently:true});
+  $("mcard").innerHTML='<div class="mf">'+face(name,'big')+'</div><div class="mk">CASH COLLECTED</div><div class="mn">'+hesc(name)+'</div><div class="ma">$0</div><div class="ms">ONE PAYMENT · JUST LANDED</div>';
+  rain.innerHTML='';
+  const W=innerWidth;
+  for(let i=0;i<70;i++){const b=document.createElement('div');b.className='bill';b.textContent='$100';
+    b.style.cssText='left:'+(Math.random()*W)+'px;animation-duration:'+(2.4+Math.random()*2.2)+'s;animation-delay:'+(Math.random()*4.6)+'s;--r0:'+(Math.random()*360)+'deg;--r1:'+(Math.random()*720-360)+'deg;--dx:'+(Math.random()*240-120)+'px';rain.appendChild(b);}
+  for(let i=0;i<9;i++){const f=document.createElement('div');f.className='mface';f.innerHTML=face(name,'big');
+    f.style.cssText='left:'+(Math.random()*(W-110))+'px;animation-duration:'+(3+Math.random()*1.6)+'s;animation-delay:'+(0.6+Math.random()*3.6)+'s;--r0:'+(Math.random()*60-30)+'deg;--r1:'+(Math.random()*540-270)+'deg;--dx:'+(Math.random()*160-80)+'px';rain.appendChild(f);}
+  el.classList.remove('out');el.classList.add('on');
+  // count the amount up
+  const amt=el.querySelector('.ma'),t0=performance.now();
+  (function up(t){const k=Math.min((t-t0-500)/1600,1);if(k>0)amt.textContent=money(Math.round(amount*(1-Math.pow(1-k,3))));if(k<1)requestAnimationFrame(up);})(t0);
+  // key the green out of Vince every frame
+  MONEY_VID.currentTime=0;MONEY_VID.play().catch(()=>{});
+  let live=true;
+  (function key(){if(!live)return;
+    if(MONEY_VID.readyState>=2){cv.width=MONEY_VID.videoWidth;cv.height=MONEY_VID.videoHeight;ctx.drawImage(MONEY_VID,0,0);
+      const im=ctx.getImageData(0,0,cv.width,cv.height),p=im.data;
+      for(let i=0;i<p.length;i+=4){const r=p[i],g=p[i+1],b=p[i+2],m=Math.max(r,b);
+        if(g>m){const k=(g-m)/(g+1);if(k>.32)p[i+3]=0;else if(k>.14){p[i+3]=255*(1-(k-.14)/.18);p[i+1]=m;}else p[i+1]=Math.min(g,m+12);}}
+      ctx.putImageData(im,0,0);}
+    requestAnimationFrame(key);})();
+  if(!muted()){try{MONEY_SND.currentTime=0;MONEY_SND.volume=1;MONEY_SND.play().catch(()=>{});}catch(e){}}
+  burst(160);
+  let done=false;
+  const close=()=>{if(done)return;done=true;live=false;el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');rain.innerHTML='';MONEY_VID.pause();nextMoney();},600);};
+  el.onclick=close;clearTimeout(window.__moneyT);window.__moneyT=setTimeout(close,7200);
 }
 function thaiTakeover(name){const el=$("thai");if(!el)return;
   el.innerHTML='<div class="tn">'+hesc(name)+'</div><div class="tx">IS GOING TO PHUKET 🇹🇭</div>';
@@ -1293,10 +1358,16 @@ function render(d){
     let fatalK=null;
     if(entered.length&&dropped.length){fatalK=entered[0].closer;
       setTimeout(()=>fatality(entered[0].name,dropped[0].name),400);}
+    // HERE COMES THE MONEY: any single payment of $5k+ that was not in the last feed
+    const fk=f=>f.name+'|'+f.ts+'|'+f.amount;
+    const seen=new Set((prev.feed||[]).map(fk));
+    const big=(d.feed||[]).filter(f=>f.amount>=MONEY_MIN&&!seen.has(fk(f))&&!RETIRED.has(f.name));
+    const bigNames=new Set(big.map(f=>f.name));
+    big.reverse().forEach(f=>setTimeout(()=>moneyMoment(f.name,f.amount),fatalK?9000:300));
     for(const r of s){
       const before=pm[r.closer]??0, delta=r.cash-before;
       if(delta>0){toast('💰 <b>'+r.name+'</b> just collected <b>'+money(delta)+'</b>');
-        if(delta>=4000){bigDeal();burst(140);}else{chaChing();burst(70);}
+        if(bigNames.has(r.name)){}else if(delta>=4000){bigDeal();burst(140);}else{chaChing();burst(70);}
         const el=$("row-"+r.closer.replace(/\\W/g,'_'));if(el){el.classList.add('flash');setTimeout(()=>el.classList.remove('flash'),4000);}}
       if(delta<0){toast('💸 <b>'+r.name+'</b> lost <b>'+money(-delta)+'</b> to a refund. Gutter ball.');
         sadTrombone();
