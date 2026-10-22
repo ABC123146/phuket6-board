@@ -1213,7 +1213,7 @@ function cabinHtml(s,b){
   const prev=window.__seatPrev||[];window.__seatPrev=top.map(r=>r.closer);
   const seat=(r,i)=>'<div class="seat'+(r.business?' biz':(r.qualified?' q':''))+(prev[i]&&prev[i]!==r.closer?' swap':'')+'">'+
     '<div class="sb">'+face(r.name)+'</div><div class="sl">'+SEATS[i]+'</div><div class="sn">'+r.name+'</div><div class="sc">'+money(r.cash)+'</div></div>';
-  const stand=b?'<div class="ais"></div><div class="seat stand"><div class="sb">'+face(b.chaser.name)+'</div><div class="sl">STANDING</div><div class="sn">'+b.chaser.name+'</div><div class="sc">'+money(b.gap)+' short</div></div>':'';
+  const stand=b?'<div class="ais"></div><div class="seat stand"><div class="sb">'+face(b.chaser.name)+'</div><div class="sl">CUCK SEAT</div><div class="sn">'+b.chaser.name+'</div><div class="sc">'+money(b.gap)+' short</div></div>':'';
   return '<div class="cabin"><div class="cabh"><span class="bt">THE CABIN</span><span class="cs">5 SEATS · DXB → HKT'+(b?' · '+b.chaser.name.toUpperCase()+' IS '+money(b.gap)+' OFF '+b.holder.name.toUpperCase()+"'S SEAT":'')+'</span></div>'+
     raceHtml(s)+'<div class="fus"><div class="nose">✈</div>'+top.map(seat).join('')+stand+'</div></div>';
 }
