@@ -1805,18 +1805,23 @@ function syncTzPicker(){const el=$("tzsel");if(!el)return;
   if(!el.options.length){TZ_LIST.forEach(([v,l])=>{const o=document.createElement("option");o.value=v;o.textContent=l;el.appendChild(o);});
     el.onchange=()=>{try{localStorage.setItem("p6tz",el.value);}catch(e){}window.__finDay=null;poll();};}
   if(el.value!==tzStored())el.value=tzStored();}
+// Every open board polling every 45 s was most of the database load behind every
+// dashboard (Callum, 22 Oct: 5 to 10 minutes is plenty). pv tags this build: the
+// phuket6 function refuses data to pages without it, which retires boards left open
+// since before 12 Oct that never reload themselves. Bump PAGE_V to retire this one. (CXJ-409)
+const POLL_MS=300000,PAGE_V="2";
 async function poll(){try{
   const Q=new URLSearchParams(location.search);const K=Q.get("k")||"";
   syncTzPicker();
   // the commander view also wants the reconciliation audit (unproven POs); the team page never asks for it
-  const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1&tz="+encodeURIComponent(tzResolved())+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
+  const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1&pv="+PAGE_V+"&tz="+encodeURIComponent(tzResolved())+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
   const d=await r.json();
   // ?src=local: review the FINANCING APPS panel against a fixture built from the
   // database by tools/fin_mock.py, before the edge function serves the block.
   // Same code path, real numbers, nothing to rework at ship time.
   if(Q.get("src")==="local"){try{d.finance=await (await fetch("./finance-mock.json?cb="+Date.now(),{cache:"no-store"})).json();}catch(e){console.warn("no local finance fixture",e);}}
-  render(d);nextPollAt=Date.now()+45000;}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+45000;}}
-poll();setInterval(poll,45000);
+  render(d);nextPollAt=Date.now()+POLL_MS;}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+POLL_MS;}}
+poll();setInterval(poll,POLL_MS);
 // Self-update. GitHub Pages stamps index.html with Last-Modified, and the browser
 // keeps the stamp of the copy this tab is running in document.lastModified. If the
 // published page is newer, reload onto it. Before this a fix only reached people who
