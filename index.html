@@ -156,6 +156,22 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .seat.stand .pfp{filter:grayscale(.5)}
 .seat.stand .sl{color:var(--mg)}
 .seat.stand .sc{color:var(--mg);text-shadow:0 0 10px rgba(255,45,120,.5)}
+/* race to 180k, the qualification line, sits under the cabin header */
+.race{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:-2px 0 12px;font-size:13px;color:#c9b8ff}
+.race .rf{width:22px;height:14px;flex:none;border:1px solid #f4f5f8;border-radius:1px;background:linear-gradient(180deg,#a51931 0 16.67%,#f4f5f8 16.67% 33.33%,#2d2a4a 33.33% 66.67%,#f4f5f8 66.67% 83.33%,#a51931 83.33%)}
+.race .rt{font-family:'Russo One',sans-serif;letter-spacing:.08em;color:#fff}
+.race .ri b{color:#fff}.race .ri i{font-style:normal;color:var(--dim)}
+.race.done .rt{color:var(--gr);text-shadow:0 0 12px rgba(45,255,136,.6)}
+/* full screen flag takeover when someone clears 180k */
+#thai{position:fixed;inset:0;z-index:285;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;
+ background:linear-gradient(180deg,#a51931 0 16.67%,#f4f5f8 16.67% 33.33%,#2d2a4a 33.33% 66.67%,#f4f5f8 66.67% 83.33%,#a51931 83.33%);background-size:100% 100%}
+#thai.on{display:flex;animation:thaiin .5s cubic-bezier(.2,.9,.3,1.2)}
+#thai:before{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.28) 45%,transparent 60%) 0 0/250% 100%;animation:thaiwave 2.2s linear infinite}
+@keyframes thaiin{from{transform:scale(1.15);opacity:0}to{transform:none;opacity:1}}
+@keyframes thaiwave{from{background-position:150% 0}to{background-position:-100% 0}}
+#thai .tn{position:relative;font-family:'Russo One',sans-serif;font-size:110px;line-height:1;color:#fff;text-transform:uppercase;text-shadow:0 6px 0 #1a1630,0 0 40px rgba(0,0,0,.6)}
+#thai .tx{position:relative;margin-top:14px;font-family:'Russo One',sans-serif;font-size:34px;letter-spacing:.12em;color:#ffcc00;text-shadow:0 3px 0 #1a1630}
+@media(max-width:700px){#thai .tn{font-size:48px}#thai .tx{font-size:18px}}
 @media(max-width:700px){.fus{grid-template-columns:repeat(3,1fr);border-radius:22px;padding:22px 12px 14px;row-gap:14px}.nose,.ais{display:none}.fus:before{left:24px}}
 #gulagzone{margin-top:20px;padding:16px 18px;background:linear-gradient(rgba(6,8,7,.68),rgba(6,8,7,.78)),url(gulag.jpg) center/cover;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
 #gulagzone .gz{margin-top:0}
@@ -938,7 +954,7 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 <div class="courtwrap"><div class="courtlbl" id="corocourtlbl"></div>
 <div class="court" id="corocourt"></div></div>
 <div class="hail" id="corohail"></div></div><div class="petals" id="coropetals"></div></div>
-<canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
+<div id="thai"></div><canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
 <div id="toasts"></div>
 <div id="repov"><div class="repcard">
   <h3>🚨 REPORT MISSING MONEY</h3>
@@ -1012,6 +1028,16 @@ function face(name,cls){const big=/champav|big/.test(cls||'');
   return '<div class="pfp '+(cls||'')+'"><span>'+initials(name)+'</span>'+
   (NOFACE.has(slug)?'':'<img src="'+faceUrl(slug)+'" alt="" onerror="noFace(\''+slug+'\');this.remove()">')+'</div>';}
 const SEATS=['1A','1K','2A','2K','3A'];
+function raceHtml(s){
+  const q=s.filter(r=>r.cash>=FLOOR);
+  if(q.length)return '<div class="race done"><span class="rf"></span><span class="rt">THROUGH TO PHUKET</span><span class="ri">'+q.map(r=>'<b>'+r.name+'</b>').join(' · ')+'</span></div>';
+  const near=s.slice(0,3);
+  return '<div class="race"><span class="rf"></span><span class="rt">RACE TO 180K</span><span class="ri"><i>nobody through yet · </i>'+near.map(r=>'<b>'+r.name+'</b> '+money(FLOOR-r.cash)+' away').join(' · ')+'</span></div>';
+}
+function thaiTakeover(name){const el=$("thai");if(!el)return;
+  el.innerHTML='<div class="tn">'+hesc(name)+'</div><div class="tx">IS GOING TO PHUKET 🇹🇭</div>';
+  el.classList.add('on');el.onclick=()=>el.classList.remove('on');
+  setTimeout(()=>el.classList.remove('on'),7000);}
 function cabinHtml(s,b){
   const top=s.slice(0,5);if(!top.length)return'';
   const prev=window.__seatPrev||[];window.__seatPrev=top.map(r=>r.closer);
@@ -1019,7 +1045,7 @@ function cabinHtml(s,b){
     '<div class="sb">'+face(r.name)+'</div><div class="sl">'+SEATS[i]+'</div><div class="sn">'+r.name+'</div><div class="sc">'+money(r.cash)+'</div></div>';
   const stand=b?'<div class="ais"></div><div class="seat stand"><div class="sb">'+face(b.chaser.name)+'</div><div class="sl">STANDING</div><div class="sn">'+b.chaser.name+'</div><div class="sc">'+money(b.gap)+' short</div></div>':'';
   return '<div class="cabin"><div class="cabh"><span class="bt">THE CABIN</span><span class="cs">5 SEATS · DXB → HKT'+(b?' · '+b.chaser.name.toUpperCase()+' IS '+money(b.gap)+' OFF '+b.holder.name.toUpperCase()+"'S SEAT":'')+'</span></div>'+
-    '<div class="fus"><div class="nose">✈</div>'+top.map(seat).join('')+stand+'</div></div>';
+    raceHtml(s)+'<div class="fus"><div class="nose">✈</div>'+top.map(seat).join('')+stand+'</div></div>';
 }
 function rowHtml(r,gold){const wk=r.last24h>0?'+'+money(r.last24h)+' today':'quiet today';
 return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,'_')+'">'+
@@ -1237,7 +1263,7 @@ function render(d){
       if(delta<0){toast('💸 <b>'+r.name+'</b> lost <b>'+money(-delta)+'</b> to a refund. Gutter ball.');
         sadTrombone();
         const el=$("row-"+r.closer.replace(/\W/g,'_'));if(el){el.style.boxShadow='0 0 0 2px var(--rd)';setTimeout(()=>el.style.boxShadow='',4000);}}
-      if(before<FLOOR&&r.cash>=FLOOR){showBanner('🎫 <b>'+r.name+'</b> CLEARED $180K, QUALIFIED','gold');horn();burst(160);burst(160);}
+      if(before<FLOOR&&r.cash>=FLOOR){showBanner('🎫 <b>'+r.name+'</b> CLEARED $180K, QUALIFIED','gold');thaiTakeover(r.name);horn();burst(160);burst(160);}
       if(before<UPGRADE&&r.cash>=UPGRADE){showBanner('✈️ <b>'+r.name+'</b> UNLOCKED BUSINESS CLASS','gold');horn();burst(240);burst(240);}
       const was=pr[r.closer];
       if(was&&r.rank<was){
