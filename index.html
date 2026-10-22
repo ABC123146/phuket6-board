@@ -996,7 +996,7 @@ function clock(){const d=Math.max(CUTOFF-Date.now(),0);const dd=Math.floor(d/864
 $("clock").textContent=[dd,h,m,s].map((x,i)=>String(x).padStart(2,"0")).join(" : ");
 const np=Math.ceil((nextPollAt-Date.now())/1000);
 const ne=$("next");if(ne)ne.textContent=nextPollAt?(np>0?'· next update in '+np+'s':'· updating…'):'';}
-const THEME='';
+const THEME='andaman';
 const THEME_Q=new URLSearchParams(location.search).get('theme');
 if(THEME_Q!=='none'&&(THEME_Q||THEME))document.body.dataset.theme=THEME_Q||THEME;
 const PHASE_Q=new URLSearchParams(location.search).get('phase');
