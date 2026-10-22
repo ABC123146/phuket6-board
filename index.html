@@ -189,8 +189,13 @@ body[data-phase] .clock .l{color:#fff}
 #mvince{position:absolute;left:-3vw;bottom:0;height:72vh;z-index:2;-webkit-mask-image:linear-gradient(180deg,transparent 0,#000 16%);mask-image:linear-gradient(180deg,transparent 0,#000 16%);filter:drop-shadow(0 0 30px rgba(0,0,0,.6)) blur(.4px);animation:vin .6s cubic-bezier(.2,.9,.3,1.1)}
 @keyframes vin{from{transform:translateX(-40%)}to{transform:none}}
 #mrain{position:absolute;inset:0;z-index:1;pointer-events:none}
-.bill{position:absolute;top:-80px;width:78px;height:36px;border-radius:3px;background:linear-gradient(135deg,#9fe0a0,#4c9a52 55%,#2f6b36);border:2px solid #d7f5c9;box-shadow:0 4px 10px rgba(0,0,0,.35);display:flex;align-items:center;justify-content:center;font-family:'Russo One',sans-serif;font-size:15px;color:#1d4a22;animation:fall linear forwards}
-.bill:before{content:'';position:absolute;inset:4px;border:1px solid rgba(29,74,34,.45);border-radius:2px}
+.wad,.note{position:absolute;top:-120px;background:url(money/bill.webp) center/100% 100%;animation:fall linear forwards}
+/* banded wad: the top note, a stack of paper edges under it, a mustard $10,000 strap */
+.wad{width:124px;height:52px;border-radius:2px;
+ box-shadow:0 1px 0 #eef0e4,0 2px 0 #c9ceb9,0 3px 0 #eef0e4,0 4px 0 #c9ceb9,0 5px 0 #eef0e4,0 6px 0 #c9ceb9,0 7px 0 #eef0e4,0 8px 0 #c9ceb9,0 9px 0 #e4e7d8,0 10px 0 #b9bea8,0 18px 22px rgba(0,0,0,.5)}
+.wad:after{content:'$10,000';position:absolute;left:41%;width:19%;top:-1px;bottom:-10px;background:linear-gradient(90deg,#b8862a,#f1cf6a 45%,#d9a73e 70%,#a87720);
+ box-shadow:0 0 3px rgba(0,0,0,.35);font:700 7px 'Chakra Petch',sans-serif;color:#5a3d06;writing-mode:vertical-rl;text-orientation:mixed;display:flex;align-items:center;justify-content:center;letter-spacing:.04em}
+.note{width:96px;height:41px;border-radius:1px;box-shadow:0 8px 14px rgba(0,0,0,.4);filter:brightness(1.05)}
 .mface{position:absolute;top:-130px;width:110px;height:110px;animation:fall linear forwards}
 .mface .pfp{width:110px;height:110px}
 @keyframes fall{0%{transform:translate(0,0) rotate(var(--r0))}100%{transform:translate(var(--dx),115vh) rotate(var(--r1))}}
@@ -206,6 +211,33 @@ body[data-phase] .clock .l{color:#fff}
 #mcard .ma{font-family:'Teko',sans-serif;font-weight:700;font-size:120px;line-height:.9;margin-top:6px;background:linear-gradient(180deg,#fff6c2,#ffcc00 55%,#e08a00);-webkit-background-clip:text;background-clip:text;color:transparent;filter:drop-shadow(0 4px 18px rgba(255,204,0,.45))}
 #mcard .ms{font-size:13px;color:#d6ffe6;letter-spacing:.12em;margin-top:2px}
 @media(max-width:700px){#mcard{left:50%;top:36%}#mcard .mn{font-size:30px}#mcard .ma{font-size:70px}#mcard .mf{width:100px;height:100px;margin-top:-70px}#mcard .mf .pfp{width:100px;height:100px}#mvince{height:45vh}}
+/* GONG. A financing app lands: gong strike, shockwave rings, closer card. */
+#gong{position:fixed;inset:0;z-index:287;display:none;pointer-events:none;background:radial-gradient(ellipse at 50% 42%,rgba(var(--puR),.3),rgba(0,0,0,.78) 65%)}
+#gong.on{display:block;animation:mfade .25s ease-out}
+#gong.out{animation:mfadeout .5s ease-in forwards}
+body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
+@keyframes shake{10%,90%{transform:translate(-2px,1px)}20%,80%{transform:translate(4px,-2px)}30%,50%,70%{transform:translate(-7px,3px)}40%,60%{transform:translate(7px,-3px)}}
+#gong .ring{position:absolute;left:64%;top:42%;width:220px;height:220px;margin:-110px 0 0 -110px;border-radius:50%;border:3px solid var(--gd);box-shadow:0 0 30px rgba(255,204,0,.7),inset 0 0 30px rgba(255,204,0,.5);opacity:0;animation:gring 1.6s cubic-bezier(.1,.7,.3,1) forwards}
+#gong .ring:nth-child(2){animation-delay:.18s;border-color:var(--pu)}#gong .ring:nth-child(3){animation-delay:.36s;border-color:var(--cy)}
+@keyframes gring{0%{transform:scale(.3);opacity:1}100%{transform:scale(5.5);opacity:0}}
+#gmeme{position:absolute;left:0;bottom:0;height:74vh;z-index:1;filter:drop-shadow(0 0 30px rgba(0,0,0,.6)) blur(.4px);animation:vin .5s cubic-bezier(.2,.9,.3,1.1)}
+#gong.cena #gmeme{left:-6vw;height:80vh}
+#gmeme.exit{transition:transform .55s cubic-bezier(.5,0,.9,.4),opacity .55s;transform:translateX(-70%);opacity:0}
+#gcard{position:absolute;left:64%;top:42%;z-index:2;transform:translate(-50%,-50%);min-width:min(460px,88vw);padding:30px 40px 24px;text-align:center;border-radius:28px;
+ background:linear-gradient(160deg,rgba(255,255,255,.18),rgba(255,255,255,.05));border:1px solid rgba(255,255,255,.3);backdrop-filter:blur(20px) saturate(1.4);-webkit-backdrop-filter:blur(20px) saturate(1.4);
+ box-shadow:0 26px 70px rgba(0,0,0,.55),inset 0 1px 0 rgba(255,255,255,.35),0 0 70px rgba(255,204,0,.3)}
+#gong.on #gcard{animation:gpop .6s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes gpop{from{transform:translate(-50%,-50%) scale(.3) rotate(-6deg);opacity:0}to{transform:translate(-50%,-50%) scale(1);opacity:1}}
+#gcard .gf{width:130px;height:130px;margin:-92px auto 6px;border-radius:50%;background:radial-gradient(circle at 50% 40%,rgba(255,204,0,.35),rgba(0,0,0,.4));border:3px solid var(--gd);box-shadow:0 0 36px rgba(255,204,0,.6);overflow:hidden;display:flex;align-items:flex-end;justify-content:center}
+#gcard .gf .pfp{width:130px;height:130px}
+#gcard .gf .pfp span,#mcard .mf .pfp span{font-size:46px;background:none;border:0}
+#gcard .gk{font-size:12px;letter-spacing:.42em;font-weight:700;color:var(--gd)}
+#gcard .gn{font-family:'Russo One',sans-serif;font-size:50px;line-height:1.05;color:#fff;text-transform:uppercase;margin-top:4px}
+#gcard .gc{display:flex;justify-content:center;gap:26px;margin-top:10px}
+#gcard .gc div{font-size:11px;letter-spacing:.2em;color:var(--tx2);font-weight:700}
+#gcard .gc b{display:block;font-family:'Teko',sans-serif;font-size:46px;line-height:.9;color:#fff;letter-spacing:0}
+#gcard .gc .tm b{color:var(--gd)}
+@media(max-width:700px){#gcard,#gong .ring{left:50%;top:32%}#gmeme{height:42vh}#gcard .gn{font-size:30px}#gcard .gc b{font-size:34px}}
 /* race to 180k, the qualification line, sits under the cabin header */
 .race{display:flex;flex-wrap:wrap;align-items:center;gap:6px 16px;margin:-2px 0 12px;font-size:13px;color:var(--tx2)}
 .race .rf{width:22px;height:14px;flex:none;border:1px solid #f4f5f8;border-radius:1px;background:linear-gradient(180deg,#a51931 0 16.67%,#f4f5f8 16.67% 33.33%,#2d2a4a 33.33% 66.67%,#f4f5f8 66.67% 83.33%,#a51931 83.33%)}
@@ -1004,7 +1036,7 @@ body[data-phase] .clock .l{color:#fff}
 <div class="courtwrap"><div class="courtlbl" id="corocourtlbl"></div>
 <div class="court" id="corocourt"></div></div>
 <div class="hail" id="corohail"></div></div><div class="petals" id="coropetals"></div></div>
-<div id="thai"></div><div id="money"><div id="mrain"></div><canvas id="mvince"></canvas><div id="mcard"></div></div><canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
+<div id="thai"></div><div id="gong"></div><div id="money"><div id="mrain"></div><canvas id="mvince"></canvas><div id="mcard"></div></div><canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
 <div id="toasts"></div>
 <div id="repov"><div class="repcard">
   <h3>🚨 REPORT MISSING MONEY</h3>
@@ -1029,12 +1061,15 @@ function clock(){const d=Math.max(CUTOFF-Date.now(),0);const dd=Math.floor(d/864
 $("clock").textContent=[dd,h,m,s].map((x,i)=>String(x).padStart(2,"0")).join(" : ");
 const np=Math.ceil((nextPollAt-Date.now())/1000);
 const ne=$("next");if(ne)ne.textContent=nextPollAt?(np>0?'· next update in '+np+'s':'· updating…'):'';}
-const THEME='andaman';
+const THEME='fullmoon';
 const THEME_Q=new URLSearchParams(location.search).get('theme');
 if(THEME_Q!=='none'&&(THEME_Q||THEME))document.body.dataset.theme=THEME_Q||THEME;
-// ?moneytest=BEN:7500 previews the money moment a few seconds after load
+// ?moneytest=BEN:7500 previews the money moment on each click (a click lets the browser play sound)
 const MONEY_Q=new URLSearchParams(location.search).get('moneytest');
-if(MONEY_Q){const [n,a]=MONEY_Q.split(':');setTimeout(()=>moneyMoment(n.toUpperCase(),Number(a)||7500),4000);}
+// ?gongtest=HOANI previews the first app (Cena), ?gongtest=HOANI:2 the next ones (Khaled), on each click
+const GONG_Q=new URLSearchParams(location.search).get('gongtest');
+if(GONG_Q)document.addEventListener('click',()=>{if(!moneyBusy){const f=window.__fin||{};gongMoment(GONG_Q.split(':')[0].toUpperCase(),Number(GONG_Q.split(':')[1])||1,(f.today||{}).n||10,(f.target||{}).goal||15);}});
+if(MONEY_Q){const [n,a]=MONEY_Q.split(':');document.addEventListener('click',()=>{if(!moneyBusy)moneyMoment(n.toUpperCase(),Number(a)||7500);});}
 const PHASE_Q=new URLSearchParams(location.search).get('phase');
 function phase(){const days=(CUTOFF-Date.now())/864e5;
   const ph=PHASE_Q?(PHASE_Q==='none'?'':PHASE_Q):(days<=7?'final':days<=14?'sunset':'');
@@ -1108,40 +1143,66 @@ function raceHtml(s){
   const near=s.slice(0,3);
   return '<div class="race"><span class="rf"></span><span class="rt">RACE TO 180K</span><span class="ri"><i>nobody through yet · </i>'+near.map(r=>'<b>'+r.name+'</b> '+money(FLOOR-r.cash)+' away').join(' · ')+'</span></div>';
 }
-const MONEY_MIN=5000;
-const MONEY_SND=new Audio('money/here-comes-the-money.mp3');
-const MONEY_VID=Object.assign(document.createElement('video'),{src:'money/vince.mp4',muted:true,playsInline:true,preload:'auto'});
-let moneyQ=[],moneyBusy=false;
-function moneyMoment(name,amount){moneyQ.push([name,amount]);if(!moneyBusy)nextMoney();}
-function nextMoney(){const it=moneyQ.shift();if(!it){moneyBusy=false;return;}moneyBusy=true;
-  window.__lastEvent=Date.now();
-  const [name,amount]=it,el=$("money"),rain=$("mrain"),cv=$("mvince"),ctx=cv.getContext('2d',{willReadFrequently:true});
-  $("mcard").innerHTML='<div class="mf">'+face(name,'big')+'</div><div class="mk">CASH COLLECTED</div><div class="mn">'+hesc(name)+'</div><div class="ma">$0</div><div class="ms">ONE PAYMENT · JUST LANDED</div>';
-  rain.innerHTML='';
-  const W=innerWidth;
-  for(let i=0;i<70;i++){const b=document.createElement('div');b.className='bill';b.textContent='$100';
-    b.style.cssText='left:'+(Math.random()*W)+'px;animation-duration:'+(2.4+Math.random()*2.2)+'s;animation-delay:'+(Math.random()*4.6)+'s;--r0:'+(Math.random()*360)+'deg;--r1:'+(Math.random()*720-360)+'deg;--dx:'+(Math.random()*240-120)+'px';rain.appendChild(b);}
-  for(let i=0;i<9;i++){const f=document.createElement('div');f.className='mface';f.innerHTML=face(name,'big');
-    f.style.cssText='left:'+(Math.random()*(W-110))+'px;animation-duration:'+(3+Math.random()*1.6)+'s;animation-delay:'+(0.6+Math.random()*3.6)+'s;--r0:'+(Math.random()*60-30)+'deg;--r1:'+(Math.random()*540-270)+'deg;--dx:'+(Math.random()*160-80)+'px';rain.appendChild(f);}
-  el.classList.remove('out');el.classList.add('on');
-  // count the amount up
-  const amt=el.querySelector('.ma'),t0=performance.now();
-  (function up(t){const k=Math.min((t-t0-500)/1600,1);if(k>0)amt.textContent=money(Math.round(amount*(1-Math.pow(1-k,3))));if(k<1)requestAnimationFrame(up);})(t0);
-  // key the green out of Vince every frame
-  MONEY_VID.currentTime=0;MONEY_VID.play().catch(()=>{});
-  let live=true;
+// Draws a green screen video onto a canvas with the green keyed out. Returns a stop function.
+function chromaKey(vid,cv){const ctx=cv.getContext('2d',{willReadFrequently:true});let live=true;
+  vid.currentTime=0;vid.play().catch(()=>{});
   (function key(){if(!live)return;
-    if(MONEY_VID.readyState>=2){cv.width=MONEY_VID.videoWidth;cv.height=MONEY_VID.videoHeight;ctx.drawImage(MONEY_VID,0,0);
+    if(vid.readyState>=2){cv.width=vid.videoWidth;cv.height=vid.videoHeight;ctx.drawImage(vid,0,0);
       const im=ctx.getImageData(0,0,cv.width,cv.height),p=im.data;
       for(let i=0;i<p.length;i+=4){const r=p[i],g=p[i+1],b=p[i+2],m=Math.max(r,b);
         if(g>m){const k=(g-m)/(g+1);if(k>.32)p[i+3]=0;else if(k>.14){p[i+3]=255*(1-(k-.14)/.18);p[i+1]=m;}else p[i+1]=Math.min(g,m+12);}}
       ctx.putImageData(im,0,0);}
     requestAnimationFrame(key);})();
+  return()=>{live=false;vid.pause();};}
+const MONEY_MIN=5000;
+const MONEY_SND=new Audio('money/here-comes-the-money.mp3');
+const MONEY_VID=Object.assign(document.createElement('video'),{src:'money/vince.mp4',muted:true,loop:true,playsInline:true,preload:'auto'});
+const MONEY_MS=11000;
+let moneyQ=[],moneyBusy=false;
+function moneyMoment(name,amount){moneyQ.push([name,amount]);if(!moneyBusy)nextMoney();}
+// FINANCE APP. First app of the day for a closer: John Cena runs in to his
+// entrance. Every app after that the same day: DJ Khaled, ANOTHER ONE.
+const mkVid=src=>Object.assign(document.createElement('video'),{src,muted:true,playsInline:true,preload:'auto'});
+const APP_FX={cena:{snd:new Audio('money/cena.mp3'),vid:mkVid('money/cena.mp4'),ms:7600,rate:.8},
+  khaled:{snd:new Audio('money/khaled.mp3'),vid:mkVid('money/khaled.mp4'),ms:3900,rate:1}};
+function gongMoment(name,mine,team,goal){moneyQ.push(['gong',name,mine,team,goal]);if(!moneyBusy)nextMoney();}
+function runGong(name,mine,team,goal){
+  window.__lastEvent=Date.now();const el=$("gong"),fx=mine>1?APP_FX.khaled:APP_FX.cena;
+  el.className=mine>1?'khaled':'cena';
+  el.innerHTML='<div class="ring"></div><div class="ring"></div><div class="ring"></div><canvas id="gmeme"></canvas><div id="gcard"><div class="gf">'+face(name,'big')+'</div>'+
+    '<div class="gk">'+(mine>1?'🔑 ANOTHER ONE':'🏦 FINANCE APP IN')+'</div><div class="gn">'+hesc(name)+'</div>'+
+    '<div class="gc"><div><b>'+mine+'</b>'+(mine===1?'APP':'APPS')+' TODAY</div><div class="tm"><b>'+team+(goal?'<small style="font-size:.5em;color:var(--tx2)"> / '+goal+'</small>':'')+'</b>TEAM TODAY</div></div></div>';
+  el.classList.add('on');
+  document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),550);
+  const stop=chromaKey(fx.vid,$("gmeme"));fx.vid.playbackRate=fx.rate;
+  // the footage is shorter than the music: run the meme off screen when it ends instead of freezing
+  fx.vid.onended=()=>{const m=$("gmeme");if(m)m.classList.add('exit');};
+  if(!muted()){try{fx.snd.currentTime=0;fx.snd.volume=1;fx.snd.play().catch(()=>{});}catch(e){}}
+  setTimeout(()=>{el.classList.add('out');setTimeout(()=>{stop();el.classList.remove('on','out');el.innerHTML='';nextMoney();},500);},fx.ms);
+}
+function nextMoney(){const it=moneyQ.shift();if(!it){moneyBusy=false;return;}moneyBusy=true;
+  if(it[0]==='gong'){runGong(it[1],it[2],it[3],it[4]);return;}
+  window.__lastEvent=Date.now();
+  const [name,amount]=it,el=$("money"),rain=$("mrain"),cv=$("mvince");
+  $("mcard").innerHTML='<div class="mf">'+face(name,'big')+'</div><div class="mk">CASH COLLECTED</div><div class="mn">'+hesc(name)+'</div><div class="ma">$0</div><div class="ms">ONE PAYMENT · JUST LANDED</div>';
+  rain.innerHTML='';
+  const W=innerWidth;
+  for(let i=0;i<110;i++){const b=document.createElement('div'),wad=i%5<3;b.className=wad?'wad':'note';
+    const sc=wad?(0.75+Math.random()*0.6):(0.8+Math.random()*0.4);
+    b.style.cssText='left:'+(Math.random()*W)+'px;scale:'+sc.toFixed(2)+';animation-duration:'+(wad?2.2+Math.random()*1.6:3.4+Math.random()*2.4)+'s;animation-delay:'+(Math.random()*8.6)+'s;--r0:'+(Math.random()*360)+'deg;--r1:'+(wad?Math.random()*240-120:Math.random()*900-450)+'deg;--dx:'+(Math.random()*(wad?120:320)-(wad?60:160))+'px';rain.appendChild(b);}
+  for(let i=0;i<16;i++){const f=document.createElement('div');f.className='mface';f.innerHTML=face(name,'big');
+    f.style.cssText='left:'+(Math.random()*(W-110))+'px;animation-duration:'+(3+Math.random()*1.6)+'s;animation-delay:'+(0.6+Math.random()*7.8)+'s;--r0:'+(Math.random()*60-30)+'deg;--r1:'+(Math.random()*540-270)+'deg;--dx:'+(Math.random()*160-80)+'px';rain.appendChild(f);}
+  el.classList.remove('out');el.classList.add('on');
+  // count the amount up
+  const amt=el.querySelector('.ma'),t0=performance.now();
+  (function up(t){const k=Math.min((t-t0-500)/1600,1);if(k>0)amt.textContent=money(Math.round(amount*(1-Math.pow(1-k,3))));if(k<1)requestAnimationFrame(up);})(t0);
+  // key the green out of Vince every frame
+  const stopKey=chromaKey(MONEY_VID,cv);
   if(!muted()){try{MONEY_SND.currentTime=0;MONEY_SND.volume=1;MONEY_SND.play().catch(()=>{});}catch(e){}}
   burst(160);
   let done=false;
-  const close=()=>{if(done)return;done=true;live=false;el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');rain.innerHTML='';MONEY_VID.pause();nextMoney();},600);};
-  el.onclick=close;clearTimeout(window.__moneyT);window.__moneyT=setTimeout(close,7200);
+  const close=()=>{if(done)return;done=true;stopKey();el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');rain.innerHTML='';nextMoney();},600);};
+  el.onclick=close;clearTimeout(window.__moneyT);window.__moneyT=setTimeout(close,MONEY_MS);
 }
 function thaiTakeover(name){const el=$("thai");if(!el)return;
   el.innerHTML='<div class="tn">'+hesc(name)+'</div><div class="tx">IS GOING TO PHUKET 🇹🇭</div>';
@@ -1369,6 +1430,13 @@ function render(d){
     const seen=new Set((prev.feed||[]).map(fk));
     const big=(d.feed||[]).filter(f=>f.amount>=MONEY_MIN&&!seen.has(fk(f))&&!RETIRED.has(f.name));
     const bigNames=new Set(big.map(f=>f.name));
+    // GONG: a closer's finance app count for today went up since the last poll
+    const pf=prev.finance,cf=d.finance;
+    if(pf&&cf&&pf.todayYmd===cf.todayYmd){
+      const was=(pf.perDay||{})[pf.todayYmd]||{},now=(cf.perDay||{})[cf.todayYmd]||{};
+      const cnt=v=>typeof v==='number'?v:((v&&v.n)||0);
+      Object.entries(now).forEach(([n,v])=>{for(let k=cnt(was[n])+1;k<=cnt(v);k++)gongMoment(n,k,cf.today?cf.today.n:0,(cf.target||{}).goal);});
+    }
     big.reverse().forEach(f=>setTimeout(()=>moneyMoment(f.name,f.amount),fatalK?9000:300));
     for(const r of s){
       const before=pm[r.closer]??0, delta=r.cash-before;
