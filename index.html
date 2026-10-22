@@ -127,6 +127,36 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .bubble{margin:20px 0 12px;background:linear-gradient(135deg,#20061a,#160317);border:1px solid rgba(255,45,120,.6);padding:16px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 0 26px rgba(255,45,120,.15)}
 .bubble .bt{font-family:'Russo One',sans-serif;color:var(--mg);font-size:18px;letter-spacing:.08em;text-shadow:0 0 14px rgba(255,45,120,.7)}
 .bubble .bd{font-size:15px;color:#efc4dd}
+/* THE CABIN. Seats 1 to 5 drawn as a business class cabin, the bubble rep
+   stands in the aisle. Overtakes show as a seat swap. */
+.cabin{margin:20px 0 12px}
+.cabh{display:flex;flex-wrap:wrap;align-items:baseline;gap:4px 14px;margin-bottom:10px}
+.cabh .bt{font-family:'Russo One',sans-serif;color:var(--cy);font-size:18px;letter-spacing:.08em;text-shadow:0 0 14px rgba(0,229,255,.6)}
+.cabh .cs{font-size:11px;letter-spacing:.24em;color:var(--dim);font-weight:600}
+.fus{position:relative;display:grid;grid-template-columns:44px repeat(5,1fr) 18px 1.15fr;align-items:end;gap:10px;padding:26px 22px 16px 16px;
+ background:linear-gradient(180deg,#1c1238,#120a26);border:1px solid #3a2a6e;border-radius:120px 22px 22px 120px;box-shadow:0 0 30px rgba(0,229,255,.08),inset 0 0 40px rgba(0,0,0,.4)}
+.fus:before{content:'';position:absolute;left:70px;right:24px;top:9px;height:7px;background:radial-gradient(circle,rgba(150,220,255,.5) 0 2.5px,transparent 3px) 0 0/34px 7px repeat-x;opacity:.7}
+.nose{align-self:center;font-size:22px;color:#4d3f80;transform:rotate(180deg)}
+.seat{display:flex;flex-direction:column;align-items:center;gap:3px;min-width:0}
+.sb{position:relative;width:70px;height:74px;border-radius:22px 22px 8px 8px;background:linear-gradient(180deg,#33226a,#1d1140);border:1px solid #4a3690;display:flex;align-items:flex-end;justify-content:center;overflow:hidden}
+.sb:before,.sb:after{content:'';position:absolute;bottom:0;width:7px;height:30px;background:#2a1b58;border-top:1px solid #4a3690}
+.sb:before{left:0;border-right:1px solid #4a3690;border-radius:0 6px 0 0}.sb:after{right:0;border-left:1px solid #4a3690;border-radius:6px 0 0 0}
+.sb .pfp{width:58px;height:58px;z-index:1}
+.sl{font-family:'Teko',sans-serif;font-size:15px;line-height:1;color:var(--cy);letter-spacing:.1em}
+.sn{font-family:'Russo One',sans-serif;font-size:12px;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%}
+.sc{font-family:'Teko',sans-serif;font-size:17px;line-height:1;color:#c9b8ff}
+.seat.q .sb{border-color:#f4f5f8;box-shadow:0 0 14px rgba(255,255,255,.35)}
+.seat.biz .sb{border-color:var(--gd);box-shadow:0 0 16px rgba(255,204,0,.55)}
+.seat.biz .sl{color:var(--gd)}
+.seat.swap .sb{animation:seatswap 2.4s ease-out 3}
+@keyframes seatswap{0%{transform:translateY(-14px) scale(1.08);box-shadow:0 0 30px var(--gr);border-color:var(--gr)}60%{transform:none}100%{box-shadow:none}}
+.ais{align-self:stretch;border-left:2px dashed #3a2a6e;margin:0 auto}
+.seat.stand .sb{background:transparent;border:1px dashed rgba(255,45,120,.6)}
+.seat.stand .sb:before,.seat.stand .sb:after{display:none}
+.seat.stand .pfp{filter:grayscale(.5)}
+.seat.stand .sl{color:var(--mg)}
+.seat.stand .sc{color:var(--mg);text-shadow:0 0 10px rgba(255,45,120,.5)}
+@media(max-width:700px){.fus{grid-template-columns:repeat(3,1fr);border-radius:22px;padding:22px 12px 14px;row-gap:14px}.nose,.ais{display:none}.fus:before{left:24px}}
 #gulagzone{margin-top:20px;padding:16px 18px;background:linear-gradient(rgba(6,8,7,.68),rgba(6,8,7,.78)),url(gulag.jpg) center/cover;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
 #gulagzone .gz{margin-top:0}
 .gulag .row{background:rgba(9,11,10,.5);border-color:#39423c;box-shadow:none}
@@ -981,6 +1011,16 @@ function face(name,cls){const big=/champav|big/.test(cls||'');
   const slug=faceSlug(name)+(big?'-cut':'-cutsm');
   return '<div class="pfp '+(cls||'')+'"><span>'+initials(name)+'</span>'+
   (NOFACE.has(slug)?'':'<img src="'+faceUrl(slug)+'" alt="" onerror="noFace(\''+slug+'\');this.remove()">')+'</div>';}
+const SEATS=['1A','1K','2A','2K','3A'];
+function cabinHtml(s,b){
+  const top=s.slice(0,5);if(!top.length)return'';
+  const prev=window.__seatPrev||[];window.__seatPrev=top.map(r=>r.closer);
+  const seat=(r,i)=>'<div class="seat'+(r.business?' biz':(r.qualified?' q':''))+(prev[i]&&prev[i]!==r.closer?' swap':'')+'">'+
+    '<div class="sb">'+face(r.name)+'</div><div class="sl">'+SEATS[i]+'</div><div class="sn">'+r.name+'</div><div class="sc">'+money(r.cash)+'</div></div>';
+  const stand=b?'<div class="ais"></div><div class="seat stand"><div class="sb">'+face(b.chaser.name)+'</div><div class="sl">STANDING</div><div class="sn">'+b.chaser.name+'</div><div class="sc">'+money(b.gap)+' short</div></div>':'';
+  return '<div class="cabin"><div class="cabh"><span class="bt">THE CABIN</span><span class="cs">5 SEATS · DXB → HKT'+(b?' · '+b.chaser.name.toUpperCase()+' IS '+money(b.gap)+' OFF '+b.holder.name.toUpperCase()+"'S SEAT":'')+'</span></div>'+
+    '<div class="fus"><div class="nose">✈</div>'+top.map(seat).join('')+stand+'</div></div>';
+}
 function rowHtml(r,gold){const wk=r.last24h>0?'+'+money(r.last24h)+' today':'quiet today';
 return '<div class="row '+(gold?'gold':'')+'" id="row-'+r.closer.replace(/\\W/g,'_')+'">'+
 '<div class="rk">'+r.rank+'</div>'+face(r.name)+
@@ -1110,8 +1150,7 @@ function render(d){
   // contenders 2..5
   $("contenders").innerHTML=s.slice(1,5).map(r=>rowHtml(r,true)).join('');
   // bubble
-  if(d.bubble){$("bubble").innerHTML='<div class="bubble"><div class="bt">THE BUBBLE</div>'+
-    '<div class="bd"><b>'+money(d.bubble.gap)+'</b> separates <b>'+d.bubble.chaser.name+'</b> from '+d.bubble.holder.name+"'s seat on the plane.</div></div>";}
+  $("bubble").innerHTML=cabinHtml(s,d.bubble);
   // gulag 6..8
   const g=s.slice(5,8);
   $("gzt").textContent=g.length?"THE GULAG · WIN YOUR FIGHT OR STAY DEAD":"";
