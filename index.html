@@ -1155,16 +1155,16 @@ function chromaKey(vid,cv){const ctx=cv.getContext('2d',{willReadFrequently:true
     requestAnimationFrame(key);})();
   return()=>{live=false;vid.pause();};}
 const MONEY_MIN=5000;
-const MONEY_SND=new Audio('money/here-comes-the-money.mp3');
-const MONEY_VID=Object.assign(document.createElement('video'),{src:'money/vince.mp4',muted:true,loop:true,playsInline:true,preload:'auto'});
+const MONEY_SND=Object.assign(new Audio(),{preload:'none',src:'money/here-comes-the-money.mp3'});
+const MONEY_VID=Object.assign(document.createElement('video'),{src:'money/vince.mp4',muted:true,loop:true,playsInline:true,preload:'none'});
 const MONEY_MS=11000;
 let moneyQ=[],moneyBusy=false;
 function moneyMoment(name,amount){moneyQ.push([name,amount]);if(!moneyBusy)nextMoney();}
 // FINANCE APP. First app of the day for a closer: John Cena runs in to his
 // entrance. Every app after that the same day: DJ Khaled, ANOTHER ONE.
-const mkVid=src=>Object.assign(document.createElement('video'),{src,muted:true,playsInline:true,preload:'auto'});
-const APP_FX={cena:{snd:new Audio('money/cena.mp3'),vid:mkVid('money/cena.mp4'),ms:7600,rate:.8},
-  khaled:{snd:new Audio('money/khaled.mp3'),vid:mkVid('money/khaled.mp4'),ms:3900,rate:1}};
+const mkVid=src=>Object.assign(document.createElement('video'),{src,muted:true,playsInline:true,preload:'none'});
+const APP_FX={cena:{snd:Object.assign(new Audio(),{preload:'none',src:'money/cena.mp3'}),vid:mkVid('money/cena.mp4'),ms:7600,rate:.8},
+  khaled:{snd:Object.assign(new Audio(),{preload:'none',src:'money/khaled.mp3'}),vid:mkVid('money/khaled.mp4'),ms:3900,rate:1}};
 function gongMoment(name,mine,team,goal){moneyQ.push(['gong',name,mine,team,goal]);if(!moneyBusy)nextMoney();}
 function runGong(name,mine,team,goal){
   window.__lastEvent=Date.now();const el=$("gong"),fx=mine>1?APP_FX.khaled:APP_FX.cena;
@@ -1971,14 +1971,26 @@ async function poll(){try{
   syncTzPicker();
   // the commander view also wants the reconciliation audit (unproven POs); the team page never asks for it
   const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1&pv="+PAGE_V+"&tz="+encodeURIComponent(tzResolved())+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
-  const d=await r.json();
+  const txt=await r.text(),d=JSON.parse(txt);
+  try{localStorage.setItem(cacheKey(),txt);}catch(e){}
   hideRetired(d);
   // ?src=local: review the FINANCING APPS panel against a fixture built from the
   // database by tools/fin_mock.py, before the edge function serves the block.
   // Same code path, real numbers, nothing to rework at ship time.
   if(Q.get("src")==="local"){try{d.finance=await (await fetch("./finance-mock.json?cb="+Date.now(),{cache:"no-store"})).json();}catch(e){console.warn("no local finance fixture",e);}}
-  render(d);nextPollAt=Date.now()+POLL_MS;}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+POLL_MS;}}
-poll();setInterval(poll,POLL_MS);
+  render(d);nextPollAt=Date.now()+POLL_MS;warmMedia();}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+POLL_MS;}}
+// The data call takes 5 to 7 s because the edge function rebuilds everything per
+// request. Paint the last copy this browser saw straight away, then swap in the
+// fresh one. prev is cleared so the swap does not replay every deal since the
+// cached copy as money moments.
+function cacheKey(){const Q=new URLSearchParams(location.search);return "p6last:"+tzResolved()+":"+(Q.get("wc")==="1"?"wc":"team");}
+function paintCached(){try{const t=localStorage.getItem(cacheKey());if(!t)return;
+  const d=JSON.parse(t);hideRetired(d);render(d);prev=null;$("upd").textContent="updating…";}catch(e){prev=null;}}
+// Meme media waits until the board has its data so it never competes with the data call.
+let mediaWarm=false;
+function warmMedia(){if(mediaWarm)return;mediaWarm=true;setTimeout(()=>{
+  [MONEY_VID,MONEY_SND,APP_FX.cena.vid,APP_FX.cena.snd,APP_FX.khaled.vid,APP_FX.khaled.snd].forEach(m=>{m.preload='auto';try{m.load();}catch(e){}});},2000);}
+paintCached();poll();setInterval(poll,POLL_MS);
 // Self-update. GitHub Pages stamps index.html with Last-Modified, and the browser
 // keeps the stamp of the copy this tab is running in document.lastModified. If the
 // published page is newer, reload onto it. Before this a fix only reached people who
