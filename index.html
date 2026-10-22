@@ -158,11 +158,17 @@ body:after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opaci
 .seat.stand .pfp{filter:grayscale(.5)}
 .seat.stand .sl{color:var(--mg)}
 .seat.stand .sc{color:var(--mg);text-shadow:0 0 10px rgba(var(--mgR),.5)}
-/* THEMES. Candidate palettes, previewed with ?theme=andaman|temple|market.
+/* THEMES. Candidate palettes, previewed with ?theme=andaman|temple|market|fullmoon|synthwave|cash.
    THEME below picks the default. Phases come after so they still win. */
 body[data-theme=andaman]{--bg:#03111a;--bgR:3,17,26;--card:#071d2a;--card2:#0a2636;--card3:#0c2c3d;--card4:#12384c;--line:#134257;--line2:#1d5a74;--dim:#6f9bab;--dim2:#3b6a7c;--tx:#e8fbff;--tx2:#a8e6ef;--cy:#2ee6d6;--cyR:46,230,214;--pu:#ff7a59;--puR:255,122,89;--mg:#ff4f7b;--mgR:255,79,123}
 body[data-theme=temple]{--bg:#0a0605;--bgR:10,6,5;--card:#170d0a;--card2:#1f120d;--card3:#26150f;--card4:#3a2016;--line:#3d2216;--line2:#5c3420;--dim:#a88d7a;--dim2:#6b4f3d;--tx:#fff4e6;--tx2:#f2cfa6;--cy:#ffb84d;--cyR:255,184,77;--pu:#e0393e;--puR:224,57,62;--mg:#ff4f5e;--mgR:255,79,94}
 body[data-theme=market]{--bg:#050a07;--bgR:5,10,7;--card:#0b1610;--card2:#0f1e15;--card3:#12251a;--card4:#1a3524;--line:#1d3a28;--line2:#2b5539;--dim:#7fa38c;--dim2:#3f6a4f;--tx:#f0fff4;--tx2:#c4f5d2;--cy:#b6ff3b;--cyR:182,255,59;--pu:#ff3dc8;--puR:255,61,200;--mg:#ff3d6e;--mgR:255,61,110}
+body[data-theme=fullmoon]{--bg:#0e0020;--bgR:14,0,32;--card:#1a0538;--card2:#220744;--card3:#2a0a52;--card4:#3a1070;--line:#45137a;--line2:#6a1fb0;--dim:#a68ad6;--dim2:#6a4a9e;--tx:#fbf2ff;--tx2:#e3c7ff;--cy:#c6ff00;--cyR:198,255,0;--pu:#ff00aa;--puR:255,0,170;--mg:#ff2bd6;--mgR:255,43,214}
+body[data-theme=fullmoon]:before{background:radial-gradient(1000px 560px at 85% -10%,rgba(255,0,170,.32),transparent 60%),radial-gradient(900px 520px at -10% 10%,rgba(198,255,0,.16),transparent 60%),radial-gradient(800px 600px at 50% 115%,rgba(120,0,255,.35),transparent 60%)}
+body[data-theme=synthwave]{--bg:#0b0420;--bgR:11,4,32;--card:#160a33;--card2:#1d0d42;--card3:#241050;--card4:#341766;--line:#3b1a6b;--line2:#5d2aa3;--dim:#9d8fd0;--dim2:#5f4f9a;--tx:#fff0fb;--tx2:#ffc4ec;--cy:#00f0ff;--cyR:0,240,255;--pu:#ff2a6d;--puR:255,42,109;--mg:#ff7a00;--mgR:255,122,0}
+body[data-theme=synthwave]:before{background:radial-gradient(1100px 600px at 50% 120%,rgba(255,42,109,.38),transparent 60%),radial-gradient(900px 480px at 90% -10%,rgba(255,122,0,.22),transparent 60%),radial-gradient(800px 480px at -10% 0%,rgba(0,240,255,.20),transparent 60%)}
+body[data-theme=cash]{--bg:#020604;--bgR:2,6,4;--card:#08130c;--card2:#0b1a10;--card3:#0e2214;--card4:#14301c;--line:#173a22;--line2:#24603a;--dim:#86b394;--dim2:#3f6b4c;--tx:#f2fff5;--tx2:#b8f5c8;--cy:#00ff7f;--cyR:0,255,127;--pu:#ffffff;--puR:255,255,255;--mg:#ff3b5c;--mgR:255,59,92}
+body[data-theme=cash]:before{background:radial-gradient(1000px 560px at 85% -10%,rgba(0,255,127,.22),transparent 60%),radial-gradient(800px 480px at -10% 0%,rgba(255,204,0,.12),transparent 60%),radial-gradient(800px 600px at 50% 115%,rgba(0,255,127,.14),transparent 60%)}
 /* PHASES. The board heats up as the books close: sunset palette from 14 days
    out, red final week from 7. ?phase=sunset|final previews either one. */
 body[data-phase=sunset]{--cy:#ffb347;--pu:#ff5e8a;--mg:#ff3d6e;--cyR:255,179,71;--puR:255,94,138;--mgR:255,61,110}
