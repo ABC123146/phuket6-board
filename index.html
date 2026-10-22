@@ -1054,6 +1054,17 @@ function face(name,cls){const big=/champav|big/.test(cls||'');
   const slug=faceSlug(name)+(big?'-cut':'-cutsm');
   return '<div class="pfp '+(cls||'')+'"><span>'+initials(name)+'</span>'+
   (NOFACE.has(slug)?'':'<img src="'+faceUrl(slug)+'" alt="" onerror="noFace(\''+slug+'\');this.remove()">')+'</div>';}
+// Closers who have left (no calls in 3+ weeks, Trev 2026-10-22). Hidden here
+// rather than in the edge EXCLUDED list so their cash stays in the books; the
+// ranks under them close up.
+const RETIRED=new Set(['SAM H','KYUSS','LIAM','JEMMA','ZEALAN','JACKSON','MAIKA','HARRY',
+  // $0 junk cards: placeholder records and finance apps logged under a bare first name
+  'TEST','CLOSER','ALEX','ALEXANDER']);
+function hideRetired(d){
+  if(Array.isArray(d.standings)){d.standings=d.standings.filter(r=>!RETIRED.has(r.name));d.standings.forEach((r,i)=>r.rank=i+1);}
+  if(d.cards)for(const k of Object.keys(d.cards))if(RETIRED.has(k))delete d.cards[k];
+  if(Array.isArray(d.wildcard))d.wildcard=d.wildcard.filter(w=>!RETIRED.has(w.name));
+}
 const SEATS=['1A','1K','2A','2K','3A'];
 function raceHtml(s){
   const q=s.filter(r=>r.cash>=FLOOR);
@@ -1816,6 +1827,7 @@ async function poll(){try{
   // the commander view also wants the reconciliation audit (unproven POs); the team page never asks for it
   const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&data=1&pv="+PAGE_V+"&tz="+encodeURIComponent(tzResolved())+(Q.get("wc")==="1"?"&audit=1":""),{cache:"no-store"});if(r.status===403){document.body.innerHTML="<div class=lock>locked. use the link from the closers channel.</div>";return;}
   const d=await r.json();
+  hideRetired(d);
   // ?src=local: review the FINANCING APPS panel against a fixture built from the
   // database by tools/fin_mock.py, before the edge function serves the block.
   // Same code path, real numbers, nothing to rework at ship time.
