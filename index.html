@@ -1155,6 +1155,8 @@ function chromaKey(vid,cv){const ctx=cv.getContext('2d',{willReadFrequently:true
     requestAnimationFrame(key);})();
   return()=>{live=false;vid.pause();};}
 const MONEY_MIN=5000;
+const MOMENT_WIN=45*60000;
+let seenBase=null;
 const MONEY_SND=Object.assign(new Audio(),{preload:'none',src:'money/here-comes-the-money.mp3'});
 const MONEY_VID=Object.assign(document.createElement('video'),{src:'money/vince.mp4',muted:true,loop:true,playsInline:true,preload:'none'});
 const MONEY_MS=11000;
@@ -1417,27 +1419,31 @@ function render(d){
     '<div class="trow"><span>TEAM CASH TODAY · '+tt.deals+' deal'+(tt.deals!==1?'s':'')+'</span><b>'+money(tt.total)+'</b></div>';
   }else{$("shotp").style.display='none';}
   // live events: cash, gates, overtakes
+  // Money and app moments diff against what this browser last saw: the previous
+  // poll, or on a fresh load the cached copy. Without the cache a deal that landed
+  // before the board was opened never played. Payments older than MOMENT_WIN are
+  // left alone so a board shut for days does not replay its backlog.
+  const base=prev||seenBase;seenBase=null;
+  // HERE COMES THE MONEY: any single payment of $5k+ that was not in the last feed
+  const fk=f=>f.name+'|'+f.ts+'|'+f.amount;
+  const seen=new Set(((base&&base.feed)||[]).map(fk));
+  const big=(d.feed||[]).filter(f=>f.amount>=MONEY_MIN&&!seen.has(fk(f))&&!RETIRED.has(f.name)&&Date.now()-new Date(f.ts).getTime()<MOMENT_WIN);
+  const bigNames=new Set(big.map(f=>f.name));
+  // GONG: a closer's finance app count for today went up since the last look
+  const pf=base&&base.finance,cf=d.finance;
+  if(pf&&cf&&pf.todayYmd===cf.todayYmd){
+    const was=(pf.perDay||{})[pf.todayYmd]||{},now=(cf.perDay||{})[cf.todayYmd]||{};
+    const cnt=v=>typeof v==='number'?v:((v&&v.n)||0);
+    Object.entries(now).forEach(([n,v])=>{if(RETIRED.has(n))return;for(let k=cnt(was[n])+1;k<=cnt(v);k++)gongMoment(n,k,cf.today?cf.today.n:0,(cf.target||{}).goal);});
+  }
+  let fatalK=null;
   if(prev){
     const pm=Object.fromEntries(prev.standings.map(r=>[r.closer,r.cash]));
     const pr=Object.fromEntries(prev.standings.map(r=>[r.closer,r.rank]));
     const dropped=prev.standings.filter(o=>o.rank<=5&&(()=>{const cur=s.find(x=>x.closer===o.closer);return !cur||cur.rank>5;})());
     const entered=s.filter(r=>r.rank<=5&&pr[r.closer]!==undefined&&pr[r.closer]>5);
-    let fatalK=null;
     if(entered.length&&dropped.length){fatalK=entered[0].closer;
       setTimeout(()=>fatality(entered[0].name,dropped[0].name),400);}
-    // HERE COMES THE MONEY: any single payment of $5k+ that was not in the last feed
-    const fk=f=>f.name+'|'+f.ts+'|'+f.amount;
-    const seen=new Set((prev.feed||[]).map(fk));
-    const big=(d.feed||[]).filter(f=>f.amount>=MONEY_MIN&&!seen.has(fk(f))&&!RETIRED.has(f.name));
-    const bigNames=new Set(big.map(f=>f.name));
-    // GONG: a closer's finance app count for today went up since the last poll
-    const pf=prev.finance,cf=d.finance;
-    if(pf&&cf&&pf.todayYmd===cf.todayYmd){
-      const was=(pf.perDay||{})[pf.todayYmd]||{},now=(cf.perDay||{})[cf.todayYmd]||{};
-      const cnt=v=>typeof v==='number'?v:((v&&v.n)||0);
-      Object.entries(now).forEach(([n,v])=>{for(let k=cnt(was[n])+1;k<=cnt(v);k++)gongMoment(n,k,cf.today?cf.today.n:0,(cf.target||{}).goal);});
-    }
-    big.reverse().forEach(f=>setTimeout(()=>moneyMoment(f.name,f.amount),fatalK?9000:300));
     for(const r of s){
       const before=pm[r.closer]??0, delta=r.cash-before;
       if(delta>0){toast('💰 <b>'+r.name+'</b> just collected <b>'+money(delta)+'</b>');
@@ -1460,6 +1466,7 @@ function render(d){
       }
     }
   }
+  big.reverse().forEach(f=>setTimeout(()=>moneyMoment(f.name,f.amount),fatalK?9000:300));
   CARDS=d.cards||{};
   prev=d;
   if(new URLSearchParams(location.search).get("crown")==="1"&&s[0]){window.__crownReady=s[0];}
@@ -1981,11 +1988,11 @@ async function poll(){try{
   render(d);nextPollAt=Date.now()+POLL_MS;warmMedia();}catch(e){$("upd").textContent="reconnecting";nextPollAt=Date.now()+POLL_MS;}}
 // The data call takes 5 to 7 s because the edge function rebuilds everything per
 // request. Paint the last copy this browser saw straight away, then swap in the
-// fresh one. prev is cleared so the swap does not replay every deal since the
-// cached copy as money moments.
+// fresh one. prev is cleared so toasts and overtakes do not replay; the money and
+// app moments still diff against the cached copy through seenBase.
 function cacheKey(){const Q=new URLSearchParams(location.search);return "p6last:"+tzResolved()+":"+(Q.get("wc")==="1"?"wc":"team");}
 function paintCached(){try{const t=localStorage.getItem(cacheKey());if(!t)return;
-  const d=JSON.parse(t);hideRetired(d);render(d);prev=null;$("upd").textContent="updating…";}catch(e){prev=null;}}
+  const d=JSON.parse(t);hideRetired(d);render(d);prev=null;seenBase=JSON.parse(t);$("upd").textContent="updating…";}catch(e){prev=null;}}
 // Meme media waits until the board has its data so it never competes with the data call.
 let mediaWarm=false;
 function warmMedia(){if(mediaWarm)return;mediaWarm=true;setTimeout(()=>{
