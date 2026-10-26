@@ -1253,12 +1253,18 @@ const THAI_SND=Object.assign(new Audio(),{preload:'none',src:'money/bangkok.mp3'
 const THAI_VID=mkVid('money/hangover.mp4');
 const THAI_MS=13000;
 // where each closer flies in from, for the credit. Anyone missing just shows THAILAND.
-const HOME={THOMAS:'NZ'};
+const HOME={THOMAS:'NZ','BRODIE C':'GOLD COAST'};
+// a closer can have their own cut. Brodie C gets the Vegas Right Round montage.
+const THAI_CUTS={'BRODIE C':mkVid('money/brodie.mp4')};
 // which number this closer was to clear 180k: gate headlines in order, else a head count
 function qualOrder(name){const d=prev||seenBase||{};
   const g=(d.headlines||[]).filter(h=>h.kind==='gate'&&/180k/.test(h.label||'')).sort((a,b)=>new Date(a.ts)-new Date(b.ts)).map(h=>h.actor);
   const i=[...new Set(g)].indexOf(name);if(i>=0)return i+1;
-  return Math.max(1,(d.standings||[]).filter(r=>r.cash>=FLOOR).length);}
+  // count everyone already over the line, plus this closer if they are not yet
+  // (a replay or a test before they get there)
+  const over=(d.standings||[]).filter(r=>r.cash>=FLOOR);
+  return over.length+(over.some(r=>r.name===name)?0:1);}
+const ORDW=['First','Second','Third','Fourth','Fifth','Sixth','Seventh','Eighth','Ninth','Tenth'];
 function thaiTakeover(name){moneyQ.push(['thai',name]);if(!moneyBusy)nextMoney();}
 // split flap: every cell spins through letters and lands on its own beat
 function flap(el,t0){const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';const cells=[...el.querySelectorAll('.tfc')];
@@ -1267,22 +1273,22 @@ function flap(el,t0){const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';const cells=
     el.__iv=(el.__iv||[]).concat(iv);});}
 function runThai(name){const el=$("thai");if(!el){nextMoney();return;}
   window.__lastEvent=Date.now();
-  const n=qualOrder(name),row=((prev||{}).standings||[]).find(r=>r.name===name);
+  const n=qualOrder(name);
   const nm=String(name).toUpperCase().slice(0,12);
   const grp=(lab,txt,cls)=>'<div class="tfg'+(cls?' '+cls:'')+'"><small>'+lab+'</small><div>'+[...txt].map(ch=>'<span class="tfc" data-c="'+hesc(ch)+'"> </span>').join('')+'</div></div>';
   el.innerHTML='<div class="tvig"></div><div class="tpre">A Phuket 6 production</div>'+
     '<div class="tcred"><div class="tcf">'+face(name,'big')+'</div><div><div class="tk1">NOW BOARDING · '+(HOME[name]?HOME[name]+' → ':'')+'THAILAND</div>'+
-    '<div class="tnm">'+hesc(name)+'</div><div class="tk2">Qualified for Phuket · <b>'+(row?money(row.cash):'$180K+')+'</b> · '+(n===1?'<b>First</b> to qualify':ordn(n)+' to qualify')+'</div></div></div>'+
+    '<div class="tnm">'+hesc(name)+'</div><div class="tk2">Qualified for Phuket · <b>'+(ORDW[n-1]||ordn(n))+'</b> to qualify</div></div></div>'+
     '<div class="tflap">'+grp('FLIGHT','P6 '+String(n).padStart(3,'0'))+grp('PASSENGER',nm)+(HOME[name]?grp('FROM',HOME[name]):'')+grp('TO','THAILAND')+grp('STATUS','BOARDING','go')+'</div>';
-  el.prepend(THAI_VID);
+  const vid=THAI_CUTS[name]||THAI_VID;el.prepend(vid);
   el.classList.remove('out');el.classList.add('on');
-  try{THAI_VID.currentTime=0;THAI_VID.play().catch(()=>{});}catch(e){}
+  try{vid.currentTime=0;vid.play().catch(()=>{});}catch(e){}
   if(!muted()){try{THAI_SND.currentTime=0;THAI_SND.volume=1;THAI_SND.play().catch(()=>{});}catch(e){}}
   const fl=el.querySelector('.tflap');flap(fl,performance.now());
   const ts=[setTimeout(()=>{const g=el.querySelector('.tfg.go');if(g)g.classList.add('blink');},3200)];
   let done=false;
   const close=()=>{if(done)return;done=true;ts.forEach(clearTimeout);(fl.__iv||[]).forEach(clearInterval);
-    try{THAI_SND.pause();THAI_VID.pause();}catch(e){}
+    try{THAI_SND.pause();vid.pause();}catch(e){}
     el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');el.innerHTML='';nextMoney();},700);};
   el.onclick=close;setTimeout(close,THAI_MS);}
 function cabinHtml(s,b){
