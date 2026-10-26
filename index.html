@@ -244,51 +244,36 @@ body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 .race .rt{font-family:'Russo One',sans-serif;letter-spacing:.08em;color:#fff}
 .race .ri b{color:#fff}.race .ri i{font-style:normal;color:var(--dim)}
 .race.done .rt{color:var(--gr);text-shadow:0 0 12px rgba(45,255,136,.6)}
-/* full screen flag takeover when someone clears 180k */
-#thai{position:fixed;inset:0;z-index:285;display:none;align-items:center;justify-content:center;flex-direction:column;text-align:center;
- background:linear-gradient(180deg,#a51931 0 16.67%,#f4f5f8 16.67% 33.33%,#2d2a4a 33.33% 66.67%,#f4f5f8 66.67% 83.33%,#a51931 83.33%);background-size:100% 100%}
-#thai.on{display:flex;animation:thaiin .5s cubic-bezier(.2,.9,.3,1.2)}
-#thai:before{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.28) 45%,transparent 60%) 0 0/250% 100%;animation:thaiwave 2.2s linear infinite}
-@keyframes thaiin{from{transform:scale(1.15);opacity:0}to{transform:none;opacity:1}}
-@keyframes thaiwave{from{background-position:150% 0}to{background-position:-100% 0}}
-#thai.out{animation:mfadeout .6s ease-in forwards}
-/* THE GREAT <NAME>: Gatsby toasts the qualifier over One Night in Bangkok */
-#thai .tdim{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(10,8,30,.25),rgba(5,4,18,.88) 75%)}
-#thai .tbub{position:absolute;bottom:-30px;width:var(--s);height:var(--s);border-radius:50%;border:1.5px solid rgba(255,230,150,.75);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.7),rgba(255,214,90,.12) 60%);animation:tbub linear infinite;opacity:.85}
-@keyframes tbub{to{transform:translate(var(--dx),-112vh);opacity:.2}}
-#thai .tgreat{position:absolute;top:5vh;left:0;right:0;z-index:3;font-family:'Russo One',sans-serif;text-transform:uppercase;line-height:.95;
- color:#ffe08a;background:linear-gradient(180deg,#fff6d0 0%,#ffd34d 45%,#b8860b 55%,#ffe08a 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
- filter:drop-shadow(0 5px 0 #2a1a00) drop-shadow(0 0 30px rgba(255,200,60,.55));animation:tgreat .9s cubic-bezier(.2,1.4,.4,1) .15s both}
-#thai .tgreat small{display:block;font-size:clamp(18px,2.4vw,34px);letter-spacing:.6em;margin-bottom:6px}
-#thai .tgreat b{display:block;font-size:clamp(56px,9vw,150px);letter-spacing:.02em}
-@keyframes tgreat{from{transform:scale(2.4);opacity:0;letter-spacing:.4em}to{transform:none;opacity:1}}
-#thai canvas{position:absolute;left:-2vw;bottom:0;height:76vh;z-index:2;-webkit-mask-image:linear-gradient(180deg,transparent,#000 14%);mask-image:linear-gradient(180deg,transparent,#000 14%);filter:drop-shadow(0 0 40px rgba(0,0,0,.7));animation:tleo .7s cubic-bezier(.2,.9,.3,1.1) .3s both}
-@keyframes tleo{from{transform:translateX(-80%)}to{transform:none}}
-#thai .tpass{position:absolute;left:66%;top:58%;z-index:4;transform:translate(-50%,-50%) rotate(-3deg);width:min(560px,90vw);display:flex;border-radius:22px;overflow:hidden;
- background:#fffaf0;color:#1a1630;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(255,204,0,.35);animation:tpass .7s cubic-bezier(.2,1.5,.4,1) .55s both;text-align:left}
-@keyframes tpass{from{transform:translate(-50%,40vh) rotate(18deg);opacity:0}to{transform:translate(-50%,-50%) rotate(-3deg);opacity:1}}
-#thai .tpm{flex:1;padding:18px 22px 20px}
-#thai .tph{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.28em;color:#a51931;border-bottom:2px dashed rgba(26,22,48,.2);padding-bottom:8px}
-#thai .tpr{display:flex;align-items:center;gap:16px;margin-top:12px}
-#thai .tpf{width:96px;height:96px;flex:none;border-radius:50%;overflow:hidden;border:3px solid #d4a017;background:#2d2a4a;display:flex;align-items:flex-end;justify-content:center}
-#thai .tpf .pfp{width:96px;height:96px}
-#thai .tpn{font-family:'Russo One',sans-serif;font-size:clamp(28px,3.4vw,44px);line-height:1;text-transform:uppercase}
-#thai .tpk{font-size:11px;font-weight:800;letter-spacing:.24em;color:#6b6585;margin-top:4px}
-#thai .tpg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
-#thai .tpg div{font-size:10px;font-weight:800;letter-spacing:.2em;color:#6b6585}
-#thai .tpg b{display:block;font-family:'Teko',sans-serif;font-size:34px;line-height:.9;color:#1a1630;letter-spacing:0}
-#thai .tps{width:110px;flex:none;background:#2d2a4a;color:#ffd34d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-left:3px dashed #fffaf0;font-weight:800;font-size:10px;letter-spacing:.2em}
-#thai .tps b{font-family:'Teko',sans-serif;font-size:58px;line-height:.85;letter-spacing:0;color:#fff}
-#thai .tstamp{position:absolute;left:12%;bottom:20px;font-family:'Russo One',sans-serif;font-size:34px;letter-spacing:.08em;color:#d0142c;border:5px solid #d0142c;border-radius:10px;padding:4px 14px;
- transform:rotate(-14deg);mix-blend-mode:multiply;opacity:0;animation:tstamp .35s cubic-bezier(.3,0,.6,1) 1.25s forwards}
-@keyframes tstamp{0%{transform:rotate(-14deg) scale(4);opacity:0}70%{opacity:.95}100%{transform:rotate(-14deg) scale(1);opacity:.92}}
-#thai .tfirst{position:absolute;left:66%;top:calc(58% + 150px);z-index:5;transform:translateX(-50%) rotate(2deg);white-space:nowrap;font-family:'Russo One',sans-serif;font-size:clamp(18px,2.2vw,30px);letter-spacing:.1em;
- color:#1a1630;background:linear-gradient(90deg,#ffd34d,#fff2b0,#ffd34d);padding:8px 22px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;animation:tfirst .5s cubic-bezier(.2,1.6,.4,1) 2.4s forwards}
-@keyframes tfirst{from{transform:translateX(-50%) rotate(2deg) scale(.2);opacity:0}to{transform:translateX(-50%) rotate(2deg) scale(1);opacity:1}}
-#thai .ttick{position:absolute;left:0;right:0;bottom:0;z-index:6;overflow:hidden;background:#a51931;border-top:3px solid #ffd34d;padding:8px 0}
-#thai .ttick div{display:inline-block;white-space:nowrap;font-family:'Russo One',sans-serif;font-size:22px;letter-spacing:.16em;color:#fff;animation:ttick 9s linear infinite}
-@keyframes ttick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@media(max-width:700px){#thai canvas{height:40vh;left:-8vw}#thai .tpass{left:50%;top:50%}#thai .tfirst{left:50%;top:calc(50% + 130px)}#thai .tps{width:80px}#thai .tps b{font-size:40px}#thai .tstamp{font-size:22px}#thai .tpf{width:64px;height:64px}#thai .tpf .pfp{width:64px;height:64px}}
+/* QUALIFIED: the Hangover II airport walk, letterboxed, with a film credit and a
+   split flap departures row in the bottom bar. Kept cinematic on purpose. */
+#thai{position:fixed;inset:0;z-index:285;display:none;background:#000;overflow:hidden;--bar:max(56px,calc((100vh - 100vw/2.31)/2))}
+#thai.on{display:block;animation:mfade .4s ease-out}
+#thai.out{animation:mfadeout .7s ease-in forwards}
+#thai video{position:absolute;left:0;right:0;top:var(--bar);bottom:var(--bar);width:100%;height:calc(100% - 2*var(--bar));object-fit:cover}
+#thai .tvig{position:absolute;left:0;right:0;top:var(--bar);bottom:var(--bar);background:linear-gradient(90deg,rgba(0,0,0,.72),rgba(0,0,0,.25) 45%,transparent 70%),radial-gradient(ellipse at 50% 50%,transparent 55%,rgba(0,0,0,.5))}
+#thai .tpre{position:absolute;top:0;left:0;right:0;height:var(--bar);display:flex;align-items:center;justify-content:center;font-family:'Chakra Petch',sans-serif;font-weight:500;font-size:13px;letter-spacing:.7em;color:rgba(255,255,255,.55);text-transform:uppercase;opacity:0;animation:tpre 1.6s ease .2s both}
+@keyframes tpre{0%,100%{opacity:0}25%,70%{opacity:1}}
+#thai .tcred{position:absolute;left:6vw;bottom:calc(var(--bar) + 6vh);display:flex;align-items:center;gap:26px}
+#thai .tcf{width:104px;height:104px;flex:none;border-radius:50%;overflow:hidden;border:2px solid #f5c84c;box-shadow:0 0 0 6px rgba(0,0,0,.35);display:flex;align-items:flex-end;justify-content:center;background:#111;opacity:0;animation:tcf .6s ease 1.5s both}
+#thai .tcf .pfp{width:104px;height:104px}
+@keyframes tcf{from{opacity:0;transform:scale(.85)}to{opacity:1;transform:none}}
+#thai .tk1{display:flex;align-items:center;gap:14px;font-family:'Chakra Petch',sans-serif;font-weight:600;font-size:14px;letter-spacing:.5em;color:#f5c84c;opacity:0;animation:tk 0.6s ease 1.4s both}
+#thai .tk1:before{content:'';width:46px;height:1px;background:#f5c84c}
+#thai .tnm{font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:clamp(54px,7.2vw,124px);line-height:.95;letter-spacing:.03em;color:#fff;text-transform:uppercase;margin:8px 0 10px;text-shadow:0 4px 30px rgba(0,0,0,.55);clip-path:inset(0 100% 0 0);animation:twipe .9s cubic-bezier(.7,0,.2,1) 1.5s forwards}
+@keyframes twipe{to{clip-path:inset(0 0 0 0)}}
+#thai .tk2{font-family:'Chakra Petch',sans-serif;font-weight:500;font-size:15px;letter-spacing:.32em;color:rgba(255,255,255,.88);text-transform:uppercase;opacity:0;animation:tk .6s ease 2.3s both}
+#thai .tk2 b{color:#f5c84c;font-weight:600}
+@keyframes tk{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+#thai .tflap{position:absolute;left:0;right:0;bottom:0;height:var(--bar);display:flex;align-items:center;justify-content:center;gap:22px}
+#thai .tfg{display:flex;flex-direction:column;gap:5px}
+#thai .tfg small{font-family:'Chakra Petch',sans-serif;font-size:10px;font-weight:600;letter-spacing:.3em;color:rgba(255,255,255,.4)}
+#thai .tfg>div{display:flex;gap:3px}
+#thai .tfc{position:relative;width:.78em;height:1.36em;display:flex;align-items:center;justify-content:center;background:#141414;border-radius:3px;font-family:'Chakra Petch',sans-serif;font-weight:700;font-size:26px;color:#ffc93c;box-shadow:inset 0 -1px 0 rgba(255,255,255,.05)}
+#thai .tfc:after{content:'';position:absolute;left:0;right:0;top:50%;height:1px;background:rgba(0,0,0,.85)}
+#thai .tfg.go .tfc{color:#5dff8f}
+#thai .tfg.go.blink .tfc{animation:tblink 1s steps(1) infinite}
+@keyframes tblink{50%{color:#1f5a33}}
+@media(max-width:700px){#thai .tcred{left:5vw;gap:14px}#thai .tcf{width:64px;height:64px}#thai .tcf .pfp{width:64px;height:64px}#thai .tk1,#thai .tk2{font-size:10px;letter-spacing:.24em}#thai .tflap{gap:10px}#thai .tfc{font-size:15px}#thai .tfg small{font-size:8px}}
 @media(max-width:700px){.fus{grid-template-columns:repeat(3,1fr);border-radius:22px;padding:22px 12px 14px;row-gap:14px}.nose,.ais{display:none}.fus:before{left:24px}}
 #gulagzone{margin-top:20px;padding:16px 18px;background:linear-gradient(rgba(6,8,7,.68),rgba(6,8,7,.78)),url(gulag.jpg) center/cover;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
 #gulagzone .gz{margin-top:0}
@@ -1260,41 +1245,43 @@ function nextMoney(){const it=moneyQ.shift();if(!it){moneyBusy=false;return;}mon
   const close=()=>{if(done)return;done=true;stopKey();el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');rain.innerHTML='';nextMoney();},600);};
   el.onclick=close;clearTimeout(window.__moneyT);window.__moneyT=setTimeout(close,MONEY_MS);
 }
-// QUALIFIED. Clearing 180k is the one thing nobody can take off you, so it gets
-// the biggest scene on the board: Gatsby raises a glass to THE GREAT <NAME> over
-// One Night in Bangkok, and the boarding pass gets stamped as the chorus lands.
+// QUALIFIED. Clearing 180k is the one thing nobody can take off you. The Hangover
+// II airport walk (the Wolfpack heading to Bangkok) over One Night in Bangkok, cut
+// so the walk starts on the first "One night in Bangkok", with a film credit and a
+// split flap departures row that boards the closer.
 const THAI_SND=Object.assign(new Audio(),{preload:'none',src:'money/bangkok.mp3'});
-const THAI_VID=mkVid('money/leo.mp4');
-const THAI_MS=12000;
+const THAI_VID=mkVid('money/hangover.mp4');
+const THAI_MS=12400;
 // which number this closer was to clear 180k: gate headlines in order, else a head count
 function qualOrder(name){const d=prev||seenBase||{};
   const g=(d.headlines||[]).filter(h=>h.kind==='gate'&&/180k/.test(h.label||'')).sort((a,b)=>new Date(a.ts)-new Date(b.ts)).map(h=>h.actor);
   const i=[...new Set(g)].indexOf(name);if(i>=0)return i+1;
   return Math.max(1,(d.standings||[]).filter(r=>r.cash>=FLOOR).length);}
 function thaiTakeover(name){moneyQ.push(['thai',name]);if(!moneyBusy)nextMoney();}
+// split flap: every cell spins through letters and lands on its own beat
+function flap(el,t0){const A='ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';const cells=[...el.querySelectorAll('.tfc')];
+  cells.forEach((c,i)=>{const fin=c.dataset.c,end=t0+380+i*55+Math.random()*260;
+    const iv=setInterval(()=>{if(performance.now()>=end){c.textContent=fin;clearInterval(iv);return;}c.textContent=fin===' '?' ':A[Math.floor(Math.random()*A.length)];},55);
+    el.__iv=(el.__iv||[]).concat(iv);});}
 function runThai(name){const el=$("thai");if(!el){nextMoney();return;}
   window.__lastEvent=Date.now();
   const n=qualOrder(name),row=((prev||{}).standings||[]).find(r=>r.name===name);
-  const bub=Array.from({length:34},()=>'<i class="tbub" style="left:'+(Math.random()*100)+'%;--s:'+(6+Math.random()*16).toFixed(0)+'px;--dx:'+(Math.random()*80-40).toFixed(0)+'px;animation-duration:'+(4+Math.random()*5).toFixed(1)+'s;animation-delay:'+(Math.random()*6).toFixed(1)+'s"></i>').join('');
-  const tick=Array(8).fill('ONE NIGHT IN PHUKET 🥂 '+hesc(name)+' IS ON THE PLANE 🇹🇭').join(' ✦ ');
-  el.innerHTML='<div class="tdim"></div>'+bub+'<div class="tgreat"><small>THE GREAT</small><b>'+hesc(name)+'</b></div><canvas id="tleo"></canvas>'+
-    '<div class="tpass"><div class="tpm"><div class="tph"><span>PHUKET 6 AIRWAYS</span><span>BOARDING PASS</span></div>'+
-    '<div class="tpr"><div class="tpf">'+face(name,'big')+'</div><div><div class="tpn">'+hesc(name)+'</div><div class="tpk">QUALIFIED · $180K CLEARED</div></div></div>'+
-    '<div class="tpg"><div>FROM<b>DXB</b></div><div>TO<b>HKT</b></div><div>CASH<b>'+(row?money(row.cash):'180K+')+'</b></div></div></div>'+
-    '<div class="tps">SEAT<b>'+n+'A</b>4 DEC</div><div class="tstamp">QUALIFIED</div></div>'+
-    '<div class="tfirst">'+(n===1?'🥇 FIRST ONE ON THE PLANE':'✈️ '+ordn(n).toUpperCase()+' ONE ON THE PLANE')+'</div>'+
-    '<div class="ttick"><div>'+tick+' ✦ '+tick+'</div></div>';
+  const nm=String(name).toUpperCase().slice(0,12);
+  const grp=(lab,txt,cls)=>'<div class="tfg'+(cls?' '+cls:'')+'"><small>'+lab+'</small><div>'+[...txt].map(ch=>'<span class="tfc" data-c="'+hesc(ch)+'"> </span>').join('')+'</div></div>';
+  el.innerHTML='<div class="tvig"></div><div class="tpre">A Phuket 6 production</div>'+
+    '<div class="tcred"><div class="tcf">'+face(name,'big')+'</div><div><div class="tk1">NOW BOARDING · DXB → HKT</div>'+
+    '<div class="tnm">'+hesc(name)+'</div><div class="tk2">Qualified for Phuket · <b>'+(row?money(row.cash):'$180K+')+'</b> · '+(n===1?'<b>First</b> to qualify':ordn(n)+' to qualify')+'</div></div></div>'+
+    '<div class="tflap">'+grp('FLIGHT','P6 '+String(n).padStart(3,'0'))+grp('PASSENGER',nm)+grp('TO','PHUKET')+grp('STATUS','BOARDING','go')+'</div>';
+  el.prepend(THAI_VID);
   el.classList.remove('out');el.classList.add('on');
-  const stop=chromaKey(THAI_VID,$("tleo"));THAI_VID.playbackRate=.82;
+  try{THAI_VID.currentTime=0;THAI_VID.play().catch(()=>{});}catch(e){}
   if(!muted()){try{THAI_SND.currentTime=0;THAI_SND.volume=1;THAI_SND.play().catch(()=>{});}catch(e){}}
-  const gold=['#ffd34d','#fff2b0','#ffffff','#a51931','#2d2a4a'];
-  // the stamp hits on "One night in Bangkok": shake and fireworks with it
-  const ts=[setTimeout(()=>{document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),550);burst(220,innerWidth*.66,innerHeight*.55,gold);},1450)];
-  [3200,5000,6800,8600,10200].forEach((t,i)=>ts.push(setTimeout(()=>burst(160,innerWidth*(i%2?.8:.35),innerHeight*.3,gold),t)));
+  const fl=el.querySelector('.tflap');flap(fl,performance.now());
+  const ts=[setTimeout(()=>{const g=el.querySelector('.tfg.go');if(g)g.classList.add('blink');},3200)];
   let done=false;
-  const close=()=>{if(done)return;done=true;ts.forEach(clearTimeout);stop();
-    try{THAI_SND.pause();}catch(e){}
-    el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');el.innerHTML='';nextMoney();},600);};
+  const close=()=>{if(done)return;done=true;ts.forEach(clearTimeout);(fl.__iv||[]).forEach(clearInterval);
+    try{THAI_SND.pause();THAI_VID.pause();}catch(e){}
+    el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');el.innerHTML='';nextMoney();},700);};
   el.onclick=close;setTimeout(close,THAI_MS);}
 function cabinHtml(s,b){
   const top=s.slice(0,5);if(!top.length)return'';
