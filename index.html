@@ -1996,7 +1996,9 @@ function paintCached(){try{const t=localStorage.getItem(cacheKey());if(!t)return
 // Meme media waits until the board has its data so it never competes with the data call.
 let mediaWarm=false;
 function warmMedia(){if(mediaWarm)return;mediaWarm=true;setTimeout(()=>{
-  [MONEY_VID,MONEY_SND,APP_FX.cena.vid,APP_FX.cena.snd,APP_FX.khaled.vid,APP_FX.khaled.snd].forEach(m=>{m.preload='auto';try{m.load();}catch(e){}});},2000);}
+  // load() resets an element, so skip anything a moment already started: a moment
+  // fired by the first fresh poll otherwise froze Vince on frame 0 two seconds in.
+  [MONEY_VID,MONEY_SND,APP_FX.cena.vid,APP_FX.cena.snd,APP_FX.khaled.vid,APP_FX.khaled.snd].forEach(m=>{m.preload='auto';if(m.paused&&m.readyState===0){try{m.load();}catch(e){}}});},2000);}
 paintCached();poll();setInterval(poll,POLL_MS);
 // Self-update. GitHub Pages stamps index.html with Last-Modified, and the browser
 // keeps the stamp of the copy this tab is running in document.lastModified. If the
