@@ -2071,18 +2071,24 @@ async function poll(){try{
 // feed, crown and seat kills in the edge headlines, finance apps per day), plus a
 // small log this browser keeps of top 5 climbs, which the edge never records.
 const RP_TAG={money:'💰 CASH',app:'🏦 APP',king:'👑 CROWN',fatal:'⚔️ TOP 5',thai:'🇹🇭 QUALIFIED'};
-const RLOG_K='p6replays',ASEEN_K='p6appseen';
+const RLOG_K='p6replays',ASEEN_K='p6appseen',QUAL_K='p6qual';
 function lsGet(k,d){try{return JSON.parse(localStorage.getItem(k))||d;}catch(e){return d;}}
 function lsSet(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){}}
 function logReplay(k,a,v){const l=lsGet(RLOG_K,[]);l.unshift({k,a,v,ts:Date.now()});lsSet(RLOG_K,l.slice(0,40));}
 const ordn=n=>n+(['th','st','nd','rd'][(n%100-20)%10]||['th','st','nd','rd'][n%100]||'th');
 function replays(d){
-  const out=[],now=Date.now(),b=x=>'<b>'+hesc(x)+'</b>',ok=n=>n&&!RETIRED.has(n);
+  const out=[],now=Date.now(),b=x=>'<b>'+hesc(x)+'</b>',ok=n=>n&&!RETIRED.has(n),qual=lsGet(QUAL_K,{});
   (d.feed||[]).forEach(f=>{if(f.amount>=MONEY_MIN&&ok(f.name))out.push({k:'money',a:f.name,x:f.amount,ts:new Date(f.ts).getTime(),t:b(f.name)+' banks '+money(f.amount)+' in one payment'});});
   (d.headlines||[]).forEach(h=>{const ts=new Date(h.ts).getTime();if(!ok(h.actor))return;
     if(h.kind==='king'&&h.victim)out.push({k:'king',a:h.actor,v:h.victim,ts,t:b(h.actor)+' takes the crown off '+b(h.victim)});
     else if(h.kind==='seat'&&h.victim)out.push({k:'fatal',a:h.actor,v:h.victim,ts,t:b(h.actor)+' knocks '+b(h.victim)+' out of the top 5'});
-    else if(h.kind==='gate'&&/180k/.test(h.label||''))out.push({k:'thai',a:h.actor,ts,t:b(h.actor)+' clears $180k and books Phuket'});});
+    else if(h.kind==='gate'&&/180k/.test(h.label||''))qual[h.actor]=Math.min(qual[h.actor]||ts,ts);});
+  // qualifying is permanent, so every closer over 180k keeps a row even after the
+  // edge's short headline list has moved on. The time comes from the headline when
+  // this browser saw one, otherwise from when it first saw them over the line.
+  (d.standings||[]).forEach(r=>{if(r.cash>=FLOOR&&ok(r.name)&&!qual[r.name])qual[r.name]=now;});
+  lsSet(QUAL_K,qual);
+  Object.entries(qual).forEach(([n,ts])=>{if(ok(n))out.push({k:'thai',a:n,ts,t:b(n)+' clears $180k and books Phuket'});});
   const k=d.king;if(k&&k.prev&&k.since&&ok(k.name))out.push({k:'king',a:k.name,v:k.prev.name,ts:new Date(k.since).getTime(),t:b(k.name)+' takes the crown off '+b(k.prev.name)});
   lsGet(RLOG_K,[]).forEach(e=>{if(!ok(e.a))return;
     out.push(e.k==='king'?{k:'king',a:e.a,v:e.v,ts:e.ts,t:b(e.a)+' takes the crown'+(e.v?' off '+b(e.v):'')}
@@ -2104,7 +2110,10 @@ function replays(d){
   // the same kill can come from the edge and from this browser's log: keep one
   const dd=new Map();
   out.sort((x,y)=>y.ts-x.ts).forEach(r=>{const key=r.k+'|'+r.a+'|'+(r.k==='money'||r.k==='app'?r.x+'|'+Math.round(r.ts/6e4):(r.v||'')+'|'+Math.floor(r.ts/36e5));if(!dd.has(key))dd.set(key,r);});
-  return [...dd.values()].slice(0,12);
+  // apps and cash come in volume: cap them so a busy day never pushes a crown,
+  // a kill or a qualifier off the list
+  const cap={app:4,money:5},cnt={};
+  return [...dd.values()].filter(r=>!cap[r.k]||(cnt[r.k]=(cnt[r.k]||0)+1)<=cap[r.k]).slice(0,12);
 }
 function cacheKey(){const Q=new URLSearchParams(location.search);return "p6last:"+tzResolved()+":"+(Q.get("wc")==="1"?"wc":"team");}
 function paintCached(){try{const t=localStorage.getItem(cacheKey());if(!t)return;
