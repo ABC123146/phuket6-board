@@ -1156,7 +1156,7 @@ function chromaKey(vid,cv){const ctx=cv.getContext('2d',{willReadFrequently:true
   return()=>{live=false;vid.pause();};}
 const MONEY_MIN=5000;
 const MOMENT_WIN=45*60000;
-let seenBase=null;
+let seenBase=null,painting=false;
 const MONEY_SND=Object.assign(new Audio(),{preload:'none',src:'money/here-comes-the-money.mp3'});
 const MONEY_VID=Object.assign(document.createElement('video'),{src:'money/vince.mp4',muted:true,loop:true,playsInline:true,preload:'none'});
 const MONEY_MS=11000;
@@ -1423,11 +1423,14 @@ function render(d){
   // poll, or on a fresh load the cached copy. Without the cache a deal that landed
   // before the board was opened never played. Payments older than MOMENT_WIN are
   // left alone so a board shut for days does not replay its backlog.
-  const base=prev||seenBase;seenBase=null;
+  // The instant paint of the cached copy has nothing to compare against, so it never
+  // fires a moment: it used to replay every $5k+ payment from the last 45 minutes
+  // on every reload. Moments fire only when there is an earlier copy to diff.
+  const base=painting?null:(prev||seenBase);if(!painting)seenBase=null;
   // HERE COMES THE MONEY: any single payment of $5k+ that was not in the last feed
   const fk=f=>f.name+'|'+f.ts+'|'+f.amount;
   const seen=new Set(((base&&base.feed)||[]).map(fk));
-  const big=(d.feed||[]).filter(f=>f.amount>=MONEY_MIN&&!seen.has(fk(f))&&!RETIRED.has(f.name)&&Date.now()-new Date(f.ts).getTime()<MOMENT_WIN);
+  const big=!base?[]:(d.feed||[]).filter(f=>f.amount>=MONEY_MIN&&!seen.has(fk(f))&&!RETIRED.has(f.name)&&Date.now()-new Date(f.ts).getTime()<MOMENT_WIN);
   const bigNames=new Set(big.map(f=>f.name));
   // GONG: a closer's finance app count for today went up since the last look
   const pf=base&&base.finance,cf=d.finance;
@@ -1992,7 +1995,7 @@ async function poll(){try{
 // app moments still diff against the cached copy through seenBase.
 function cacheKey(){const Q=new URLSearchParams(location.search);return "p6last:"+tzResolved()+":"+(Q.get("wc")==="1"?"wc":"team");}
 function paintCached(){try{const t=localStorage.getItem(cacheKey());if(!t)return;
-  const d=JSON.parse(t);hideRetired(d);render(d);prev=null;seenBase=JSON.parse(t);$("upd").textContent="updating…";}catch(e){prev=null;}}
+  const d=JSON.parse(t);hideRetired(d);painting=true;try{render(d);}finally{painting=false;}prev=null;seenBase=JSON.parse(t);$("upd").textContent="updating…";}catch(e){prev=null;}}
 // Meme media waits until the board has its data so it never competes with the data call.
 let mediaWarm=false;
 function warmMedia(){if(mediaWarm)return;mediaWarm=true;setTimeout(()=>{
