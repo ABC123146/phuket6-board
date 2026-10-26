@@ -244,7 +244,7 @@ body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 .race .rt{font-family:'Russo One',sans-serif;letter-spacing:.08em;color:#fff}
 .race .ri b{color:#fff}.race .ri i{font-style:normal;color:var(--dim)}
 .race.done .rt{color:var(--gr);text-shadow:0 0 12px rgba(45,255,136,.6)}
-/* QUALIFIED: the Hangover II airport walk, letterboxed, with a film credit and a
+/* QUALIFIED: the Hangover II board and Thailand montage, letterboxed, with a film credit and a
    split flap departures row in the bottom bar. Kept cinematic on purpose. */
 #thai{position:fixed;inset:0;z-index:285;display:none;background:#000;overflow:hidden;--bar:max(56px,calc((100vh - 100vw/2.31)/2))}
 #thai.on{display:block;animation:mfade .4s ease-out}
@@ -1246,12 +1246,14 @@ function nextMoney(){const it=moneyQ.shift();if(!it){moneyBusy=false;return;}mon
   el.onclick=close;clearTimeout(window.__moneyT);window.__moneyT=setTimeout(close,MONEY_MS);
 }
 // QUALIFIED. Clearing 180k is the one thing nobody can take off you. The Hangover
-// II airport walk (the Wolfpack heading to Bangkok) over One Night in Bangkok, cut
-// so the walk starts on the first "One night in Bangkok", with a film credit and a
+// II departures board, then the Thailand montage from the trailer, over One Night in Bangkok, cut
+// so the montage starts on the first "One night in Bangkok", with a film credit and a
 // split flap departures row that boards the closer.
 const THAI_SND=Object.assign(new Audio(),{preload:'none',src:'money/bangkok.mp3'});
 const THAI_VID=mkVid('money/hangover.mp4');
-const THAI_MS=12400;
+const THAI_MS=13000;
+// where each closer flies in from, for the credit. Anyone missing just shows THAILAND.
+const HOME={THOMAS:'NZ'};
 // which number this closer was to clear 180k: gate headlines in order, else a head count
 function qualOrder(name){const d=prev||seenBase||{};
   const g=(d.headlines||[]).filter(h=>h.kind==='gate'&&/180k/.test(h.label||'')).sort((a,b)=>new Date(a.ts)-new Date(b.ts)).map(h=>h.actor);
@@ -1269,9 +1271,9 @@ function runThai(name){const el=$("thai");if(!el){nextMoney();return;}
   const nm=String(name).toUpperCase().slice(0,12);
   const grp=(lab,txt,cls)=>'<div class="tfg'+(cls?' '+cls:'')+'"><small>'+lab+'</small><div>'+[...txt].map(ch=>'<span class="tfc" data-c="'+hesc(ch)+'"> </span>').join('')+'</div></div>';
   el.innerHTML='<div class="tvig"></div><div class="tpre">A Phuket 6 production</div>'+
-    '<div class="tcred"><div class="tcf">'+face(name,'big')+'</div><div><div class="tk1">NOW BOARDING · DXB → HKT</div>'+
+    '<div class="tcred"><div class="tcf">'+face(name,'big')+'</div><div><div class="tk1">NOW BOARDING · '+(HOME[name]?HOME[name]+' → ':'')+'THAILAND</div>'+
     '<div class="tnm">'+hesc(name)+'</div><div class="tk2">Qualified for Phuket · <b>'+(row?money(row.cash):'$180K+')+'</b> · '+(n===1?'<b>First</b> to qualify':ordn(n)+' to qualify')+'</div></div></div>'+
-    '<div class="tflap">'+grp('FLIGHT','P6 '+String(n).padStart(3,'0'))+grp('PASSENGER',nm)+grp('TO','PHUKET')+grp('STATUS','BOARDING','go')+'</div>';
+    '<div class="tflap">'+grp('FLIGHT','P6 '+String(n).padStart(3,'0'))+grp('PASSENGER',nm)+(HOME[name]?grp('FROM',HOME[name]):'')+grp('TO','THAILAND')+grp('STATUS','BOARDING','go')+'</div>';
   el.prepend(THAI_VID);
   el.classList.remove('out');el.classList.add('on');
   try{THAI_VID.currentTime=0;THAI_VID.play().catch(()=>{});}catch(e){}
