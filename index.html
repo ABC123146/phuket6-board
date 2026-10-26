@@ -251,9 +251,44 @@ body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 #thai:before{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.28) 45%,transparent 60%) 0 0/250% 100%;animation:thaiwave 2.2s linear infinite}
 @keyframes thaiin{from{transform:scale(1.15);opacity:0}to{transform:none;opacity:1}}
 @keyframes thaiwave{from{background-position:150% 0}to{background-position:-100% 0}}
-#thai .tn{position:relative;font-family:'Russo One',sans-serif;font-size:110px;line-height:1;color:#fff;text-transform:uppercase;text-shadow:0 6px 0 #1a1630,0 0 40px rgba(0,0,0,.6)}
-#thai .tx{position:relative;margin-top:14px;font-family:'Russo One',sans-serif;font-size:34px;letter-spacing:.12em;color:#ffcc00;text-shadow:0 3px 0 #1a1630}
-@media(max-width:700px){#thai .tn{font-size:48px}#thai .tx{font-size:18px}}
+#thai.out{animation:mfadeout .6s ease-in forwards}
+/* THE GREAT <NAME>: Gatsby toasts the qualifier over One Night in Bangkok */
+#thai .tdim{position:absolute;inset:0;background:radial-gradient(ellipse at 50% 45%,rgba(10,8,30,.25),rgba(5,4,18,.88) 75%)}
+#thai .tbub{position:absolute;bottom:-30px;width:var(--s);height:var(--s);border-radius:50%;border:1.5px solid rgba(255,230,150,.75);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.7),rgba(255,214,90,.12) 60%);animation:tbub linear infinite;opacity:.85}
+@keyframes tbub{to{transform:translate(var(--dx),-112vh);opacity:.2}}
+#thai .tgreat{position:absolute;top:5vh;left:0;right:0;z-index:3;font-family:'Russo One',sans-serif;text-transform:uppercase;line-height:.95;
+ color:#ffe08a;background:linear-gradient(180deg,#fff6d0 0%,#ffd34d 45%,#b8860b 55%,#ffe08a 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+ filter:drop-shadow(0 5px 0 #2a1a00) drop-shadow(0 0 30px rgba(255,200,60,.55));animation:tgreat .9s cubic-bezier(.2,1.4,.4,1) .15s both}
+#thai .tgreat small{display:block;font-size:clamp(18px,2.4vw,34px);letter-spacing:.6em;margin-bottom:6px}
+#thai .tgreat b{display:block;font-size:clamp(56px,9vw,150px);letter-spacing:.02em}
+@keyframes tgreat{from{transform:scale(2.4);opacity:0;letter-spacing:.4em}to{transform:none;opacity:1}}
+#thai canvas{position:absolute;left:-2vw;bottom:0;height:76vh;z-index:2;-webkit-mask-image:linear-gradient(180deg,transparent,#000 14%);mask-image:linear-gradient(180deg,transparent,#000 14%);filter:drop-shadow(0 0 40px rgba(0,0,0,.7));animation:tleo .7s cubic-bezier(.2,.9,.3,1.1) .3s both}
+@keyframes tleo{from{transform:translateX(-80%)}to{transform:none}}
+#thai .tpass{position:absolute;left:66%;top:58%;z-index:4;transform:translate(-50%,-50%) rotate(-3deg);width:min(560px,90vw);display:flex;border-radius:22px;overflow:hidden;
+ background:#fffaf0;color:#1a1630;box-shadow:0 30px 80px rgba(0,0,0,.6),0 0 60px rgba(255,204,0,.35);animation:tpass .7s cubic-bezier(.2,1.5,.4,1) .55s both;text-align:left}
+@keyframes tpass{from{transform:translate(-50%,40vh) rotate(18deg);opacity:0}to{transform:translate(-50%,-50%) rotate(-3deg);opacity:1}}
+#thai .tpm{flex:1;padding:18px 22px 20px}
+#thai .tph{display:flex;justify-content:space-between;font-size:11px;font-weight:800;letter-spacing:.28em;color:#a51931;border-bottom:2px dashed rgba(26,22,48,.2);padding-bottom:8px}
+#thai .tpr{display:flex;align-items:center;gap:16px;margin-top:12px}
+#thai .tpf{width:96px;height:96px;flex:none;border-radius:50%;overflow:hidden;border:3px solid #d4a017;background:#2d2a4a;display:flex;align-items:flex-end;justify-content:center}
+#thai .tpf .pfp{width:96px;height:96px}
+#thai .tpn{font-family:'Russo One',sans-serif;font-size:clamp(28px,3.4vw,44px);line-height:1;text-transform:uppercase}
+#thai .tpk{font-size:11px;font-weight:800;letter-spacing:.24em;color:#6b6585;margin-top:4px}
+#thai .tpg{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+#thai .tpg div{font-size:10px;font-weight:800;letter-spacing:.2em;color:#6b6585}
+#thai .tpg b{display:block;font-family:'Teko',sans-serif;font-size:34px;line-height:.9;color:#1a1630;letter-spacing:0}
+#thai .tps{width:110px;flex:none;background:#2d2a4a;color:#ffd34d;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;border-left:3px dashed #fffaf0;font-weight:800;font-size:10px;letter-spacing:.2em}
+#thai .tps b{font-family:'Teko',sans-serif;font-size:58px;line-height:.85;letter-spacing:0;color:#fff}
+#thai .tstamp{position:absolute;left:12%;bottom:20px;font-family:'Russo One',sans-serif;font-size:34px;letter-spacing:.08em;color:#d0142c;border:5px solid #d0142c;border-radius:10px;padding:4px 14px;
+ transform:rotate(-14deg);mix-blend-mode:multiply;opacity:0;animation:tstamp .35s cubic-bezier(.3,0,.6,1) 1.25s forwards}
+@keyframes tstamp{0%{transform:rotate(-14deg) scale(4);opacity:0}70%{opacity:.95}100%{transform:rotate(-14deg) scale(1);opacity:.92}}
+#thai .tfirst{position:absolute;left:66%;top:calc(58% + 150px);z-index:5;transform:translateX(-50%) rotate(2deg);white-space:nowrap;font-family:'Russo One',sans-serif;font-size:clamp(18px,2.2vw,30px);letter-spacing:.1em;
+ color:#1a1630;background:linear-gradient(90deg,#ffd34d,#fff2b0,#ffd34d);padding:8px 22px;border-radius:8px;box-shadow:0 10px 30px rgba(0,0,0,.5);opacity:0;animation:tfirst .5s cubic-bezier(.2,1.6,.4,1) 2.4s forwards}
+@keyframes tfirst{from{transform:translateX(-50%) rotate(2deg) scale(.2);opacity:0}to{transform:translateX(-50%) rotate(2deg) scale(1);opacity:1}}
+#thai .ttick{position:absolute;left:0;right:0;bottom:0;z-index:6;overflow:hidden;background:#a51931;border-top:3px solid #ffd34d;padding:8px 0}
+#thai .ttick div{display:inline-block;white-space:nowrap;font-family:'Russo One',sans-serif;font-size:22px;letter-spacing:.16em;color:#fff;animation:ttick 9s linear infinite}
+@keyframes ttick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@media(max-width:700px){#thai canvas{height:40vh;left:-8vw}#thai .tpass{left:50%;top:50%}#thai .tfirst{left:50%;top:calc(50% + 130px)}#thai .tps{width:80px}#thai .tps b{font-size:40px}#thai .tstamp{font-size:22px}#thai .tpf{width:64px;height:64px}#thai .tpf .pfp{width:64px;height:64px}}
 @media(max-width:700px){.fus{grid-template-columns:repeat(3,1fr);border-radius:22px;padding:22px 12px 14px;row-gap:14px}.nose,.ais{display:none}.fus:before{left:24px}}
 #gulagzone{margin-top:20px;padding:16px 18px;background:linear-gradient(rgba(6,8,7,.68),rgba(6,8,7,.78)),url(gulag.jpg) center/cover;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px))}
 #gulagzone .gz{margin-top:0}
@@ -1084,6 +1119,9 @@ const MONEY_Q=new URLSearchParams(location.search).get('moneytest');
 // ?gongtest=HOANI previews the first app (Cena), ?gongtest=HOANI:2 the next ones (Khaled), on each click
 const GONG_Q=new URLSearchParams(location.search).get('gongtest');
 if(GONG_Q)document.addEventListener('click',()=>{if(!moneyBusy){const f=window.__fin||{};gongMoment(GONG_Q.split(':')[0].toUpperCase(),Number(GONG_Q.split(':')[1])||1,(f.today||{}).n||10,(f.target||{}).goal||15);}});
+// ?thaitest=THOMAS previews the qualified scene on each click
+const THAI_Q=new URLSearchParams(location.search).get('thaitest');
+if(THAI_Q)document.addEventListener('click',()=>{if(!moneyBusy)thaiTakeover(THAI_Q.toUpperCase());});
 if(MONEY_Q){const [n,a]=MONEY_Q.split(':');document.addEventListener('click',()=>{if(!moneyBusy)moneyMoment(n.toUpperCase(),Number(a)||7500);});}
 const PHASE_Q=new URLSearchParams(location.search).get('phase');
 function phase(){const days=(CUTOFF-Date.now())/864e5;
@@ -1199,6 +1237,7 @@ function runGong(name,mine,team,goal){
 }
 function nextMoney(){const it=moneyQ.shift();if(!it){moneyBusy=false;return;}moneyBusy=true;
   if(it[0]==='gong'){runGong(it[1],it[2],it[3],it[4]);return;}
+  if(it[0]==='thai'){runThai(it[1]);return;}
   window.__lastEvent=Date.now();
   const [name,amount]=it,el=$("money"),rain=$("mrain"),cv=$("mvince");
   $("mcard").innerHTML='<div class="mf">'+face(name,'big')+'</div><div class="mk">CASH COLLECTED</div><div class="mn">'+hesc(name)+'</div><div class="ma">$0</div><div class="ms">ONE PAYMENT · JUST LANDED</div>';
@@ -1221,10 +1260,42 @@ function nextMoney(){const it=moneyQ.shift();if(!it){moneyBusy=false;return;}mon
   const close=()=>{if(done)return;done=true;stopKey();el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');rain.innerHTML='';nextMoney();},600);};
   el.onclick=close;clearTimeout(window.__moneyT);window.__moneyT=setTimeout(close,MONEY_MS);
 }
-function thaiTakeover(name){const el=$("thai");if(!el)return;
-  el.innerHTML='<div class="tn">'+hesc(name)+'</div><div class="tx">IS GOING TO PHUKET 🇹🇭</div>';
-  el.classList.add('on');el.onclick=()=>el.classList.remove('on');
-  setTimeout(()=>el.classList.remove('on'),7000);}
+// QUALIFIED. Clearing 180k is the one thing nobody can take off you, so it gets
+// the biggest scene on the board: Gatsby raises a glass to THE GREAT <NAME> over
+// One Night in Bangkok, and the boarding pass gets stamped as the chorus lands.
+const THAI_SND=Object.assign(new Audio(),{preload:'none',src:'money/bangkok.mp3'});
+const THAI_VID=mkVid('money/leo.mp4');
+const THAI_MS=12000;
+// which number this closer was to clear 180k: gate headlines in order, else a head count
+function qualOrder(name){const d=prev||seenBase||{};
+  const g=(d.headlines||[]).filter(h=>h.kind==='gate'&&/180k/.test(h.label||'')).sort((a,b)=>new Date(a.ts)-new Date(b.ts)).map(h=>h.actor);
+  const i=[...new Set(g)].indexOf(name);if(i>=0)return i+1;
+  return Math.max(1,(d.standings||[]).filter(r=>r.cash>=FLOOR).length);}
+function thaiTakeover(name){moneyQ.push(['thai',name]);if(!moneyBusy)nextMoney();}
+function runThai(name){const el=$("thai");if(!el){nextMoney();return;}
+  window.__lastEvent=Date.now();
+  const n=qualOrder(name),row=((prev||{}).standings||[]).find(r=>r.name===name);
+  const bub=Array.from({length:34},()=>'<i class="tbub" style="left:'+(Math.random()*100)+'%;--s:'+(6+Math.random()*16).toFixed(0)+'px;--dx:'+(Math.random()*80-40).toFixed(0)+'px;animation-duration:'+(4+Math.random()*5).toFixed(1)+'s;animation-delay:'+(Math.random()*6).toFixed(1)+'s"></i>').join('');
+  const tick=Array(8).fill('ONE NIGHT IN PHUKET 🥂 '+hesc(name)+' IS ON THE PLANE 🇹🇭').join(' ✦ ');
+  el.innerHTML='<div class="tdim"></div>'+bub+'<div class="tgreat"><small>THE GREAT</small><b>'+hesc(name)+'</b></div><canvas id="tleo"></canvas>'+
+    '<div class="tpass"><div class="tpm"><div class="tph"><span>PHUKET 6 AIRWAYS</span><span>BOARDING PASS</span></div>'+
+    '<div class="tpr"><div class="tpf">'+face(name,'big')+'</div><div><div class="tpn">'+hesc(name)+'</div><div class="tpk">QUALIFIED · $180K CLEARED</div></div></div>'+
+    '<div class="tpg"><div>FROM<b>DXB</b></div><div>TO<b>HKT</b></div><div>CASH<b>'+(row?money(row.cash):'180K+')+'</b></div></div></div>'+
+    '<div class="tps">SEAT<b>'+n+'A</b>4 DEC</div><div class="tstamp">QUALIFIED</div></div>'+
+    '<div class="tfirst">'+(n===1?'🥇 FIRST ONE ON THE PLANE':'✈️ '+ordn(n).toUpperCase()+' ONE ON THE PLANE')+'</div>'+
+    '<div class="ttick"><div>'+tick+' ✦ '+tick+'</div></div>';
+  el.classList.remove('out');el.classList.add('on');
+  const stop=chromaKey(THAI_VID,$("tleo"));THAI_VID.playbackRate=.82;
+  if(!muted()){try{THAI_SND.currentTime=0;THAI_SND.volume=1;THAI_SND.play().catch(()=>{});}catch(e){}}
+  const gold=['#ffd34d','#fff2b0','#ffffff','#a51931','#2d2a4a'];
+  // the stamp hits on "One night in Bangkok": shake and fireworks with it
+  const ts=[setTimeout(()=>{document.body.classList.add('shake');setTimeout(()=>document.body.classList.remove('shake'),550);burst(220,innerWidth*.66,innerHeight*.55,gold);},1450)];
+  [3200,5000,6800,8600,10200].forEach((t,i)=>ts.push(setTimeout(()=>burst(160,innerWidth*(i%2?.8:.35),innerHeight*.3,gold),t)));
+  let done=false;
+  const close=()=>{if(done)return;done=true;ts.forEach(clearTimeout);stop();
+    try{THAI_SND.pause();}catch(e){}
+    el.classList.add('out');setTimeout(()=>{el.classList.remove('on','out');el.innerHTML='';nextMoney();},600);};
+  el.onclick=close;setTimeout(close,THAI_MS);}
 function cabinHtml(s,b){
   const top=s.slice(0,5);if(!top.length)return'';
   const prev=window.__seatPrev||[];window.__seatPrev=top.map(r=>r.closer);
@@ -1461,7 +1532,7 @@ function render(d){
       if(delta<0){toast('💸 <b>'+r.name+'</b> lost <b>'+money(-delta)+'</b> to a refund. Gutter ball.');
         sadTrombone();
         const el=$("row-"+r.closer.replace(/\W/g,'_'));if(el){el.style.boxShadow='0 0 0 2px var(--rd)';setTimeout(()=>el.style.boxShadow='',4000);}}
-      if(before<FLOOR&&r.cash>=FLOOR){showBanner('🎫 <b>'+r.name+'</b> CLEARED $180K, QUALIFIED','gold');thaiTakeover(r.name);horn();burst(160);burst(160);}
+      if(before<FLOOR&&r.cash>=FLOOR){showBanner('🎫 <b>'+r.name+'</b> CLEARED $180K, QUALIFIED','gold');thaiTakeover(r.name);}
       if(before<UPGRADE&&r.cash>=UPGRADE){showBanner('✈️ <b>'+r.name+'</b> UNLOCKED BUSINESS CLASS','gold');horn();burst(240);burst(240);}
       const was=pr[r.closer];
       if(was&&r.rank<was){
@@ -2056,7 +2127,7 @@ let mediaWarm=false;
 function warmMedia(){if(mediaWarm)return;mediaWarm=true;setTimeout(()=>{
   // load() resets an element, so skip anything a moment already started: a moment
   // fired by the first fresh poll otherwise froze Vince on frame 0 two seconds in.
-  [MONEY_VID,MONEY_SND,APP_FX.cena.vid,APP_FX.cena.snd,APP_FX.khaled.vid,APP_FX.khaled.snd].forEach(m=>{m.preload='auto';if(m.paused&&m.readyState===0){try{m.load();}catch(e){}}});},2000);}
+  [MONEY_VID,MONEY_SND,APP_FX.cena.vid,APP_FX.cena.snd,APP_FX.khaled.vid,APP_FX.khaled.snd,THAI_VID,THAI_SND].forEach(m=>{m.preload='auto';if(m.paused&&m.readyState===0){try{m.load();}catch(e){}}});},2000);}
 paintCached();poll();setInterval(poll,POLL_MS);
 // Self-update. GitHub Pages stamps index.html with Last-Modified, and the browser
 // keeps the stamp of the copy this tab is running in document.lastModified. If the
