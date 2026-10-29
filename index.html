@@ -1254,9 +1254,8 @@ const THAI_VID=mkVid('money/hangover.mp4');
 const THAI_MS=13000;
 // where each closer flies in from, for the credit. Anyone missing just shows THAILAND.
 const HOME={THOMAS:'NZ','BRODIE C':'GOLD COAST'};
-// a closer can have their own cut. Brodie C gets the Vegas Right Round montage,
-// Ricardo gets Kickboxer: palm tree kicks, shin gone, drunk bar dance, the splits.
-const THAI_CUTS={'BRODIE C':mkVid('money/brodie.mp4'),RICARDO:mkVid('money/ricardo.mp4')};
+// a closer can have their own cut. Brodie C gets the Vegas Right Round montage.
+const THAI_CUTS={'BRODIE C':mkVid('money/brodie.mp4')};
 // which number this closer was to clear 180k: gate headlines in order, else a head count
 function qualOrder(name){const d=prev||seenBase||{};
   const g=(d.headlines||[]).filter(h=>h.kind==='gate'&&/180k/.test(h.label||'')).sort((a,b)=>new Date(a.ts)-new Date(b.ts)).map(h=>h.actor);
