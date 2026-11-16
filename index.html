@@ -822,6 +822,17 @@ body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 #finp .fwl{display:flex;flex-wrap:wrap;gap:4px;margin:-2px 0 6px 38px}
 #finp .fwl span{font-size:11px;color:var(--tx2);border:1px solid var(--line);background:rgba(var(--puR),.08);padding:2px 7px;border-radius:3px}
 #finp .fwl span.ft{border:0;background:none;color:var(--dim)}
+/* the day's applications, always on show under the counter (Trev, 2026-11-16) */
+#finp .fapps{margin:-12px 0 16px;border:1px solid var(--line);background:rgba(8,4,20,.55);padding:8px 10px;clip-path:polygon(0 0,calc(100% - 8px) 0,100% 8px,100% 100%,8px 100%,0 calc(100% - 8px))}
+#finp .fapps .fdh{margin-bottom:5px}
+#finp .fapps .fdx{font-size:9px;letter-spacing:.14em}
+#finp .fa{display:grid;grid-template-columns:28px minmax(0,1fr) 54px 84px;gap:5px;align-items:baseline;font-size:11px;line-height:1.55;border-top:1px solid rgba(255,255,255,.05)}
+#finp .fa:first-of-type{border-top:0}
+#finp .fa .tt{color:var(--dim);font-size:10px}
+#finp .fa .pn{color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#finp .fa .cn{font-family:'Russo One',sans-serif;font-size:10px;letter-spacing:.06em;color:var(--cy);white-space:nowrap}
+#finp .fa .bk{color:var(--gd);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#finp .fa .bk.none{color:var(--mg)}
 /* per closer pill on the standings rows and the champion belt */
 .finpill{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid #1f5a48;border-radius:3px;font-size:10px;letter-spacing:.06em;color:var(--dim);vertical-align:middle;white-space:nowrap}
 .finpill.hot{color:var(--gr);border-color:#2a8a66}
@@ -1389,6 +1400,16 @@ function finDayHTML(f){
       (open===n?'<div class="fwl">'+(v.who.length?v.who.map(w=>'<span>'+hesc(w)+'</span>').join(''):'<span class="ft">no applicant name on the record</span>')+'</div>':'')).join('')
     :'<div class="ft">Nobody submitted anything.</div>')+'</div>';
 }
+// every application on the picked day (default today): prospect, closer, broker
+function finAppsHTML(f){
+  const list=f.perDayList;if(!list)return '';
+  const d=window.__finDay||f.todayYmd;const rows=list[d]||[];const isToday=d===f.todayYmd;
+  const dt=new Date(d+'T12:00:00Z');
+  const lab=isToday?'TODAY':['SUN','MON','TUE','WED','THU','FRI','SAT'][dt.getUTCDay()]+' '+fmtDay(d).toUpperCase();
+  return '<div class="fapps"><div class="fdh"><span>'+lab+' · <b>'+rows.length+'</b> APP'+(rows.length===1?'':'S')+'</span>'+(isToday?'':'<span class="fdx">BACK TO TODAY ✕</span>')+'</div>'+
+    (rows.length?rows.map(r=>'<div class="fa"><span class="tt">'+hesc(r.t)+'</span><span class="pn" title="'+hesc(r.name)+'">'+hesc(r.name)+'</span><span class="cn">'+hesc(r.closer)+'</span><span class="bk'+(r.broker?'':' none')+'" title="'+hesc(r.broker||'no broker on the form or the card')+'">'+hesc(r.broker||'NO BROKER')+'</span></div>').join('')
+    :'<div class="ft">Nothing submitted yet.</div>')+'</div>';
+}
 function renderFinance(f){
   const p=$("finp");if(!f){p.style.display='none';return;}p.style.display='block';
   const g=f.target||{goal:15,min:10};const view=window.__finView;
@@ -1425,7 +1446,8 @@ function renderFinance(f){
   const lead=(f.leaders||[]).slice(0,5);
   $("finbody").innerHTML=
     '<div class="finhead"><div class="fbig '+band+'">'+n+'</div><div class="fof">/ '+g.goal+' today</div>'+seg+'</div>'+
-    chart+'<div class="fsum">'+summary+'</div>'+finDayHTML(f)+
+    finAppsHTML(f)+
+    chart+'<div class="fsum">'+summary+'</div>'+(f.perDayList?'':finDayHTML(f))+
     (lead.length?'<div class="flh">'+(lead.some(l=>l.week>0)?'MOST APPS THIS WEEK':'NOBODY ON THE BOARD YET THIS WEEK')+'</div><div class="finlead">'+
       lead.map(l=>'<div class="fl">'+face(l.name,'sm')+'<span class="fn">'+hesc(l.name)+'</span><span class="ft">'+l.today+' today</span><span class="fw">'+l.week+'</span></div>').join('')+'</div>':'');
   const sel=$("finbody").querySelector('.fsel');if(sel)sel.onchange=()=>{window.__finView=sel.value;window.__finDay=null;renderFinance(window.__fin);};
