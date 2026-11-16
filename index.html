@@ -355,20 +355,35 @@ body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 .repbtn{font-family:'Russo One',sans-serif;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#ffb3b3;background:linear-gradient(135deg,#2a0e0e,#1c0808);border:1px solid #7a2020;padding:12px 26px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));transition:box-shadow .2s,color .2s}
 .repbtn:hover{color:#ffd84d;box-shadow:0 0 24px rgba(210,10,10,.45)}
 #repov{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:260;display:none;align-items:center;justify-content:center;padding:20px}
+#finmov{position:fixed;inset:0;background:rgba(0,0,0,.82);z-index:260;display:none;align-items:center;justify-content:center;padding:20px}
 #repov.on{display:flex}
+#finmov.on{display:flex}
 #repov .repcard{background:linear-gradient(160deg,#181014,#0f0b0d);border:1px solid #7a2020;max-width:460px;width:100%;padding:26px 28px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));max-height:90vh;overflow-y:auto}
+#finmov .repcard{background:linear-gradient(160deg,#181014,#0f0b0d);border:1px solid #7a2020;max-width:460px;width:100%;padding:26px 28px;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px));max-height:90vh;overflow-y:auto}
 #repov h3{font-family:'Russo One',sans-serif;font-size:18px;letter-spacing:.08em;margin-bottom:4px;color:#ff5c5c}
+#finmov h3{font-family:'Russo One',sans-serif;font-size:18px;letter-spacing:.08em;margin-bottom:4px;color:#ff5c5c}
 #repov .sub2{color:#9a8f95;font-size:12px;margin-bottom:16px;line-height:1.5}
+#finmov .sub2{color:#9a8f95;font-size:12px;margin-bottom:16px;line-height:1.5}
 #repov label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b8a8ae;margin:12px 0 4px}
+#finmov label{display:block;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#b8a8ae;margin:12px 0 4px}
 #repov input,#repov select,#repov textarea{width:100%;background:#0b0709;border:1px solid #3a2228;color:#f2f2f4;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none;border-radius:0}
+#finmov input,#finmov select,#finmov textarea{width:100%;background:#0b0709;border:1px solid #3a2228;color:#f2f2f4;font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 12px;outline:none;border-radius:0}
 #repov input:focus,#repov select:focus,#repov textarea:focus{border-color:#d20a0a}
+#finmov input:focus,#finmov select:focus,#finmov textarea:focus{border-color:#d20a0a}
 #repov textarea{min-height:88px;resize:vertical}
+#finmov textarea{min-height:88px;resize:vertical}
 #repov .repactions{display:flex;gap:12px;margin-top:20px}
+#finmov .repactions{display:flex;gap:12px;margin-top:20px}
 #repov .repsend{flex:1;font-family:'Russo One',sans-serif;font-size:13px;letter-spacing:.1em;text-transform:uppercase;background:linear-gradient(135deg,#d20a0a,#7a0505);color:#fff;border:none;padding:13px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
+#finmov .repsend{flex:1;font-family:'Russo One',sans-serif;font-size:13px;letter-spacing:.1em;text-transform:uppercase;background:linear-gradient(135deg,#d20a0a,#7a0505);color:#fff;border:none;padding:13px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px))}
 #repov .repx{background:none;border:1px solid #3a2228;color:#9a8f95;padding:13px 18px;cursor:pointer;font-size:13px}
+#finmov .repx{background:none;border:1px solid #3a2228;color:#9a8f95;padding:13px 18px;cursor:pointer;font-size:13px}
 #repov .repmsg{margin-top:14px;font-size:13px;line-height:1.5;display:none}
+#finmov .repmsg{margin-top:14px;font-size:13px;line-height:1.5;display:none}
 #repov .repmsg.ok{display:block;color:#35c759}
+#finmov .repmsg.ok{display:block;color:#35c759}
 #repov .repmsg.err{display:block;color:#ff5c5c}
+#finmov .repmsg.err{display:block;color:#ff5c5c}
 #reppanel .reprow{border-bottom:1px solid #242428;padding:9px 0;font-size:13px;line-height:1.5}
 #reppanel .reprow b{color:#ffd84d}
 #reppanel .reprow .repwhen{color:#7a7a85;font-size:11px}
@@ -833,6 +848,8 @@ body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 #finp .fa .cn{font-family:'Russo One',sans-serif;font-size:10px;letter-spacing:.06em;color:var(--cy);white-space:nowrap}
 #finp .fa .bk{color:var(--gd);font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #finp .fa .bk.none{color:var(--mg)}
+#finp .finmbtn{display:block;width:100%;margin-top:14px;font-family:'Russo One',sans-serif;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#ffb3b3;background:linear-gradient(135deg,#2a0e0e,#1c0808);border:1px solid #7a2020;padding:10px 12px;cursor:pointer;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,10px 100%,0 calc(100% - 10px));transition:box-shadow .2s,color .2s}
+#finp .finmbtn:hover{color:#ffd84d;box-shadow:0 0 20px rgba(210,10,10,.45)}
 /* per closer pill on the standings rows and the champion belt */
 .finpill{display:inline-block;margin-left:6px;padding:1px 6px;border:1px solid #1f5a48;border-radius:3px;font-size:10px;letter-spacing:.06em;color:var(--dim);vertical-align:middle;white-space:nowrap}
 .finpill.hot{color:var(--gr);border-color:#2a8a66}
@@ -1086,6 +1103,19 @@ body.shake .wrap{animation:shake .5s cubic-bezier(.36,.07,.19,.97)}
 <div class="hail" id="corohail"></div></div><div class="petals" id="coropetals"></div></div>
 <div id="thai"></div><div id="gong"></div><div id="money"><div id="mrain"></div><canvas id="mvince"></canvas><div id="mcard"></div></div><canvas id="fx"></canvas><div id="banner"></div><div id="ov"><div class="card" id="card"></div></div>
 <div id="toasts"></div>
+<div id="finmov"><div class="repcard">
+  <h3>🏦 MISSING FINANCING APP</h3>
+  <div class="sub2">Sent a financing application that is not in today's list on the board? File it here. It goes straight to Trev, gets checked against the Funding Strategy forms and credited if it's real. New ones can take a couple of minutes to show, check again before filing.</div>
+  <label>Who are you</label><select id="fmwho"></select>
+  <label>Prospect name</label><input id="fmname" placeholder="e.g. Jack Wilkinson">
+  <label>Prospect email (the one on the form)</label><input id="fmemail" placeholder="their email, this is how we find the form">
+  <label>Prospect phone (if no email)</label><input id="fmphone" placeholder="e.g. +61 4xx xxx xxx">
+  <label>Broker it went to</label><input id="fmbroker" placeholder="e.g. Bmoney, Flint, Vairo, Navigate">
+  <label>When did you submit it</label><input id="fmwhen" placeholder="e.g. today 2pm, or 14 Nov">
+  <label>Anything else</label><textarea id="fmdet" placeholder="e.g. resubmitted after a decline, form glitched, submitted under a different email"></textarea>
+  <div class="repactions"><button class="repsend" onclick="finmSend()">Send it</button><button class="repx" onclick="finmClose()">Cancel</button></div>
+  <div class="repmsg" id="fmmsg"></div>
+</div></div>
 <div id="repov"><div class="repcard">
   <h3>🚨 REPORT MISSING MONEY</h3>
   <div class="sub2">Closed a deal that is not on the board, or cash showing under the wrong name? File it here. It goes straight to Trev's machine, gets checked against the payment system and fixed. New deals can take a few minutes to sync, give it 15 before filing.</div>
@@ -1449,7 +1479,8 @@ function renderFinance(f){
     finAppsHTML(f)+
     chart+'<div class="fsum">'+summary+'</div>'+(f.perDayList?'':finDayHTML(f))+
     (lead.length?'<div class="flh">'+(lead.some(l=>l.week>0)?'MOST APPS THIS WEEK':'NOBODY ON THE BOARD YET THIS WEEK')+'</div><div class="finlead">'+
-      lead.map(l=>'<div class="fl">'+face(l.name,'sm')+'<span class="fn">'+hesc(l.name)+'</span><span class="ft">'+l.today+' today</span><span class="fw">'+l.week+'</span></div>').join('')+'</div>':'');
+      lead.map(l=>'<div class="fl">'+face(l.name,'sm')+'<span class="fn">'+hesc(l.name)+'</span><span class="ft">'+l.today+' today</span><span class="fw">'+l.week+'</span></div>').join('')+'</div>':'')+
+    '<button class="finmbtn" onclick="finmOpen()">🏦 Missing financing app?</button>';
   const sel=$("finbody").querySelector('.fsel');if(sel)sel.onchange=()=>{window.__finView=sel.value;window.__finDay=null;renderFinance(window.__fin);};
   // click a day bar for who submitted that day; click it again, or the x, to close
   $("finbody").querySelectorAll('.fb.pick').forEach(el=>el.onclick=()=>{window.__finDay=(window.__finDay===el.dataset.d?null:el.dataset.d);window.__finWho=null;renderFinance(window.__fin);});
@@ -2066,6 +2097,30 @@ function repOpen(){
   sel.innerHTML='<option value="">pick your name</option>'+names.map(n=>'<option>'+hesc(n)+'</option>').join('')+'<option>someone else / not listed</option>';
   const m=$("repmsg");m.className='repmsg';m.textContent='';
   $("repov").classList.add('on');}
+function finmOpen(){
+  const sel=$("fmwho");const names=(window.__names||[]);
+  sel.innerHTML='<option value="">pick your name</option>'+names.map(n=>'<option>'+hesc(n)+'</option>').join('')+'<option>someone else / not listed</option>';
+  const m=$("fmmsg");m.className='repmsg';m.textContent='';
+  $("finmov").classList.add('on');}
+function finmClose(){$("finmov").classList.remove('on');}
+async function finmSend(){
+  const m=$("fmmsg");const v=id=>$(id).value.trim();
+  const body={reporter:v("fmwho"),prospect_name:v("fmname"),prospect_email:v("fmemail"),prospect_phone:v("fmphone"),
+    broker:v("fmbroker"),submitted_when:v("fmwhen"),details:v("fmdet")};
+  if(!body.reporter){m.className='repmsg err';m.textContent='pick your name first.';return;}
+  if(!body.prospect_name){m.className='repmsg err';m.textContent='who is the prospect?';return;}
+  if(!body.prospect_email&&!body.prospect_phone){m.className='repmsg err';m.textContent='we need their email or phone to find the form.';return;}
+  m.className='repmsg';m.textContent='';
+  try{
+    const K=new URLSearchParams(location.search).get("k")||"";
+    const r=await fetch("https://shyxjldxwmygmapcrwwk.supabase.co/functions/v1/phuket6?k="+encodeURIComponent(K)+"&finmissing=1",
+      {method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify(body)});
+    const j=await r.json();
+    if(!r.ok||!j.ok)throw new Error(j.error||r.status);
+    m.className='repmsg ok';m.textContent='✅ Filed. Trev gets it now. If the app is real it goes on the board, no need to chase.';
+    ["fmname","fmemail","fmphone","fmbroker","fmwhen","fmdet"].forEach(id=>$(id).value='');
+    setTimeout(finmClose,4000);
+  }catch(e){m.className='repmsg err';m.textContent='could not send ('+e.message+'). Screenshot this and WhatsApp Trev instead.';}}
 function repClose(){$("repov").classList.remove('on');}
 async function repSend(){
   const m=$("repmsg");
